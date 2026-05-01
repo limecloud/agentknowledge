@@ -1,0 +1,84 @@
+name: Publish package to npm
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish_ref:
+        description: Git ref to publish, usually a release tag such as v0.4.0
+        required: true
+        type: string
+        default: v0.4.0
+      publish_mode:
+        description: Use token for the first publish, trusted after npm Trusted Publishing is configured
+        required: true
+        type: choice
+        default: token
+        options:
+          - token
+          - trusted
+      dry_run:
+        description: Run validation without publishing
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: npm-publish-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.repository == 'limecloud/agentknowledge'
+    runs-on: ubuntu-latest
+    environment: npm-publish
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.publish_ref }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build documentation and package assets
+        run: npm run build
+
+      - name: Verify package contents
+        run: npm pack --dry-run
+
+      - name: Configure npm token auth
+        if: inputs.publish_mode == 'token'
+        run: |
+          if [ -z "$NODE_AUTH_TOKEN" ]; then
+            echo "NPM_TOKEN secret is required when publish_mode=token." >&2
+            exit 1
+          fi
+          npm config set //registry.npmjs.org/:_authToken "$NODE_AUTH_TOKEN"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish dry run with token
+        if: inputs.dry_run && inputs.publish_mode == 'token'
+        run: npm publish --dry-run --access public --registry=https://registry.npmjs.org
+
+      - name: Publish dry run with trusted publishing
+        if: inputs.dry_run && inputs.publish_mode == 'trusted'
+        run: npm publish --dry-run --access public --registry=https://registry.npmjs.org
+
+      - name: Publish to npm with token
+        if: ${{ !inputs.dry_run && inputs.publish_mode == 'token' }}
+        run: npm publish --access public --provenance --registry=https://registry.npmjs.org
+
+      - name: Publish to npm with trusted publishing
+        if: ${{ !inputs.dry_run && inputs.publish_mode == 'trusted' }}
+        run: npm publish --access public --registry=https://registry.npmjs.org

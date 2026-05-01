@@ -36,3 +36,18 @@ npx agentknowledge-ref@0.4.0 to-catalog ./pack
 npx agentknowledge-ref@0.4.0 resolve-context ./pack --query "Need pricing facts" --dry-run
 npx agentknowledge-ref@0.4.0 eval ./pack --suite evals/discovery.validation.json
 ```
+
+## npm publishing
+
+Publishing is handled by `.github/workflows/publish-npm.yml` so releases do not depend on a local OTP prompt.
+
+For the first npm release of `agentknowledge-ref`, create a short-lived npm granular access token with **Read and write** access, **Bypass 2FA** enabled, and package access broad enough to publish a new unscoped package. Save it as the GitHub repository secret `NPM_TOKEN`, then run the **Publish package to npm** workflow manually with `publish_ref=v0.4.0` and `publish_mode=token`.
+
+After the first package exists on npm, configure npm Trusted Publishing for:
+
+- package: `agentknowledge-ref`
+- repository: `limecloud/agentknowledge`
+- workflow file: `publish-npm.yml`
+- environment: `npm-publish`
+
+Then revoke the temporary token. Future releases can use the same workflow with `publish_mode=trusted` and without `NPM_TOKEN`.

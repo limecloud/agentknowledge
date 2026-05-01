@@ -10,6 +10,8 @@ const enNav = [
     text: 'Version',
     items: [
       { text: 'latest', link: '/en/specification' },
+      { text: 'v0.4.0 overview', link: '/en/versions/v0.4.0/overview' },
+      { text: 'v0.4.0', link: '/en/versions/v0.4.0/specification' },
       { text: 'v0.3.0 overview', link: '/en/versions/v0.3.0/overview' },
       { text: 'v0.3.0', link: '/en/versions/v0.3.0/specification' },
       { text: 'v0.2.0 overview', link: '/en/versions/v0.2.0/overview' },
@@ -28,6 +30,8 @@ const zhNav = [
     text: '版本',
     items: [
       { text: 'latest', link: '/zh/specification' },
+      { text: 'v0.4.0 概览', link: '/zh/versions/v0.4.0/overview' },
+      { text: 'v0.4.0', link: '/zh/versions/v0.4.0/specification' },
       { text: 'v0.3.0 概览', link: '/zh/versions/v0.3.0/overview' },
       { text: 'v0.3.0', link: '/zh/versions/v0.3.0/specification' },
       { text: 'v0.2.0 概览', link: '/zh/versions/v0.2.0/overview' },
@@ -59,6 +63,9 @@ const enSidebar = [
       { text: 'Grounding and citations', link: '/en/authoring/grounding-and-citations' },
       { text: 'Linting and review', link: '/en/authoring/linting-and-review' },
       { text: 'Maintenance automation', link: '/en/authoring/maintenance-automation' },
+      { text: 'Skills interop', link: '/en/authoring/skills-interop' },
+      { text: 'Maintenance script contract', link: '/en/authoring/maintenance-script-contract' },
+      { text: 'Discovery evals', link: '/en/authoring/discovery-evals' },
       { text: 'Evaluating knowledge', link: '/en/authoring/evaluating-knowledge' }
     ]
   },
@@ -76,6 +83,7 @@ const enSidebar = [
     items: [
       { text: 'LLM Wiki pattern', link: '/en/reference/llm-wiki-pattern' },
       { text: 'RAG comparison', link: '/en/reference/rag-comparison' },
+      { text: 'Reference CLI', link: '/en/reference/reference-cli' },
       { text: 'Glossary', link: '/en/reference/glossary' }
     ]
   },
@@ -84,12 +92,16 @@ const enSidebar = [
     items: [
       { text: 'Personal IP pack', link: '/en/examples/personal-ip' },
       { text: 'Brand product pack', link: '/en/examples/brand-product' },
-      { text: 'Organization know-how pack', link: '/en/examples/organization-knowhow' }
+      { text: 'Organization know-how pack', link: '/en/examples/organization-knowhow' },
+      { text: 'Complete pack', link: '/en/examples/complete-pack' }
     ]
   },
   {
     text: 'Versions',
     items: [
+      { text: 'v0.4.0 overview', link: '/en/versions/v0.4.0/overview' },
+      { text: 'v0.4.0 specification', link: '/en/versions/v0.4.0/specification' },
+      { text: 'v0.4.0 changelog', link: '/en/versions/v0.4.0/changelog' },
       { text: 'v0.3.0 overview', link: '/en/versions/v0.3.0/overview' },
       { text: 'v0.3.0 specification', link: '/en/versions/v0.3.0/specification' },
       { text: 'v0.3.0 changelog', link: '/en/versions/v0.3.0/changelog' },
@@ -123,6 +135,9 @@ const zhSidebar = [
       { text: '溯源与引用', link: '/zh/authoring/grounding-and-citations' },
       { text: 'Lint 与评审', link: '/zh/authoring/linting-and-review' },
       { text: '维护自动化', link: '/zh/authoring/maintenance-automation' },
+      { text: 'Skills 互操作', link: '/zh/authoring/skills-interop' },
+      { text: '维护脚本契约', link: '/zh/authoring/maintenance-script-contract' },
+      { text: '发现评估', link: '/zh/authoring/discovery-evals' },
       { text: '评估知识包', link: '/zh/authoring/evaluating-knowledge' }
     ]
   },
@@ -140,6 +155,7 @@ const zhSidebar = [
     items: [
       { text: 'LLM Wiki 模式', link: '/zh/reference/llm-wiki-pattern' },
       { text: 'RAG 对比', link: '/zh/reference/rag-comparison' },
+      { text: '参考 CLI', link: '/zh/reference/reference-cli' },
       { text: '术语表', link: '/zh/reference/glossary' }
     ]
   },
@@ -148,12 +164,16 @@ const zhSidebar = [
     items: [
       { text: '个人 IP 知识包', link: '/zh/examples/personal-ip' },
       { text: '品牌产品知识包', link: '/zh/examples/brand-product' },
-      { text: '组织 Know-how 知识包', link: '/zh/examples/organization-knowhow' }
+      { text: '组织 Know-how 知识包', link: '/zh/examples/organization-knowhow' },
+      { text: '完整知识包', link: '/zh/examples/complete-pack' }
     ]
   },
   {
     text: '版本',
     items: [
+      { text: 'v0.4.0 概览', link: '/zh/versions/v0.4.0/overview' },
+      { text: 'v0.4.0 规范', link: '/zh/versions/v0.4.0/specification' },
+      { text: 'v0.4.0 变更记录', link: '/zh/versions/v0.4.0/changelog' },
       { text: 'v0.3.0 概览', link: '/zh/versions/v0.3.0/overview' },
       { text: 'v0.3.0 规范', link: '/zh/versions/v0.3.0/specification' },
       { text: 'v0.3.0 变更记录', link: '/zh/versions/v0.3.0/changelog' },

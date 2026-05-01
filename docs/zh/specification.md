@@ -19,6 +19,8 @@ Agent Knowledge 是知识包标准，不是流程型 Skill 标准。
 
 Skills 可以生成、维护、lint、评审、查询和应用知识包。只要具体知识资产需要来源轨迹、归属、状态和评审生命周期，就应该留在 Agent Knowledge pack 中。
 
+需要脚本、工具调用或自动化流程时，优先放入维护 Skill 或客户端工具。细则见 [Skills 互操作](/zh/authoring/skills-interop) 和 [维护脚本契约](/zh/authoring/maintenance-script-contract)。
+
 ## 目录结构
 
 一个知识包至少包含 `KNOWLEDGE.md`：
@@ -111,6 +113,12 @@ sources/ -> wiki/ -> compiled/ + indexes/
 重要 claim 应保留 source map，能从 `compiled/` 或 `wiki/` 追溯到 `sources/` 锚点。新增或变更来源时，维护工具应增量更新受影响的 `wiki/` 页面、`compiled/` 视图和 `indexes/`，并把输入、输出、诊断和评审要求写入 `runs/compile-<timestamp>.json`。
 
 详细规则见 [编译模型](/zh/authoring/compilation-model)。
+
+参考 schema 可用于校验编译运行记录、source map 和发现评估：
+
+- [`compile-run.schema.json`](/schemas/compile-run.schema.json)
+- [`source-map.schema.json`](/schemas/source-map.schema.json)
+- [`selection-eval.schema.json`](/schemas/selection-eval.schema.json)
 
 ## 运行时契约
 

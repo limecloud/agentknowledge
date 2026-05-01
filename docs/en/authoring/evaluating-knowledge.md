@@ -9,6 +9,8 @@ A knowledge pack can look correct in a single manual test and still fail in prod
 
 Agent Knowledge adapts the eval-driven iteration model from Agent Skills, but the target is different: evaluate whether the pack is selected, whether the selected context is grounded, and whether answers stay within the pack's claims and boundaries.
 
+For the dedicated selection format, see [Discovery evals](/en/authoring/discovery-evals). For a complete example, see [Complete pack example](/en/examples/complete-pack).
+
 ## What to evaluate
 
 | Layer | Question | Example metric |

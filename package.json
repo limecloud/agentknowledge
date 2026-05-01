@@ -1,14 +1,43 @@
 {
-  "name": "agentknowledge",
-  "version": "0.3.0",
-  "private": true,
+  "name": "agentknowledge-ref",
+  "version": "0.4.0",
   "type": "module",
-  "description": "A portable standard for agent-readable knowledge packs.",
+  "description": "Reference CLI and documentation for Agent Knowledge packs.",
+  "homepage": "https://limecloud.github.io/agentknowledge/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/limecloud/agentknowledge.git"
+  },
+  "bugs": {
+    "url": "https://github.com/limecloud/agentknowledge/issues"
+  },
+  "license": "UNLICENSED",
+  "keywords": [
+    "agent",
+    "knowledge",
+    "rag",
+    "llm",
+    "cli"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "agentknowledge-ref": "bin/agentknowledge-ref.mjs"
+  },
+  "files": [
+    "bin/",
+    "docs/public/schemas/",
+    "docs/en/",
+    "docs/zh/",
+    "README.md"
+  ],
   "engines": {
     "node": ">=22.0.0"
   },
   "scripts": {
     "predev": "node scripts/sync-public-markdown.mjs",
+    "cli": "node bin/agentknowledge-ref.mjs",
     "dev": "vitepress dev docs",
     "prebuild": "node scripts/sync-public-markdown.mjs",
     "build": "vitepress build docs",

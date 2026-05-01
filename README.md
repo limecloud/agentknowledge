@@ -25,3 +25,14 @@ npm run build
 ```
 
 The static site is generated at `docs/.vitepress/dist` and is deployed to GitHub Pages by `.github/workflows/pages.yml`.
+
+## Reference CLI
+
+The package also provides `agentknowledge-ref`, a small reference CLI for validating Agent Knowledge packs and exercising the documented tooling contracts.
+
+```bash
+npx agentknowledge-ref@0.4.0 validate ./pack
+npx agentknowledge-ref@0.4.0 to-catalog ./pack
+npx agentknowledge-ref@0.4.0 resolve-context ./pack --query "Need pricing facts" --dry-run
+npx agentknowledge-ref@0.4.0 eval ./pack --suite evals/discovery.validation.json
+```

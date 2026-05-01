@@ -19,6 +19,8 @@ Agent Knowledge is a knowledge package standard, not a procedural Skill standard
 
 Skills can generate, maintain, lint, review, query, and apply knowledge packs. Concrete knowledge assets should remain in Agent Knowledge packs when they need source trails, ownership, status, and review lifecycle.
 
+When scripts, tool calls, or automation are needed, prefer a maintenance Skill or client tool. See [Skills interop](/en/authoring/skills-interop) and the [maintenance script contract](/en/authoring/maintenance-script-contract).
+
 ## Directory structure
 
 A knowledge pack is a directory containing, at minimum, a `KNOWLEDGE.md` file:
@@ -126,6 +128,12 @@ sources/ -> wiki/ -> compiled/ + indexes/
 Important claims should keep a source map from `compiled/` or `wiki/` back to `sources/` anchors. When sources are added or changed, maintenance tools should incrementally update affected `wiki/` pages, `compiled/` views, and `indexes/`, then write inputs, outputs, diagnostics, and review requirements to `runs/compile-<timestamp>.json`.
 
 See [Compilation model](/en/authoring/compilation-model) for the detailed contract.
+
+Reference schemas are available for compile runs, source maps, and discovery evals:
+
+- [`compile-run.schema.json`](/schemas/compile-run.schema.json)
+- [`source-map.schema.json`](/schemas/source-map.schema.json)
+- [`selection-eval.schema.json`](/schemas/selection-eval.schema.json)
 
 ## Optional directories
 

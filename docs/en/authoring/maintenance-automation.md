@@ -9,6 +9,8 @@ Agent Skills supports bundled scripts because Skills are procedural assets. Agen
 
 This page adapts the Agent Skills script guidance to knowledge maintenance. For knowledge packs, the most important automation is often compilation: incrementally turning `sources/` into `wiki/`, `compiled/`, and `indexes/`, then writing the process to `runs/`.
 
+If the maintenance workflow needs a full Skill, start with [Skills interop](/en/authoring/skills-interop). For script interface details, see the [maintenance script contract](/en/authoring/maintenance-script-contract).
+
 ## Boundary rule
 
 ```mermaid

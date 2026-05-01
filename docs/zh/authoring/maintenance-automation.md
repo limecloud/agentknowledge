@@ -9,6 +9,8 @@ Agent Skills 支持内置脚本，因为 Skills 是流程资产。Agent Knowledg
 
 本页把 Agent Skills 的脚本实践改写成知识维护规则。对知识包来说，最重要的自动化通常是编译：把 `sources/` 增量转成 `wiki/`、`compiled/`、`indexes/`，并把过程写入 `runs/`。
 
+如果维护流程需要完整 Skill，请先看 [Skills 互操作](/zh/authoring/skills-interop)。脚本接口细则见 [维护脚本契约](/zh/authoring/maintenance-script-contract)。
+
 ## 边界规则
 
 ```mermaid

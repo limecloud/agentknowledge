@@ -1,0 +1,27 @@
+# Agent Knowledge
+
+Agent Knowledge is a draft open format for packaging source-grounded knowledge so AI agents can discover, load, cite, validate, and maintain it without confusing knowledge assets with procedural skills.
+
+This repository contains the documentation site and standard draft.
+
+The published site includes:
+
+- English and Simplified Chinese docs under `/en/` and `/zh/`
+- versioned snapshots under `/versions/`
+- rendered Mermaid diagrams for architecture, flow, and sequence explanations
+- a per-page **Copy Markdown** button so the current source page can be pasted into an AI session
+
+## Local development
+
+```bash
+npm install
+npm run dev
+```
+
+## Build
+
+```bash
+npm run build
+```
+
+The static site is generated at `docs/.vitepress/dist` and is deployed to GitHub Pages by `.github/workflows/pages.yml`.

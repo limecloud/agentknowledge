@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Agent Knowledge">
+  <rect width="64" height="64" rx="16" fill="#113a2b"/>
+  <path d="M18 19h20a8 8 0 0 1 8 8v18H26a8 8 0 0 1-8-8V19Z" fill="#35a476"/>
+  <path d="M26 27h20v18H26a8 8 0 0 1-8-8v-2a8 8 0 0 1 8-8Z" fill="#f4d17a"/>
+  <path d="M27 35h17M27 41h12" stroke="#113a2b" stroke-width="3" stroke-linecap="round"/>
+</svg>

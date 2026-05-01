@@ -1,0 +1,22 @@
+{
+  "name": "agentknowledge",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A portable standard for agent-readable knowledge packs.",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "predev": "node scripts/sync-public-markdown.mjs",
+    "dev": "vitepress dev docs",
+    "prebuild": "node scripts/sync-public-markdown.mjs",
+    "build": "vitepress build docs",
+    "preview": "vitepress preview docs",
+    "check:links": "npm run build"
+  },
+  "devDependencies": {
+    "mermaid": "^11.14.0",
+    "vitepress": "^1.6.4"
+  }
+}

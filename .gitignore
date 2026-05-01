@@ -1,0 +1,7 @@
+node_modules/
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+docs/public/markdown/
+.DS_Store
+.env
+.env.*

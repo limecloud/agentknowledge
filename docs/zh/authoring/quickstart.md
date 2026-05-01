@@ -47,3 +47,9 @@ sources/
 ```
 
 来源是证据，运行时视图是给 Agent 使用的紧凑上下文。
+
+## 下一步
+
+- 知识包开始增长时，先跑通 [知识库工程闭环](/zh/authoring/knowledge-engineering-loop)：摄取、编译、使用、沉淀、检查。
+- 需要长期维护时，阅读 [编译模型](/zh/authoring/compilation-model)，把 `sources/` 增量编译成 `wiki/`、`compiled/` 和 `indexes/`。
+- 高风险输出需要引用时，补充 [溯源与引用](/zh/authoring/grounding-and-citations)。

@@ -47,6 +47,8 @@ Mapped to Agent Knowledge:
 | Index and log | `wiki/index.md`, `wiki/log.md`, `indexes/`, `runs/` | Human and agent navigation, chronological trace, rebuildable acceleration. |
 | Runtime answers | `compiled/` and new `wiki/` pages | Compact views and durable analyses that can be reused. |
 
+Note: in Agent Knowledge, `compiled/` is not the only place compiled artifacts live. The main LLM Wiki compiled artifact is `wiki/`: it preserves long-lived structure, links, contradictions, and source relationships. `compiled/` is a runtime view derived from `wiki/` to compress common context for the model.
+
 ## Why this is not plain RAG
 
 ```mermaid
@@ -70,6 +72,8 @@ RAG can still be useful. The LLM Wiki claim is narrower: for long-running knowle
 Agent Knowledge therefore treats indexes as optional acceleration, not the source of truth. The source of truth remains the source files and maintained Markdown artifacts.
 
 ## Operations
+
+See [Compilation model](/en/authoring/compilation-model) for the full compile contract.
 
 ### Ingest
 

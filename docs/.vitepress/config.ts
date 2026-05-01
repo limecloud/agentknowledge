@@ -10,6 +10,8 @@ const enNav = [
     text: 'Version',
     items: [
       { text: 'latest', link: '/en/specification' },
+      { text: 'v0.3.0 overview', link: '/en/versions/v0.3.0/overview' },
+      { text: 'v0.3.0', link: '/en/versions/v0.3.0/specification' },
       { text: 'v0.2.0 overview', link: '/en/versions/v0.2.0/overview' },
       { text: 'v0.2.0', link: '/en/versions/v0.2.0/specification' },
       { text: 'v0.1', link: '/en/versions/v0.1/specification' }
@@ -26,6 +28,8 @@ const zhNav = [
     text: '版本',
     items: [
       { text: 'latest', link: '/zh/specification' },
+      { text: 'v0.3.0 概览', link: '/zh/versions/v0.3.0/overview' },
+      { text: 'v0.3.0', link: '/zh/versions/v0.3.0/specification' },
       { text: 'v0.2.0 概览', link: '/zh/versions/v0.2.0/overview' },
       { text: 'v0.2.0', link: '/zh/versions/v0.2.0/specification' },
       { text: 'v0.1', link: '/zh/versions/v0.1/specification' }
@@ -50,6 +54,8 @@ const enSidebar = [
       { text: 'Quickstart', link: '/en/authoring/quickstart' },
       { text: 'Description and discovery', link: '/en/authoring/description-and-discovery' },
       { text: 'Best practices', link: '/en/authoring/best-practices' },
+      { text: 'Knowledge engineering loop', link: '/en/authoring/knowledge-engineering-loop' },
+      { text: 'Compilation model', link: '/en/authoring/compilation-model' },
       { text: 'Grounding and citations', link: '/en/authoring/grounding-and-citations' },
       { text: 'Linting and review', link: '/en/authoring/linting-and-review' },
       { text: 'Maintenance automation', link: '/en/authoring/maintenance-automation' },
@@ -84,6 +90,9 @@ const enSidebar = [
   {
     text: 'Versions',
     items: [
+      { text: 'v0.3.0 overview', link: '/en/versions/v0.3.0/overview' },
+      { text: 'v0.3.0 specification', link: '/en/versions/v0.3.0/specification' },
+      { text: 'v0.3.0 changelog', link: '/en/versions/v0.3.0/changelog' },
       { text: 'v0.2.0 overview', link: '/en/versions/v0.2.0/overview' },
       { text: 'v0.1 specification', link: '/en/versions/v0.1/specification' },
       { text: 'v0.1 changelog', link: '/en/versions/v0.1/changelog' },
@@ -109,6 +118,8 @@ const zhSidebar = [
       { text: '快速开始', link: '/zh/authoring/quickstart' },
       { text: '描述与发现', link: '/zh/authoring/description-and-discovery' },
       { text: '最佳实践', link: '/zh/authoring/best-practices' },
+      { text: '知识库工程闭环', link: '/zh/authoring/knowledge-engineering-loop' },
+      { text: '编译模型', link: '/zh/authoring/compilation-model' },
       { text: '溯源与引用', link: '/zh/authoring/grounding-and-citations' },
       { text: 'Lint 与评审', link: '/zh/authoring/linting-and-review' },
       { text: '维护自动化', link: '/zh/authoring/maintenance-automation' },
@@ -143,6 +154,9 @@ const zhSidebar = [
   {
     text: '版本',
     items: [
+      { text: 'v0.3.0 概览', link: '/zh/versions/v0.3.0/overview' },
+      { text: 'v0.3.0 规范', link: '/zh/versions/v0.3.0/specification' },
+      { text: 'v0.3.0 变更记录', link: '/zh/versions/v0.3.0/changelog' },
       { text: 'v0.2.0 概览', link: '/zh/versions/v0.2.0/overview' },
       { text: 'v0.1 规范', link: '/zh/versions/v0.1/specification' },
       { text: 'v0.1 变更记录', link: '/zh/versions/v0.1/changelog' },

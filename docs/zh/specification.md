@@ -26,12 +26,12 @@ Skills 可以生成、维护、lint、评审、查询和应用知识包。只要
 ```text
 pack-name/
 ├── KNOWLEDGE.md      # 必需：元数据 + 使用指南
-├── sources/          # 可选：原始来源
-├── wiki/             # 可选：维护后的结构化知识
-├── compiled/         # 可选：运行时上下文视图
-├── indexes/          # 可选：可重建索引
-├── runs/             # 可选：导入、lint、评审、查询记录
-├── schemas/          # 可选：schema 和抽取契约
+├── sources/          # 可选：原始来源，作为编译输入和证据
+├── wiki/             # 可选：主编译产物，维护后的结构化知识
+├── compiled/         # 可选：从 wiki 派生的运行时上下文视图
+├── indexes/          # 可选：可重建索引，检索加速层
+├── runs/             # 可选：编译、导入、lint、评审、查询记录
+├── schemas/          # 可选：schema、抽取契约和编译输出契约
 └── assets/           # 可选：模板、图表、示例
 ```
 
@@ -96,6 +96,22 @@ grounding: recommended
 | Context | `compiled/` 或选中的 `wiki/` 页面 | 模型调用前 |
 | Evidence | 来源锚点和原文摘录 | 需要引用或校验时 |
 
+## 编译模型
+
+Agent Knowledge 使用编译优先模型：来源资料不是只在查询时切块检索，而是持续编译成可维护、可审计、可复用的知识工件。
+
+```text
+sources/ -> wiki/ -> compiled/ + indexes/
+              |
+              -> runs/
+```
+
+`wiki/` 是主编译产物，保存实体、概念、来源摘要、决策、矛盾、开放问题和综合页面。`compiled/` 是运行时派生视图，用来压缩常用上下文；它不应成为无法追溯的独立事实源。`indexes/` 只用于找候选，必须能从 `sources/`、`wiki/` 和 `compiled/` 重建。`runs/` 记录编译、lint、review 和 eval 的过程证据。
+
+重要 claim 应保留 source map，能从 `compiled/` 或 `wiki/` 追溯到 `sources/` 锚点。新增或变更来源时，维护工具应增量更新受影响的 `wiki/` 页面、`compiled/` 视图和 `indexes/`，并把输入、输出、诊断和评审要求写入 `runs/compile-<timestamp>.json`。
+
+详细规则见 [编译模型](/zh/authoring/compilation-model)。
+
 ## 运行时契约
 
 兼容客户端必须把知识当数据：
@@ -115,10 +131,13 @@ flowchart LR
   Metadata["Catalog metadata"] --> Activation["知识包激活"]
   Activation --> Guide["KNOWLEDGE.md 指南"]
   Guide --> Resolver["运行时上下文解析器"]
-  Compiled["compiled 视图"] --> Resolver
-  Wiki["wiki 页面"] --> Resolver
-  Indexes["indexes - 只用于找候选"] --> Resolver
-  Sources["sources - 只作为证据"] --> Resolver
+  Sources["sources - 编译输入和证据"] --> Wiki["wiki - 主编译产物"]
+  Wiki --> Compiled["compiled - 运行时派生视图"]
+  Wiki --> Indexes["indexes - 只用于找候选"]
+  Compiled --> Resolver
+  Wiki --> Resolver
+  Indexes --> Resolver
+  Sources --> Resolver
   Resolver --> Fenced["受保护数据上下文"]
   Fenced --> Model["模型调用"]
 ```

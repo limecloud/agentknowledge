@@ -7,7 +7,7 @@ description: How Agent Skills, scripts, and tools should maintain Agent Knowledg
 
 Agent Skills supports bundled scripts because Skills are procedural assets. Agent Knowledge has a stricter boundary: the knowledge pack is primarily data. Maintenance logic should normally live in an Agent Skill, a client command, CI, or an external tool that reads and writes the pack.
 
-This page adapts the Agent Skills script guidance to knowledge maintenance.
+This page adapts the Agent Skills script guidance to knowledge maintenance. For knowledge packs, the most important automation is often compilation: incrementally turning `sources/` into `wiki/`, `compiled/`, and `indexes/`, then writing the process to `runs/`.
 
 ## Boundary rule
 
@@ -28,11 +28,32 @@ Do not make clients execute code from a knowledge pack during discovery or activ
 | Asset | Recommended home | Reason |
 | --- | --- | --- |
 | PDF ingestion script | Agent Skill `scripts/` or client tool | It is a method. |
+| Knowledge compiler | Agent Skill `scripts/`, client tool, or CI | It turns sources into wiki pages, runtime views, and indexes. |
 | Citation linter | Agent Skill `scripts/`, CI, or client tool | It performs validation. |
 | JSON schema for extracted claims | Knowledge pack `schemas/` | It describes data shape. |
 | Static prompt template for a review workflow | Agent Skill or `assets/` with clear non-executable status | It is procedural if it tells the agent what to do. |
 | Generated lint output | Knowledge pack `runs/` | It is audit evidence. |
 | Discovery or answer-quality test cases | Knowledge pack `evals/` | They define expected behavior. |
+
+## Compiler interface contract
+
+If a maintenance tool performs compilation, prefer a stable subcommand or arguments:
+
+```bash
+agent-knowledge compile \
+  --pack ./acme-product-brief \
+  --changed sources/reports/q1.md \
+  --output-run runs/compile-2026-05-01T10-30-00Z.json
+```
+
+The compiler should:
+
+- support `--dry-run` to show which `wiki/`, `compiled/`, and `indexes/` files would change
+- record input file hashes, output files, operations, and diagnostics
+- preserve source maps so important claims trace back to `sources/` anchors
+- update the affected set incrementally to avoid unrelated page drift
+- suggest `needs-review`, `stale`, or `disputed` when gates fail
+- never run automatically during pack discovery or activation
 
 ## One-off commands
 
@@ -82,6 +103,38 @@ Example JSON result:
       "severity": "error",
       "path": "compiled/facts.md",
       "message": "Pricing claim is missing a source anchor."
+    }
+  ]
+}
+```
+
+Example compile result:
+
+```json
+{
+  "run_id": "compile-2026-05-01T10-30-00Z",
+  "status": "needs-review",
+  "inputs": [
+    {
+      "path": "sources/reports/q1.md",
+      "sha256": "..."
+    }
+  ],
+  "outputs": [
+    {
+      "path": "wiki/concepts/offline-queue.md",
+      "operation": "updated"
+    },
+    {
+      "path": "compiled/facts.md",
+      "operation": "updated"
+    }
+  ],
+  "diagnostics": [
+    {
+      "severity": "warning",
+      "path": "wiki/open-questions/pricing.md",
+      "message": "Pricing information is missing an official source."
     }
   ]
 }

@@ -7,6 +7,8 @@ description: 保持知识包健康的评审模型。
 
 知识包会漂移，因此 lint 是一等流程。
 
+如果你正在搭最小闭环，先看 [知识库工程闭环](/zh/authoring/knowledge-engineering-loop) 中的健康检查部分。
+
 ## 检查项
 
 - 缺失 frontmatter。

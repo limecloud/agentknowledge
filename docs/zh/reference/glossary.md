@@ -11,7 +11,7 @@ description: Agent Knowledge 标准术语。
 
 ## Knowledge pack
 
-包含 `KNOWLEDGE.md` 以及可选 sources、wiki、compiled、indexes、runs、assets 的目录。
+包含 `KNOWLEDGE.md` 以及可选 sources、wiki、compiled、indexes、runs、schemas、evals、assets 的目录。
 
 ## Agent Skill
 
@@ -23,11 +23,19 @@ description: Agent Knowledge 标准术语。
 
 ## Wiki
 
-从 sources 整理出的结构化长期知识。
+从 sources 编译出的结构化长期知识。`wiki/` 是知识包的主编译产物。
 
 ## Compiled view
 
-运行时紧凑视图，如 `compiled/facts.md`。
+从 `wiki/` 派生出的运行时紧凑视图，如 `compiled/facts.md`。它是运行时优化产物，不应成为无法追溯的独立事实源。
+
+## Compilation
+
+把 `sources/` 增量转成 `wiki/`、`compiled/` 和 `indexes/` 的维护过程，并在 `runs/` 中记录输入、输出、诊断和评审要求。
+
+## Source map
+
+claim、页面或运行时视图到原始来源锚点的映射。它解释某个事实从哪里来，以及被编译到了哪些产物中。
 
 ## Index
 

@@ -7,6 +7,8 @@ description: A review model for keeping knowledge packs healthy.
 
 Knowledge packs drift unless they are checked. Agent Knowledge treats linting as a first-class workflow.
 
+If you are setting up the minimal loop, start with the health-check section in the [knowledge engineering loop](/en/authoring/knowledge-engineering-loop).
+
 ## What to lint
 
 A linter should detect:

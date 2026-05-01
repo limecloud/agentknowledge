@@ -87,6 +87,8 @@ trust: user-confirmed
 
 ## Next steps
 
+- When the pack starts growing, run the [knowledge engineering loop](/en/authoring/knowledge-engineering-loop): ingest, compile, use, file back, and check.
+- For long-term maintenance, read the [compilation model](/en/authoring/compilation-model) and incrementally compile `sources/` into `wiki/`, `compiled/`, and `indexes/`.
 - Add citations if the knowledge will be used in high-stakes output.
 - Add `wiki/` pages when the pack grows beyond a single compiled file.
 - Add lint reports in `runs/` to make review state auditable.

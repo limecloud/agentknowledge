@@ -11,7 +11,7 @@ The proposed standard for packaging source-grounded knowledge for AI agents.
 
 ## Knowledge pack
 
-A directory containing `KNOWLEDGE.md` and optional sources, wiki pages, compiled views, indexes, runs, and assets.
+A directory containing `KNOWLEDGE.md` and optional sources, wiki pages, compiled views, indexes, runs, schemas, evals, and assets.
 
 ## Agent Skill
 
@@ -23,11 +23,19 @@ Raw evidence such as documents, transcripts, pages, PDFs, or notes.
 
 ## Wiki
 
-Maintained structured knowledge distilled from sources.
+Maintained structured knowledge compiled from sources. `wiki/` is the pack's primary compiled artifact.
 
 ## Compiled view
 
-A concise runtime-ready file such as `compiled/facts.md` or `compiled/boundaries.md`.
+A concise runtime-ready file derived from `wiki/`, such as `compiled/facts.md` or `compiled/boundaries.md`. It is a runtime optimization artifact, not an untraceable independent fact source.
+
+## Compilation
+
+The maintenance process that incrementally turns `sources/` into `wiki/`, `compiled/`, and `indexes/`, with inputs, outputs, diagnostics, and review requirements recorded in `runs/`.
+
+## Source map
+
+A mapping from a claim, page, or runtime view back to raw source anchors. It explains where a fact came from and which artifacts it was compiled into.
 
 ## Index
 

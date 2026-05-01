@@ -32,7 +32,8 @@ sequenceDiagram
 - pack status and trust
 - token budget
 - grounding policy
-- available compiled views and indexes
+- available `compiled/` views, `wiki/` pages, and indexes
+- source maps, compile run records, and stale/disputed warnings
 
 ## Outputs
 
@@ -47,10 +48,34 @@ sequenceDiagram
 Recommended order:
 
 1. Load `KNOWLEDGE.md` for usage rules and context map.
-2. Prefer `compiled/` views for normal runtime.
-3. Use `wiki/` pages when compiled views are insufficient.
-4. Use `sources/` only for citation, verification, or ingest tasks.
+2. Prefer `compiled/` views for normal runtime because they are short context derived from `wiki/`.
+3. Use related `wiki/` pages when compiled views are insufficient, stale, disputed, or the task needs multi-hop synthesis.
+4. Use `sources/` anchors for citation, verification, ingest, or dispute handling.
 5. Use `indexes/` only to find candidates, never as fact authority.
+6. If a `compiled/` source map points to stale, disputed, or missing sources, return warnings instead of answering silently.
+
+## Compile-aware output
+
+Resolver output should preserve selection reasons for audit:
+
+```json
+{
+  "selected_files": [
+    "compiled/facts.md",
+    "wiki/concepts/offline-queue.md"
+  ],
+  "source_anchors": [
+    "sources/reports/q1.md#L42"
+  ],
+  "compile_warnings": [
+    {
+      "severity": "warning",
+      "path": "compiled/facts.md",
+      "message": "This runtime view depends on a needs-review compile run."
+    }
+  ]
+}
+```
 
 ## Context wrapper
 

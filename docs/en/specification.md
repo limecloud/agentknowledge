@@ -26,12 +26,12 @@ A knowledge pack is a directory containing, at minimum, a `KNOWLEDGE.md` file:
 ```text
 pack-name/
 ├── KNOWLEDGE.md      # Required: metadata + usage guide
-├── sources/          # Optional: raw source material
-├── wiki/             # Optional: maintained structured pages
-├── compiled/         # Optional: runtime-ready context views
+├── sources/          # Optional: raw evidence, compile input, and citation source
+├── wiki/             # Optional: primary compiled artifact with maintained pages
+├── compiled/         # Optional: runtime views derived from wiki
 ├── indexes/          # Optional: rebuildable search/vector/graph indexes
-├── runs/             # Optional: ingest, lint, review, query logs
-├── schemas/          # Optional: JSON/YAML schemas and extraction contracts
+├── runs/             # Optional: compile, ingest, lint, review, query logs
+├── schemas/          # Optional: schemas, extraction contracts, output contracts
 ├── evals/            # Optional: discovery, grounding, and answer-quality test cases
 ├── assets/           # Optional: templates, diagrams, examples
 └── LICENSE           # Optional: license for bundled content
@@ -111,15 +111,31 @@ Use this pack when generating product copy, sales enablement material, support r
 | 3. Context | `compiled/` or selected `wiki/` pages | When needed for a task |
 | 4. Evidence | Source anchors, raw excerpts, index hits | When citation or verification is needed |
 
+## Compilation model
+
+Agent Knowledge uses a compile-first model: source material is not only chunked for query-time retrieval. It is continuously compiled into maintained, auditable, reusable knowledge artifacts.
+
+```text
+sources/ -> wiki/ -> compiled/ + indexes/
+              |
+              -> runs/
+```
+
+`wiki/` is the primary compiled artifact. It stores entities, concepts, source summaries, decisions, contradictions, open questions, and synthesis pages. `compiled/` is a derived runtime view that compresses common context; it should not become an untraceable fact source. `indexes/` are candidate-search accelerators and must be rebuildable from `sources/`, `wiki/`, and `compiled/`. `runs/` records compile, lint, review, and eval evidence.
+
+Important claims should keep a source map from `compiled/` or `wiki/` back to `sources/` anchors. When sources are added or changed, maintenance tools should incrementally update affected `wiki/` pages, `compiled/` views, and `indexes/`, then write inputs, outputs, diagnostics, and review requirements to `runs/compile-<timestamp>.json`.
+
+See [Compilation model](/en/authoring/compilation-model) for the detailed contract.
+
 ## Optional directories
 
 | Directory | Purpose | Runtime loading |
 | --- | --- | --- |
-| `sources/` | Raw or normalized evidence. | Only for citation, verification, ingest, or dispute handling. |
-| `wiki/` | Maintained long-lived pages such as source summaries, entities, concepts, decisions, contradictions, and synthesis. | Selected pages only. |
-| `compiled/` | Short runtime-ready views such as facts, boundaries, briefings, and approved claims. | Preferred for normal runtime. |
+| `sources/` | Raw or normalized evidence and compile input. | Only for citation, verification, ingest, or dispute handling. |
+| `wiki/` | Primary compiled artifact with long-lived pages such as source summaries, entities, concepts, decisions, contradictions, and synthesis. | Selected pages only. |
+| `compiled/` | Derived runtime-ready views such as facts, boundaries, briefings, and approved claims. | Preferred for normal runtime. |
 | `indexes/` | Rebuildable full-text, vector, graph, or lookup indexes. | Candidate search only; never fact authority. |
-| `runs/` | Generated ingest, lint, review, query, and eval logs. | Diagnostics and audit evidence. |
+| `runs/` | Generated compile, ingest, lint, review, query, and eval logs. | Diagnostics and audit evidence. |
 | `schemas/` | Claim, page, source, and extraction schemas. | Validation and maintenance. |
 | `evals/` | Authored discovery, grounding, context-resolution, and answer-quality eval cases. | Development and CI; not loaded by default. |
 | `assets/` | Static templates, diagrams, sample files, and examples. | On demand. |
@@ -144,10 +160,13 @@ flowchart LR
   Metadata["Catalog metadata"] --> Activation["Pack activation"]
   Activation --> Guide["KNOWLEDGE.md guide"]
   Guide --> Resolver["Runtime context resolver"]
-  Compiled["compiled views"] --> Resolver
-  Wiki["wiki pages"] --> Resolver
-  Indexes["indexes - candidate search only"] --> Resolver
-  Sources["sources - evidence only"] --> Resolver
+  Sources["sources - compile input and evidence"] --> Wiki["wiki - primary compiled artifact"]
+  Wiki --> Compiled["compiled - derived runtime views"]
+  Wiki --> Indexes["indexes - candidate search only"]
+  Compiled --> Resolver
+  Wiki --> Resolver
+  Indexes --> Resolver
+  Sources --> Resolver
   Resolver --> Fenced["Fenced data context"]
   Fenced --> Model["Model call"]
 ```

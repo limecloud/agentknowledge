@@ -10,6 +10,8 @@ const enNav = [
     text: 'Version',
     items: [
       { text: 'latest', link: '/en/specification' },
+      { text: 'v0.2.0 overview', link: '/en/versions/v0.2.0/overview' },
+      { text: 'v0.2.0', link: '/en/versions/v0.2.0/specification' },
       { text: 'v0.1', link: '/en/versions/v0.1/specification' }
     ]
   },
@@ -24,6 +26,8 @@ const zhNav = [
     text: '版本',
     items: [
       { text: 'latest', link: '/zh/specification' },
+      { text: 'v0.2.0 概览', link: '/zh/versions/v0.2.0/overview' },
+      { text: 'v0.2.0', link: '/zh/versions/v0.2.0/specification' },
       { text: 'v0.1', link: '/zh/versions/v0.1/specification' }
     ]
   },
@@ -44,9 +48,12 @@ const enSidebar = [
     text: 'For pack authors',
     items: [
       { text: 'Quickstart', link: '/en/authoring/quickstart' },
+      { text: 'Description and discovery', link: '/en/authoring/description-and-discovery' },
       { text: 'Best practices', link: '/en/authoring/best-practices' },
       { text: 'Grounding and citations', link: '/en/authoring/grounding-and-citations' },
-      { text: 'Linting and review', link: '/en/authoring/linting-and-review' }
+      { text: 'Linting and review', link: '/en/authoring/linting-and-review' },
+      { text: 'Maintenance automation', link: '/en/authoring/maintenance-automation' },
+      { text: 'Evaluating knowledge', link: '/en/authoring/evaluating-knowledge' }
     ]
   },
   {
@@ -77,8 +84,11 @@ const enSidebar = [
   {
     text: 'Versions',
     items: [
+      { text: 'v0.2.0 overview', link: '/en/versions/v0.2.0/overview' },
       { text: 'v0.1 specification', link: '/en/versions/v0.1/specification' },
-      { text: 'v0.1 changelog', link: '/en/versions/v0.1/changelog' }
+      { text: 'v0.1 changelog', link: '/en/versions/v0.1/changelog' },
+      { text: 'v0.2.0 specification', link: '/en/versions/v0.2.0/specification' },
+      { text: 'v0.2.0 changelog', link: '/en/versions/v0.2.0/changelog' }
     ]
   }
 ]
@@ -97,9 +107,12 @@ const zhSidebar = [
     text: '知识包作者',
     items: [
       { text: '快速开始', link: '/zh/authoring/quickstart' },
+      { text: '描述与发现', link: '/zh/authoring/description-and-discovery' },
       { text: '最佳实践', link: '/zh/authoring/best-practices' },
       { text: '溯源与引用', link: '/zh/authoring/grounding-and-citations' },
-      { text: 'Lint 与评审', link: '/zh/authoring/linting-and-review' }
+      { text: 'Lint 与评审', link: '/zh/authoring/linting-and-review' },
+      { text: '维护自动化', link: '/zh/authoring/maintenance-automation' },
+      { text: '评估知识包', link: '/zh/authoring/evaluating-knowledge' }
     ]
   },
   {
@@ -130,8 +143,11 @@ const zhSidebar = [
   {
     text: '版本',
     items: [
+      { text: 'v0.2.0 概览', link: '/zh/versions/v0.2.0/overview' },
       { text: 'v0.1 规范', link: '/zh/versions/v0.1/specification' },
-      { text: 'v0.1 变更记录', link: '/zh/versions/v0.1/changelog' }
+      { text: 'v0.1 变更记录', link: '/zh/versions/v0.1/changelog' },
+      { text: 'v0.2.0 规范', link: '/zh/versions/v0.2.0/specification' },
+      { text: 'v0.2.0 变更记录', link: '/zh/versions/v0.2.0/changelog' }
     ]
   }
 ]

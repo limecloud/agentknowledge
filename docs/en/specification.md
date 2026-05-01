@@ -32,6 +32,7 @@ pack-name/
 ├── indexes/          # Optional: rebuildable search/vector/graph indexes
 ├── runs/             # Optional: ingest, lint, review, query logs
 ├── schemas/          # Optional: JSON/YAML schemas and extraction contracts
+├── evals/            # Optional: discovery, grounding, and answer-quality test cases
 ├── assets/           # Optional: templates, diagrams, examples
 └── LICENSE           # Optional: license for bundled content
 ```
@@ -62,6 +63,7 @@ pack-name/
 | `updated` | ISO date for the last meaningful knowledge update. |
 | `grounding` | Citation policy: `none`, `recommended`, or `required`. |
 | `metadata` | Namespaced client-specific metadata. |
+| `compatibility` | Optional runtime or client requirements. Keep under 500 characters. |
 
 ### Standard `type` values
 
@@ -108,6 +110,19 @@ Use this pack when generating product copy, sales enablement material, support r
 | 2. Guide | Full `KNOWLEDGE.md` body | When pack is activated |
 | 3. Context | `compiled/` or selected `wiki/` pages | When needed for a task |
 | 4. Evidence | Source anchors, raw excerpts, index hits | When citation or verification is needed |
+
+## Optional directories
+
+| Directory | Purpose | Runtime loading |
+| --- | --- | --- |
+| `sources/` | Raw or normalized evidence. | Only for citation, verification, ingest, or dispute handling. |
+| `wiki/` | Maintained long-lived pages such as source summaries, entities, concepts, decisions, contradictions, and synthesis. | Selected pages only. |
+| `compiled/` | Short runtime-ready views such as facts, boundaries, briefings, and approved claims. | Preferred for normal runtime. |
+| `indexes/` | Rebuildable full-text, vector, graph, or lookup indexes. | Candidate search only; never fact authority. |
+| `runs/` | Generated ingest, lint, review, query, and eval logs. | Diagnostics and audit evidence. |
+| `schemas/` | Claim, page, source, and extraction schemas. | Validation and maintenance. |
+| `evals/` | Authored discovery, grounding, context-resolution, and answer-quality eval cases. | Development and CI; not loaded by default. |
+| `assets/` | Static templates, diagrams, sample files, and examples. | On demand. |
 
 ## Runtime contract
 

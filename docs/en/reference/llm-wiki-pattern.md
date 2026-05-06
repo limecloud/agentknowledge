@@ -41,7 +41,7 @@ Mapped to Agent Knowledge:
 
 | Karpathy layer | Agent Knowledge mapping | Responsibility |
 | --- | --- | --- |
-| Raw sources | `sources/` | Immutable or append-only evidence. The LLM reads but should not rewrite these by default. |
+| Raw sources | `sources/` | Immutable or append-only evidence. The LLM reads but SHOULD NOT rewrite these by default. |
 | Wiki | `wiki/` | Maintained entity, concept, decision, synthesis, and source pages. |
 | Schema / steering file | `KNOWLEDGE.md`, `schemas/`, maintaining Skills | Defines structure, conventions, ingest/query/lint workflows, and extraction contracts. |
 | Index and log | `wiki/index.md`, `wiki/log.md`, `indexes/`, `runs/` | Human and agent navigation, chronological trace, rebuildable acceleration. |
@@ -102,7 +102,7 @@ A single source may update many pages: a source summary, entity pages, concept p
 
 ### Query
 
-A query should prefer the maintained wiki, then fall back to sources for evidence.
+A query SHOULD prefer the maintained wiki, then fall back to sources for evidence.
 
 ```mermaid
 flowchart TD
@@ -118,13 +118,13 @@ flowchart TD
   NewPage --> Done
 ```
 
-In Agent Knowledge, reusable query outputs should become `wiki/synthesis/...` pages or concise `compiled/...` views after review.
+In Agent Knowledge, reusable query outputs SHOULD become `wiki/synthesis/...` pages or concise `compiled/...` views after review.
 
 ### Lint
 
 Karpathy explicitly calls for health checks. Agent Knowledge makes this auditable through `runs/` and optional `evals/`.
 
-Lint should look for:
+Lint SHOULD look for:
 
 - contradictions between pages
 - stale claims superseded by newer sources
@@ -133,7 +133,7 @@ Lint should look for:
 - missing cross-references
 - claims without source anchors
 - open questions that need new sources
-- noisy pages that should not have been stored
+- noisy pages that SHOULD NOT have been stored
 
 ### Index and log
 
@@ -229,15 +229,15 @@ Karpathy's pattern is not "let the model decide all knowledge." It is a collabor
 | Client | Enforce trust, file boundaries, status warnings, permissions, and context budgets. |
 | Maintenance Skill | Provide repeatable ingest, lint, eval, and query workflows. |
 
-The human should not have to do the repetitive bookkeeping, but they still own source selection, emphasis, review, and decisions.
+Humans own source selection, emphasis, review, and decisions. Tools handle repetitive bookkeeping.
 
 ## Discussion-derived implementation lessons
 
-The public discussion under the gist includes several implementation signals. Agent Knowledge does not standardize these tools, but it should support them:
+The public discussion under the gist includes several implementation signals. Agent Knowledge does not standardize these tools, but compatible implementations SHOULD support the patterns:
 
 - **Scale wall**: `wiki/index.md` works at small to moderate scale, but larger wikis need search and graph indexes.
 - **Context endpoint**: implementations often benefit from a resolver that returns a primary page plus its graph neighborhood in one call.
-- **MCP tools**: search, graph, and context endpoints can be exposed as MCP tools so multiple agents use the same maintained wiki.
+- **MCP tools**: search, graph, and context endpoints MAY be exposed as MCP tools so multiple agents use the same maintained wiki.
 - **Quality gate before storage**: not every extracted fact deserves a wiki page; filtering noise before persistence can matter more than retrieval improvements.
 - **Team-memory pipelines**: chat and meeting data need extraction, deduplication, validation, relationship extraction, and permission-aware persistence.
 - **Graph materialization**: Markdown links are a good base; typed graphs can help contradiction detection, navigation, and context expansion.
@@ -252,7 +252,7 @@ These observations reinforce the Agent Knowledge split between maintained Markdo
 4. `indexes/` can include vector, full-text, and graph structures, but must be rebuildable.
 5. `runs/` is required for operational trust at scale: ingest, lint, review, query, and eval history.
 6. maintaining workflows belong in Skills or client tools, not hidden inside knowledge prose.
-7. useful answers can become durable pages, but only after review or clear status marking.
+7. useful answers MAY become durable pages, but only after review or clear status marking.
 8. quality gates are part of knowledge construction, not an afterthought.
 
 ## Where Agent Knowledge differs
@@ -269,6 +269,6 @@ Karpathy's gist is intentionally flexible and personal-tool oriented. Agent Know
 
 ## Non-goals
 
-Agent Knowledge does not require Obsidian, MCP, graph databases, vector databases, or any specific LLM. It should work as a plain Git directory first.
+Agent Knowledge does not require Obsidian, MCP, graph databases, vector databases, or any specific LLM. It SHOULD work as a plain Git directory first.
 
 Those tools can improve the experience, but the portable unit remains the knowledge pack.

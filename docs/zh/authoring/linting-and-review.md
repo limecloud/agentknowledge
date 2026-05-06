@@ -5,11 +5,13 @@ description: 保持知识包健康的评审模型。
 
 # Lint 与评审
 
-知识包会漂移，因此 lint 是一等流程。
+知识包会漂移。已评审知识包 SHOULD 有 lint 流程。
 
 如果你正在搭最小闭环，先看 [知识库工程闭环](/zh/authoring/knowledge-engineering-loop) 中的健康检查部分。
 
 ## 检查项
+
+linter SHOULD 检测：
 
 - 缺失 frontmatter。
 - 文件引用断裂。
@@ -28,7 +30,7 @@ runs/
 └── lint-2026-05-01.md
 ```
 
-状态变更必须显式：
+Agent MAY 提出修改，但状态变更 SHOULD 显式：
 
 ```yaml
 status: ready

@@ -5,9 +5,7 @@ description: 评估 Agent Knowledge 的发现、溯源、回答质量和维护�
 
 # 评估知识包
 
-知识包在一次手工测试中看起来正确，并不代表生产可用。评估给维护者一个可重复循环，用来改进 description、溯源、运行时上下文和回答质量。
-
-Agent Knowledge 借鉴 Agent Skills 的 eval-driven iteration，但评估目标不同：判断知识包是否被正确选择、选中的上下文是否有来源、最终回答是否遵守 claim 和边界。
+评估检查知识包是否被正确选择、选中上下文是否有来源、回答是否遵守知识包 claim 和边界。
 
 发现选择的专门格式见 [发现评估](/zh/authoring/discovery-evals)。完整示例见 [完整知识包示例](/zh/examples/complete-pack)。
 
@@ -22,7 +20,7 @@ Agent Knowledge 借鉴 Agent Skills 的 eval-driven iteration，但评估目标�
 | 新鲜度 | stale/disputed 知识是否触发告警？ | status-warning accuracy |
 | 输出质量 | 最终回答是否满足用户意图？ | assertion pass rate 和人工评审 |
 
-## 推荐结构
+## 目录结构
 
 `evals/` 放人工编写的测试用例，`runs/` 放生成结果。
 
@@ -76,11 +74,11 @@ acme-product-brief/
 - 使用该知识包。
 - 不使用知识包，或使用上一版知识包。
 
-对知识包修订，应快照上一版并比较 `old_pack` 与 `new_pack`。目标不只是高分，而是说明知识包改善了什么，以及付出了多少时间、token 和复杂度成本。
+对知识包修订，SHOULD 快照上一版并比较 `old_pack` 与 `new_pack`。记录改善项，以及时间、token 和复杂度成本。
 
 ## 记录运行
 
-每次运行记录：
+每次运行 SHOULD 记录：
 
 ```json
 {
@@ -181,4 +179,4 @@ flowchart TD
   Next --> Grade
 ```
 
-当通过率、引用覆盖率和评审反馈达到该知识包风险等级要求时停止。
+当通过率、引用覆盖率和评审反馈达到知识包风险阈值时停止。

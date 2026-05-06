@@ -5,9 +5,9 @@ description: Agent Knowledge is a file-first format for source-grounded knowledg
 
 # What is Agent Knowledge?
 
-Agent Knowledge is a portable directory format for packaging durable knowledge assets for AI agents.
+Agent Knowledge defines a portable directory format for agent-readable knowledge packs.
 
-It is designed for knowledge that should survive across sessions:
+Use it for knowledge that needs source trails, status, review, and reuse across agents:
 
 - brand and product facts
 - organization know-how
@@ -17,45 +17,42 @@ It is designed for knowledge that should survive across sessions:
 - policy and compliance references
 - long-lived domain context
 
-It is not a replacement for Agent Skills. Agent Skills tell an agent how to perform work. Agent Knowledge tells an agent what facts, sources, context, and boundaries it may rely on.
+Do not use it for procedure, tool orchestration, or runtime instructions. Those belong in Skills or client policy.
 
-## The problem
+## Package Layers
 
-Many systems put all knowledge into one of two places:
+| Layer | Role | Runtime default |
+| --- | --- | --- |
+| `KNOWLEDGE.md` | Required metadata and usage guide. | Loaded after activation. |
+| `sources/` | Raw or normalized evidence. | Only for citation, verification, or dispute handling. |
+| `wiki/` | Maintained source summaries, entities, concepts, decisions, contradictions, and synthesis. | Selected pages only. |
+| `compiled/` | Short runtime views derived from `wiki/`. | Preferred for normal runtime. |
+| `indexes/` | Rebuildable search, vector, graph, or lookup indexes. | Candidate search only. |
+| `runs/` | Compile, lint, review, eval, and query records. | Diagnostics and audit evidence. |
 
-- a vector database with little human-readable structure
-- a prompt or skill file that mixes facts with instructions
-
-Both break down when knowledge must be maintained, reviewed, cited, and shared across agents.
-
-Agent Knowledge separates layers:
+Canonical flow:
 
 ```text
-raw sources -> maintained wiki -> compiled runtime views -> optional indexes
+sources/ -> wiki/ -> compiled/ + indexes/
+              |
+              -> runs/
 ```
 
-## Core architecture
+## Runtime Boundary
 
-```mermaid
-flowchart LR
-  Sources["Raw sources"] --> Wiki["Maintained wiki"]
-  Wiki --> Compiled["Compiled runtime views"]
-  Wiki --> Indexes["Rebuildable indexes"]
-  Compiled --> Resolver["Runtime context resolver"]
-  Indexes --> Resolver
-  Resolver --> Fenced["Fenced knowledge context"]
-  Fenced --> Agent["Agent runtime"]
-  Skill["Agent Skill - method and workflow"] --> Agent
-```
+Compatible runtimes MUST:
 
-The Skill layer provides methods and workflows. The Knowledge layer provides source-grounded context. The agent runtime combines them only after trust, status, and grounding checks.
+1. Load catalog metadata before full pack content.
+2. Activate only relevant packs.
+3. Check `status`, `trust`, and `grounding`.
+4. Select the smallest useful context.
+5. Fence selected knowledge as data.
+6. Treat indexes as acceleration, not fact authority.
 
-## Core principles
+## Skills Boundary
 
-1. Files first: a pack is a directory people and agents can inspect.
-2. Sources stay separate: raw source material is evidence, not runtime prompt by default.
-3. Knowledge is data: clients must treat loaded knowledge as context, not instructions.
-4. Progressive disclosure: metadata first, usage guide second, context/evidence only as needed.
-5. Indexes are rebuildable: vector, graph, and full-text indexes accelerate retrieval but are not facts.
-6. Review state is explicit: draft, ready, stale, disputed, and archived knowledge behave differently.
-7. Skills remain procedural: use skills to ingest, lint, query, and apply knowledge packs.
+| Asset | Correct home |
+| --- | --- |
+| Facts, source summaries, approved claims, examples, policies, and constraints. | Agent Knowledge |
+| Procedures, scripts, prompts, tools, and workflows. | Agent Skills or client tools |
+| Embeddings, vector indexes, graph indexes, lookup tables. | Rebuildable support artifacts inside or beside a pack |

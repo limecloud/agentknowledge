@@ -17,6 +17,6 @@ Agent Knowledge does not replace RAG. It gives RAG systems a portable source-of-
 
 ## Key rule
 
-A vector store is not the knowledge asset. It is an acceleration layer derived from the knowledge asset.
+A vector store MUST NOT be the knowledge asset. It is an acceleration layer derived from the knowledge asset.
 
 If deleting the vector index deletes the only copy of the facts, the system is incorrectly designed.

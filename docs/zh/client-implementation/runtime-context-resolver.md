@@ -7,6 +7,8 @@ description: 不加载整个知识包，而是选择正确上下文。
 
 解析器决定哪些知识进入模型上下文。
 
+本文说明解析器算法。关于发现、激活、预算、启用/禁用、诊断，以及 Knowledge 激活与 Skills 激活的差异，见 [运行时标准](/zh/client-implementation/runtime-standard)。
+
 ```mermaid
 sequenceDiagram
   participant Agent
@@ -46,7 +48,7 @@ sequenceDiagram
 
 ## 编译感知输出
 
-解析器输出应保留选择理由，方便审计：
+解析器输出 SHOULD 保留选择理由，方便审计：
 
 ```json
 {

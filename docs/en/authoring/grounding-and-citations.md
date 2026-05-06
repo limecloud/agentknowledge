@@ -12,7 +12,7 @@ Grounding means the agent can trace important claims back to source material.
 | Mode | Meaning |
 | --- | --- |
 | `none` | Citations are not expected. Suitable for low-risk drafts. |
-| `recommended` | Important claims should cite source anchors when available. |
+| `recommended` | Important claims SHOULD cite source anchors when available. |
 | `required` | Claims must be backed by source anchors or marked unknown. |
 
 Set the mode in frontmatter:
@@ -46,7 +46,7 @@ For strict packs, keep claim records in `wiki/sources/` or `compiled/facts.md`:
 
 ## Runtime behavior
 
-When grounding is required, compatible clients should instruct the model to:
+When grounding is required, compatible clients SHOULD instruct the model to:
 
 - answer only from loaded pack context and allowed tools
 - mark missing information as unknown

@@ -5,13 +5,13 @@ description: A review model for keeping knowledge packs healthy.
 
 # Linting and review
 
-Knowledge packs drift unless they are checked. Agent Knowledge treats linting as a first-class workflow.
+Knowledge packs drift unless they are checked. Reviewed packs SHOULD have a lint workflow.
 
 If you are setting up the minimal loop, start with the health-check section in the [knowledge engineering loop](/en/authoring/knowledge-engineering-loop).
 
 ## What to lint
 
-A linter should detect:
+A linter SHOULD detect:
 
 - missing required frontmatter
 - broken file references
@@ -53,7 +53,7 @@ Status: needs-review
 
 ## Human confirmation
 
-Agents can propose edits, but status changes should be explicit:
+Agents MAY propose edits, but status changes SHOULD be explicit:
 
 ```yaml
 status: ready

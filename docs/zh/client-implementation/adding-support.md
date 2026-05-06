@@ -5,7 +5,7 @@ description: 在 Agent、桌面应用、托管工具或知识 runtime 中接入 
 
 # 接入支持
 
-本指南把 Agent Skills 的客户端生命周期改写为知识包接入流程。核心思想一样：渐进加载。差异在运行时契约：Skill 内容可能成为指令；Knowledge 内容必须保持为受保护的数据。
+本指南定义 Agent Knowledge pack 的客户端生命周期。运行时契约：Knowledge 内容 MUST 保持为受保护的数据。
 
 ## 渐进加载生命周期
 
@@ -37,7 +37,7 @@ sequenceDiagram
 
 扫描配置作用域，查找包含 `KNOWLEDGE.md` 的目录。
 
-推荐作用域：
+作用域：
 
 | 作用域 | 客户端原生路径 | 跨客户端约定 |
 | --- | --- | --- |
@@ -77,7 +77,7 @@ interface KnowledgeCatalogItem {
 
 校验策略：
 
-| 问题 | 推荐行为 |
+| 问题 | 行为 |
 | --- | --- |
 | 缺少 `description` | 跳过；catalog 激活无法工作。 |
 | YAML 无法解析 | 跳过或隔离；展示诊断。 |
@@ -120,7 +120,7 @@ interface KnowledgeCatalogItem {
 | 文件读取激活 | 模型可以直接读文件。 | catalog 包含 `location`，模型读取 `KNOWLEDGE.md`。 |
 | 专用激活工具 | 模型无文件系统访问，或客户端要控制策略。 | 工具接收 pack name，返回包裹后的 guide 和资源列表。 |
 
-推荐专用工具返回：
+专用工具返回：
 
 ```xml
 <knowledge_pack_guide name="acme-product-brief" status="ready" trust="user-confirmed">
@@ -142,7 +142,7 @@ Relative paths are resolved from the pack root.
 
 ## Step 5：解析运行时上下文
 
-resolver 组合：
+resolver SHOULD 组合：
 
 ```text
 用户任务 + 已选知识包 + status/trust + token 预算 + grounding 策略

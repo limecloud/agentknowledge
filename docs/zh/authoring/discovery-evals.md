@@ -9,8 +9,8 @@ description: 用可重复测试评估知识包是否在正确任务中被选择�
 
 发现评估用于回答两个问题：
 
-- 这个知识包应该在什么任务中被选择？
-- 它不应该在哪些任务中被选择？
+- 哪些任务预期选择该知识包？
+- 哪些任务预期拒绝该知识包？
 
 ## 文件结构
 
@@ -49,14 +49,14 @@ evals/
 | 指标 | 含义 |
 | --- | --- |
 | selection precision | 被选择的任务中有多少真的需要该包。 |
-| selection recall | 应该选择该包的任务中有多少被选中。 |
+| selection recall | 预期选择该包的任务中有多少被选中。 |
 | false positive count | 不该选却选了。 |
 | false negative count | 该选却没选。 |
 | warning accuracy | stale、disputed、needs-review 是否触发正确告警。 |
 
 ## 运行记录
 
-发现评估结果应写入 `runs/eval-discovery-<timestamp>.json`：
+发现评估结果 SHOULD 写入 `runs/eval-discovery-<timestamp>.json`：
 
 ```json
 {

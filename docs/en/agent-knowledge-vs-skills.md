@@ -77,7 +77,7 @@ Knowledge packs need concepts that Skills do not normally need:
 
 ## Architecture boundary
 
-A compatible client should keep the procedural and knowledge layers separate, then join them only at the resolver/runtime boundary.
+A compatible client SHOULD keep the procedural and knowledge layers separate, then join them only at the resolver/runtime boundary.
 
 ```mermaid
 flowchart LR
@@ -97,12 +97,12 @@ flowchart LR
 Important consequences:
 
 - A Skill may generate, maintain, validate, query, or apply Knowledge.
-- A Knowledge pack should not contain the full procedural logic for running an agent workflow.
-- A client may select a Skill and a Knowledge pack for the same task, but it should preserve their different trust contracts.
+- A Knowledge pack SHOULD NOT contain the full procedural logic for running an agent workflow.
+- A client MAY select a Skill and a Knowledge pack for the same task, but it SHOULD preserve their different trust contracts.
 
 ## Authoring flow
 
-A good ecosystem has Skills that maintain Knowledge, rather than hiding all knowledge inside Skills.
+Recommended placement: use Skills to maintain Knowledge; keep concrete knowledge in packs.
 
 ```mermaid
 flowchart TD
@@ -117,11 +117,11 @@ flowchart TD
   RuntimeResolve --> FencedData["Fenced data context for model"]
 ```
 
-This is the key standard boundary: put **the method for generating, maintaining, and validating knowledge** in Skills; put **the concrete knowledge asset** in Agent Knowledge packs.
+Boundary rule: put **the method for generating, maintaining, and validating knowledge** in Skills; put **the concrete knowledge asset** in Agent Knowledge packs.
 
 ## Runtime sequence
 
-At runtime, the agent should not load every file. It should first select capability, then select relevant knowledge, then ask the resolver for bounded context.
+At runtime, the agent SHOULD first select capability, then select relevant knowledge, then ask the resolver for bounded context.
 
 ```mermaid
 sequenceDiagram

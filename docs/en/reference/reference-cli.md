@@ -1,11 +1,11 @@
 ---
 title: Reference CLI
-description: The minimal command set an Agent Knowledge reference tool should provide.
+description: The minimal command set for an Agent Knowledge reference tool.
 ---
 
 # Reference CLI
 
-Agent Knowledge should have a reference tool for validating pack format, reading catalog metadata, testing resolver behavior, and checking run records. The tool name can vary; this page uses `agentknowledge-ref`.
+Reference tools validate pack format, read catalog metadata, test resolver behavior, and check run records. The tool name can vary; this page uses `agentknowledge-ref`.
 
 The reference CLI is not protocol core, but it helps clients and authors converge on the same semantics.
 
@@ -64,11 +64,11 @@ Runs discovery, context, or answer evals and outputs comparable results.
 
 ## Publishing guidance
 
-Reference tools should support pinned invocation:
+Reference tools SHOULD support pinned invocation:
 
 ```bash
-uvx agentknowledge-ref@0.4.0 validate ./pack
-npx agentknowledge-ref@0.4.0 validate ./pack
+uvx agentknowledge-ref@0.5.0 validate ./pack
+npx agentknowledge-ref@0.5.0 validate ./pack
 ```
 
-Tool output should follow the [maintenance script contract](/en/authoring/maintenance-script-contract).
+Tool output SHOULD follow the [maintenance script contract](/en/authoring/maintenance-script-contract).

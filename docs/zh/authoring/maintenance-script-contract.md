@@ -5,7 +5,7 @@ description: 面向 Agent Knowledge 维护工具的脚本接口约定。
 
 # 维护脚本契约
 
-维护脚本不是知识包核心协议的一部分，但它们是生态可持续的关键。脚本应该像稳定的小型 CLI：可发现、可审计、可复现，并且适合 Agent 调用。
+维护脚本不属于核心知识包协议。提供脚本时，脚本 SHOULD 像稳定小 CLI：可发现、可审计、可复现，并且适合 Agent 调用。
 
 ## 基本要求
 
@@ -21,17 +21,17 @@ description: 面向 Agent Knowledge 维护工具的脚本接口约定。
 
 ## 依赖和运行器
 
-脚本应锁定影响结果的依赖版本。推荐形式：
+脚本 SHOULD 锁定影响结果的依赖版本。形式：
 
 ```bash
-uvx agentknowledge-ref@0.4.0 validate ./pack
-npx agentknowledge-ref@0.4.0 validate ./pack
-go run example.com/agentknowledge-ref@v0.4.0 validate ./pack
+uvx agentknowledge-ref@0.5.0 validate ./pack
+npx agentknowledge-ref@0.5.0 validate ./pack
+go run example.com/agentknowledge-ref@v0.5.0 validate ./pack
 ```
 
 如果脚本需要网络、凭证、模型调用或付费 API，必须在 `--help` 和文档中声明。
 
-## 推荐命令形态
+## 命令形态
 
 ```bash
 agentknowledge-ref validate ./pack
@@ -42,7 +42,7 @@ agentknowledge-ref eval ./pack --suite evals/discovery.validation.json
 
 ## 输出格式
 
-所有维护命令都应输出统一 envelope：
+所有维护命令 SHOULD 输出统一 envelope：
 
 ```json
 {
@@ -71,10 +71,10 @@ agentknowledge-ref eval ./pack --suite evals/discovery.validation.json
 
 ## 写入规则
 
-写入 `wiki/`、`compiled/`、`indexes/` 或 `runs/` 时，脚本应：
+写入 `wiki/`、`compiled/`、`indexes/` 或 `runs/` 时，脚本 SHOULD：
 
 - 在 `--dry-run` 中列出将新增、修改、删除的路径。
 - 记录输入 hash 和输出路径。
 - 保留 source map。
 - 不重排无关页面。
-- 对失败门禁输出 `needs-review`、`stale` 或 `disputed` 建议。
+- 对失败门禁输出 `needs-review`、`stale` 或 `disputed`。

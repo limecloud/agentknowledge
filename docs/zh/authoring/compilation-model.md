@@ -5,7 +5,7 @@ description: 将来源资料编译为可维护 wiki、运行时视图和可重�
 
 # 编译模型
 
-Agent Knowledge 的核心不是把原始文档切块后等待查询时临时综合，而是把来源资料持续编译成可维护、可审计、可复用的知识工件。
+Agent Knowledge 使用编译优先模型。来源资料先编译成可维护、可审计、可复用的工件，再进入常规运行时。
 
 在这个模型里，`wiki/` 是主编译产物，`compiled/` 是面向运行时的派生视图，`indexes/` 是可重建的检索加速层，`runs/` 是编译日志和审计证据。
 
@@ -24,7 +24,7 @@ flowchart LR
 
 ## 编译什么
 
-编译器可以是 Agent Skill、客户端命令、CI 工具或外部脚本。它读取经过选择的来源，并产出或更新：
+编译器 MAY 是 Agent Skill、客户端命令、CI 工具或外部脚本。它读取经过选择的来源，并产出或更新：
 
 - 来源摘要。
 - 实体、概念、决策、开放问题和矛盾页面。
@@ -57,13 +57,13 @@ flowchart LR
 
 ## Source map
 
-重要 claim 应保留来源映射。最小做法是在 Markdown 中使用来源锚点：
+重要 claim SHOULD 保留来源映射。最小做法是在 Markdown 中使用来源锚点：
 
 ```markdown
 - Acme Widget 支持离线队列。 [source: sources/reports/q1.md#L42]
 ```
 
-高风险或大规模知识包应使用结构化 claim：
+高风险或大规模知识包 SHOULD 使用结构化 claim：
 
 ```yaml
 claim_id: clm-acme-offline-queue
@@ -81,7 +81,7 @@ compiled_into:
 
 ## 增量编译
 
-知识包应支持增量更新，而不是每次重建整本 wiki。
+知识包 SHOULD 支持增量更新，而不是每次重建整本 wiki。
 
 当来源变化时，维护工具应计算受影响集合：
 
@@ -103,7 +103,7 @@ flowchart TD
 
 ## 编译门禁
 
-写入 `wiki/` 或 `compiled/` 前，维护工具应至少检查：
+写入 `wiki/` 或 `compiled/` 前，维护工具 SHOULD 至少检查：
 
 - 重要 claim 有来源锚点。
 - 新 claim 不与已有 ready claim 冲突，或冲突被写入 `wiki/contradictions/`。
@@ -115,7 +115,7 @@ flowchart TD
 
 ## 编译运行记录
 
-推荐把编译运行写入 `runs/compile-<timestamp>.json`：
+编译运行 SHOULD 写入 `runs/compile-<timestamp>.json`：
 
 ```json
 {
@@ -161,7 +161,7 @@ flowchart TD
 
 ## Resolver 如何使用编译产物
 
-运行时 resolver 应遵循：
+运行时 resolver SHOULD 遵循：
 
 1. 先读取 `KNOWLEDGE.md` 的上下文地图。
 2. 普通任务优先读取 `compiled/`。

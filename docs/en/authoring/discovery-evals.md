@@ -9,8 +9,8 @@ A pack's `description` is the entrypoint for client catalogs and resolver select
 
 Discovery evals answer two questions:
 
-- Which tasks should select this knowledge pack?
-- Which tasks should not select it?
+- Which tasks are expected to select this knowledge pack?
+- Which tasks are expected to reject it?
 
 ## File structure
 
@@ -49,14 +49,14 @@ Use `train` to iterate on descriptions and context maps. Use `validation` to pre
 | Metric | Meaning |
 | --- | --- |
 | selection precision | Of selected tasks, how many truly needed the pack. |
-| selection recall | Of tasks that should select the pack, how many did. |
-| false positive count | Selected when it should not. |
-| false negative count | Missed when it should select. |
+| selection recall | Of expected-select tasks, how many selected the pack. |
+| false positive count | Selected when expected result was reject. |
+| false negative count | Rejected when expected result was select. |
 | warning accuracy | Whether stale, disputed, and needs-review warnings fired correctly. |
 
 ## Run record
 
-Discovery eval results should be written to `runs/eval-discovery-<timestamp>.json`:
+Discovery eval results SHOULD be written to `runs/eval-discovery-<timestamp>.json`:
 
 ```json
 {

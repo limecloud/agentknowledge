@@ -5,7 +5,7 @@ description: A complete Agent Knowledge example with compilation, source maps, e
 
 # Complete pack example
 
-This example shows how a mature knowledge pack can combine `sources/`, `wiki/`, `compiled/`, `indexes/`, `runs/`, `schemas/`, and `evals/`.
+This example shows a complete pack with `sources/`, `wiki/`, `compiled/`, `indexes/`, `runs/`, `schemas/`, and `evals/`.
 
 ```text
 acme-product-brief/
@@ -29,6 +29,7 @@ acme-product-brief/
 │   └── discovery.validation.json
 ├── runs/
 │   ├── compile-2026-05-01T10-30-00Z.json
+│   ├── context-2026-05-01T10-45-00Z.json
 │   └── health-2026-05-01.md
 └── schemas/
     └── local-claim.schema.json
@@ -139,6 +140,38 @@ grounding: recommended
 }
 ```
 
+## `runs/context-...json`
+
+```json
+{
+  "run_id": "context-2026-05-01T10-45-00Z",
+  "query": "Can Acme Widget work offline?",
+  "status": "passed",
+  "resolver": {
+    "tool": "agentknowledge-ref",
+    "version": "0.5.0",
+    "strategy": "compiled-first"
+  },
+  "activated_packs": [
+    {
+      "name": "acme-product-brief",
+      "activation": "implicit",
+      "status": "ready",
+      "trust": "user-confirmed",
+      "grounding": "recommended",
+      "selected_files": [
+        "compiled/facts.md"
+      ],
+      "source_anchors": [
+        "sources/product-one-pager.md#L12"
+      ],
+      "warnings": []
+    }
+  ],
+  "token_estimate": 420
+}
+```
+
 ## Companion Skill
 
 A Skill that maintains this pack might expose:
@@ -149,4 +182,4 @@ agentknowledge-ref compile ./acme-product-brief --changed sources/product-one-pa
 agentknowledge-ref eval ./acme-product-brief --suite evals/discovery.validation.json
 ```
 
-These commands are not knowledge pack core. They are maintenance-layer tools, and their outputs should be written to `runs/`.
+These commands are not knowledge pack core. They are maintenance-layer tools, and their outputs SHOULD be written to `runs/`.

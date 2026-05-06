@@ -5,15 +5,26 @@ description: How to author maintainable knowledge packs.
 
 # Best practices
 
+Use this page as authoring requirements for packs that must stay maintainable.
+
 ## Keep knowledge separate from instructions
 
-Knowledge packs should not tell the agent to ignore the user or override system policy. They should provide facts, context, source trails, style constraints, and domain boundaries.
+Knowledge packs MUST NOT tell the agent to ignore the user or override system policy.
+
+Allowed content:
+
+- facts
+- examples
+- context
+- source trails
+- style constraints
+- domain boundaries
 
 Procedural instructions belong in Agent Skills or client runtime policy.
 
 ## Write for progressive disclosure
 
-Keep `KNOWLEDGE.md` short. It should tell the agent what exists and where to load details.
+Keep `KNOWLEDGE.md` short. It SHOULD tell the agent what exists and where to load details.
 
 Good:
 
@@ -39,9 +50,9 @@ Use this distinction:
 | `compiled/` | Generated or reviewed views | Yes |
 | `indexes/` | Rebuildable | No direct fact authority |
 
-## Use claim status
+## Claim status
 
-For high-stakes domains, do not flatten everything into plain prose. Mark claims as:
+For high-risk domains, important claims SHOULD carry status:
 
 - confirmed
 - inferred
@@ -50,23 +61,23 @@ For high-stakes domains, do not flatten everything into plain prose. Mark claims
 - missing
 - source-required
 
-## Maintain open questions
+## Open questions
 
-Every pack should have a place for gaps:
+Every pack SHOULD have a gap location:
 
 ```text
 wiki/open-questions/index.md
 ```
 
-Agents should ask for missing facts rather than invent them.
+Runtime behavior: agents SHOULD ask for missing facts or mark them unknown.
 
 ## Keep indexes disposable
 
-Vector, full-text, and graph indexes should be treated as derived artifacts. If deleting an index loses knowledge, the pack is designed incorrectly.
+Vector, full-text, and graph indexes MUST be treated as derived artifacts. If deleting an index loses knowledge, the pack stores facts in the wrong layer.
 
 ## Prefer stable source anchors
 
-When possible, record source anchors:
+Record source anchors when available:
 
 ```text
 source: sources/interviews/founder-2026-05-01.md#L42

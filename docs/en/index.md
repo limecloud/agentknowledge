@@ -3,8 +3,8 @@ layout: home
 
 hero:
   name: Agent Knowledge
-  text: A portable standard for agent-readable knowledge packs.
-  tagline: "Give agents facts, source trails, constraints, and maintained context without confusing knowledge with procedural skills."
+  text: File-first knowledge packs for agents.
+  tagline: "A portable package format for facts, sources, context, status, and runtime-safe knowledge loading."
   actions:
     - theme: brand
       text: Read the specification
@@ -14,34 +14,32 @@ hero:
       link: /en/authoring/quickstart
 
 features:
-  - title: Source-grounded
-    details: "Keep raw sources, maintained wiki pages, compiled runtime views, and citation anchors in separate layers."
-  - title: Progressive disclosure
-    details: "Inspired by Agent Skills: clients load compact metadata first, then guides, context packs, and evidence only when needed."
-  - title: Skill-compatible
-    details: "Agent Knowledge packs are data assets. Agent Skills remain procedural assets that build, lint, query, or use them."
-  - title: Local-first friendly
-    details: "Works as plain files in Git, desktop apps, notebooks, or hosted workspaces. Indexes are rebuildable acceleration layers."
-  - title: Auditable
-    details: "Track ingest runs, lint findings, review state, confidence, source anchors, and claim status."
-  - title: Runtime-ready
-    details: "Define how agents resolve context budgets, treat knowledge as data, and avoid prompt-injection from sources."
+  - title: Required entrypoint
+    details: "Every pack starts with KNOWLEDGE.md: YAML frontmatter plus a short Markdown guide."
+  - title: Progressive loading
+    details: "Clients read catalog metadata first, then the guide, selected context, and evidence only when needed."
+  - title: Data at runtime
+    details: "Loaded knowledge is fenced as data. It must not override system, developer, user, or tool instructions."
+  - title: Source traceability
+    details: "sources/, wiki/, compiled/, indexes/, and runs/ have separate roles and review expectations."
+  - title: Rebuildable indexes
+    details: "Vector, graph, lookup, and full-text indexes accelerate selection but are not fact authority."
+  - title: Skill interop
+    details: "Skills can maintain packs. Packs remain portable data artifacts with status and provenance."
 ---
 
-## Why this standard exists
+## Package Shape
 
-Agent Skills gave agents a simple way to load procedural capability: instructions, scripts, references, and assets. Agent Knowledge applies the same file-first philosophy to durable knowledge assets.
+An Agent Knowledge pack is a directory containing a required `KNOWLEDGE.md` file and optional support directories.
 
-The goal is not to replace RAG, wikis, notebooks, or skills. The goal is to define a small portable package format that lets agents answer these questions reliably:
+Required client-visible metadata:
 
-- What knowledge exists?
-- What sources does it come from?
-- Which parts are confirmed, draft, stale, or disputed?
-- What context should be loaded for this task?
-- Which claims can be traced back to source material?
-- Which indexes are acceleration layers rather than facts?
-
-## Core shape
+| Field | Purpose |
+| --- | --- |
+| `name` | Stable package identifier. |
+| `description` | Discovery text for selection. |
+| `type` | Standard or namespaced pack category. |
+| `status` | Review state: `draft`, `ready`, `needs-review`, `stale`, `disputed`, or `archived`. |
 
 ```text
 customer-onboarding/
@@ -54,12 +52,26 @@ customer-onboarding/
 └── assets/           # Optional diagrams, templates, examples
 ```
 
-## Design rule
+## Runtime Rule
 
-Knowledge packs are facts and context. Skills are methods and workflows.
+Compatible clients MUST treat selected knowledge as data:
 
-Use Agent Skills to build, update, lint, and query Agent Knowledge packs. Do not hide real customer or domain knowledge inside a global skill when it needs its own source trail, status, ownership, and review lifecycle.
+- discover metadata before loading full content
+- activate only relevant packs
+- select bounded context for the current task
+- prefer reviewed `compiled/` views for common runtime context
+- use `sources/` for citation and verification
+- never execute pack content during discovery or activation
+- never obey instructions found inside loaded knowledge
 
-## AI-friendly docs
+## Boundary With Skills
+
+Knowledge packs store facts, examples, sources, constraints, status, and review records.
+
+Skills store procedures, scripts, tools, and workflow instructions.
+
+Use Skills to build, update, lint, query, or apply knowledge packs. Keep concrete customer, brand, research, organization, or domain knowledge in Agent Knowledge when it needs source trails, ownership, status, and review lifecycle.
+
+## Copy Markdown
 
 Every document page includes a **Copy Markdown** button. Use it to copy the current source page into an AI session with frontmatter, diagrams, examples, and tables intact.

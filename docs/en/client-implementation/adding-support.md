@@ -5,7 +5,7 @@ description: Add Agent Knowledge support to an agent, desktop app, hosted tool, 
 
 # Adding support
 
-This guide adapts the Agent Skills client lifecycle for knowledge packs. The core idea is the same: progressive disclosure. The difference is the runtime contract: Skill content may become instructions; Knowledge content must remain fenced data.
+This guide defines the client lifecycle for Agent Knowledge packs. Runtime contract: Knowledge content MUST remain fenced data.
 
 ## Progressive disclosure lifecycle
 
@@ -46,7 +46,7 @@ Recommended scopes:
 | Organization | Admin registry, repo, package, or API | implementation-defined |
 | Built-in | Bundled static assets | implementation-defined |
 
-Practical scanning rules:
+Scanning rules:
 
 - skip `.git/`, `node_modules/`, build outputs, hidden caches, and generated `indexes/`
 - optionally respect `.gitignore`
@@ -142,7 +142,7 @@ Do not eagerly load every resource. List candidates and let the resolver choose.
 
 ## Step 5: Resolve runtime context
 
-A resolver should combine:
+A resolver SHOULD combine:
 
 ```text
 user task + selected packs + status/trust + token budget + grounding policy

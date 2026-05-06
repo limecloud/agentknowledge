@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentknowledge.dev/schemas/context-resolution.schema.json",
+  "title": "Agent Knowledge Context Resolution",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["run_id", "query", "status", "activated_packs"],
+  "properties": {
+    "run_id": { "type": "string", "minLength": 1 },
+    "query": { "type": "string", "minLength": 1 },
+    "status": { "type": "string", "enum": ["passed", "needs-review", "stale", "disputed", "failed"] },
+    "resolver": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tool": { "type": "string" },
+        "version": { "type": "string" },
+        "strategy": { "type": "string" }
+      }
+    },
+    "activated_packs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "activation", "selected_files"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "activation": { "type": "string", "enum": ["explicit", "implicit", "resolver-driven"] },
+          "status": { "type": "string", "enum": ["draft", "ready", "needs-review", "stale", "disputed", "archived"] },
+          "trust": { "type": "string", "enum": ["unreviewed", "user-confirmed", "official", "external"] },
+          "grounding": { "type": "string", "enum": ["none", "recommended", "required"] },
+          "selected_files": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "source_anchors": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["severity", "message"],
+              "properties": {
+                "severity": { "type": "string", "enum": ["info", "warning", "error"] },
+                "path": { "type": "string" },
+                "message": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "missing": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "token_estimate": { "type": "integer" }
+  }
+}

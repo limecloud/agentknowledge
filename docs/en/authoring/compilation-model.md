@@ -5,7 +5,7 @@ description: Compile source material into maintained wiki pages, runtime views, 
 
 # Compilation model
 
-Agent Knowledge is not just raw documents chunked for query-time synthesis. Its central pattern is to continuously compile source material into maintained, auditable, reusable knowledge artifacts.
+Agent Knowledge uses a compile-first model. Source material is compiled into maintained, auditable, reusable artifacts before normal runtime use.
 
 In this model, `wiki/` is the primary compiled artifact, `compiled/` contains runtime-oriented derived views, `indexes/` contains rebuildable retrieval accelerators, and `runs/` records compile logs and audit evidence.
 
@@ -24,7 +24,7 @@ flowchart LR
 
 ## What gets compiled
 
-A compiler can be an Agent Skill, client command, CI tool, or external script. It reads selected sources and creates or updates:
+A compiler MAY be an Agent Skill, client command, CI tool, or external script. It reads selected sources and creates or updates:
 
 - source summaries
 - entity, concept, decision, open-question, and contradiction pages
@@ -53,17 +53,17 @@ The name `compiled/` is easy to misread. It is not the only place compiled knowl
 - `compiled/` is a runtime optimization artifact: it compresses common knowledge into short context that resolvers can prefer.
 - `indexes/` is a machine acceleration artifact: it must be rebuildable from `sources/`, `wiki/`, and `compiled/`.
 
-Normal answers can prefer `compiled/`, but maintenance, verification, dispute handling, and multi-hop synthesis should return to `wiki/` and `sources/`.
+Normal answers MAY prefer `compiled/`, but maintenance, verification, dispute handling, and multi-hop synthesis SHOULD return to `wiki/` and `sources/`.
 
 ## Source map
 
-Important claims should keep source mappings. The smallest useful form is a source anchor in Markdown:
+Important claims SHOULD keep source mappings. The smallest useful form is a source anchor in Markdown:
 
 ```markdown
 - Acme Widget supports offline queueing. [source: sources/reports/q1.md#L42]
 ```
 
-High-risk or large packs should use structured claims:
+High-risk or large packs SHOULD use structured claims:
 
 ```yaml
 claim_id: clm-acme-offline-queue
@@ -77,13 +77,13 @@ compiled_into:
   - compiled/facts.md
 ```
 
-When `grounding: required`, a compiler must not write important unsourced claims into `ready` artifacts. It should write them to `wiki/open-questions/`, or mark the claim as `missing`, `inferred`, or `source-required`.
+When `grounding: required`, a compiler MUST NOT write important unsourced claims into `ready` artifacts. It SHOULD write them to `wiki/open-questions/`, or mark the claim as `missing`, `inferred`, or `source-required`.
 
 ## Incremental compilation
 
-Knowledge packs should support incremental updates instead of rebuilding the entire wiki every time.
+Knowledge packs SHOULD support incremental updates instead of rebuilding the entire wiki every time.
 
-When a source changes, the maintenance tool should compute the affected set:
+When a source changes, the maintenance tool SHOULD compute the affected set:
 
 1. Read changed `sources/` files and the existing source map.
 2. Find `wiki/` pages and `compiled/` views that depend on that source.
@@ -103,7 +103,7 @@ flowchart TD
 
 ## Compile gates
 
-Before writing to `wiki/` or `compiled/`, maintenance tools should check at least:
+Before writing to `wiki/` or `compiled/`, maintenance tools SHOULD check at least:
 
 - important claims have source anchors
 - new claims do not conflict with existing ready claims, or conflicts are recorded in `wiki/contradictions/`
@@ -161,7 +161,7 @@ Recommended compile runs live at `runs/compile-<timestamp>.json`:
 
 ## How resolvers use compiled artifacts
 
-Runtime resolvers should:
+Runtime resolvers SHOULD:
 
 1. Read the context map in `KNOWLEDGE.md`.
 2. Prefer `compiled/` for normal tasks.

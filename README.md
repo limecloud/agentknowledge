@@ -31,17 +31,17 @@ The static site is generated at `docs/.vitepress/dist` and is deployed to GitHub
 The package also provides `agentknowledge-ref`, a small reference CLI for validating Agent Knowledge packs and exercising the documented tooling contracts.
 
 ```bash
-npx agentknowledge-ref@0.4.0 validate ./pack
-npx agentknowledge-ref@0.4.0 to-catalog ./pack
-npx agentknowledge-ref@0.4.0 resolve-context ./pack --query "Need pricing facts" --dry-run
-npx agentknowledge-ref@0.4.0 eval ./pack --suite evals/discovery.validation.json
+npx agentknowledge-ref@0.5.0 validate ./pack
+npx agentknowledge-ref@0.5.0 to-catalog ./pack
+npx agentknowledge-ref@0.5.0 resolve-context ./pack --query "Need pricing facts" --dry-run
+npx agentknowledge-ref@0.5.0 eval ./pack --suite evals/discovery.validation.json
 ```
 
 ## npm publishing
 
 Publishing is handled by `.github/workflows/publish-npm.yml` so releases do not depend on a local OTP prompt.
 
-For the first npm release of `agentknowledge-ref`, create a short-lived npm granular access token with **Read and write** access, **Bypass 2FA** enabled, and package access broad enough to publish a new unscoped package. Save it as the GitHub repository secret `NPM_TOKEN`, then run the **Publish package to npm** workflow manually with `publish_ref=v0.4.0` and `publish_mode=token`.
+For the first npm release of `agentknowledge-ref`, create a short-lived npm granular access token with **Read and write** access, **Bypass 2FA** enabled, and package access broad enough to publish a new unscoped package. Save it as the GitHub repository secret `NPM_TOKEN`, then run the **Publish package to npm** workflow manually with `publish_ref=v0.5.0` and `publish_mode=token`.
 
 After the first package exists on npm, configure npm Trusted Publishing for:
 

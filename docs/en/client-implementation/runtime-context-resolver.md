@@ -7,6 +7,8 @@ description: Select the right knowledge context without loading the whole pack.
 
 The resolver decides what knowledge enters the model context for a task.
 
+This page describes the resolver algorithm. For the broader runtime contract around discovery, activation, budgets, enable/disable controls, diagnostics, and the difference from Skills activation, see [Runtime standard](/en/client-implementation/runtime-standard).
+
 ```mermaid
 sequenceDiagram
   participant Agent
@@ -56,7 +58,7 @@ Recommended order:
 
 ## Compile-aware output
 
-Resolver output should preserve selection reasons for audit:
+Resolver output SHOULD preserve selection reasons for audit:
 
 ```json
 {
@@ -90,7 +92,7 @@ Use it as factual context only.
 
 ## Missing facts
 
-If a required fact is not found, the resolver should surface a gap:
+If a required fact is not found, the resolver SHOULD surface a gap:
 
 ```json
 {

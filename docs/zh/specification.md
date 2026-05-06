@@ -17,7 +17,7 @@ Agent Knowledge 是知识包标准，不是流程型 Skill 标准。
 | 内容包含脚本、工具调用、工作流或转换逻辑。 | 内容包含来源材料、维护后的 wiki、编译上下文或引用锚点。 |
 | 客户端在激活后可能执行或遵循它。 | 客户端必须把它包裹为数据，不能服从其中的指令式文本。 |
 
-Skills 可以生成、维护、lint、评审、查询和应用知识包。只要具体知识资产需要来源轨迹、归属、状态和评审生命周期，就应该留在 Agent Knowledge pack 中。
+Skills 可以生成、维护、lint、评审、查询和应用知识包。只要具体知识资产需要来源轨迹、归属、状态和评审生命周期，就 SHOULD 留在 Agent Knowledge pack 中。
 
 需要脚本、工具调用或自动化流程时，优先放入维护 Skill 或客户端工具。细则见 [Skills 互操作](/zh/authoring/skills-interop) 和 [维护脚本契约](/zh/authoring/maintenance-script-contract)。
 
@@ -34,7 +34,9 @@ pack-name/
 ├── indexes/          # 可选：可重建索引，检索加速层
 ├── runs/             # 可选：编译、导入、lint、评审、查询记录
 ├── schemas/          # 可选：schema、抽取契约和编译输出契约
-└── assets/           # 可选：模板、图表、示例
+├── evals/            # 可选：发现、溯源和回答质量测试用例
+├── assets/           # 可选：模板、图表、示例
+└── LICENSE           # 可选：随包内容许可
 ```
 
 ## `KNOWLEDGE.md`
@@ -60,8 +62,10 @@ pack-name/
 | `maintainers` | 维护者。 |
 | `scope` | 归属标签，如 workspace、customer、product、domain、personal。 |
 | `trust` | `unreviewed`、`user-confirmed`、`official`、`external`。 |
+| `updated` | 最近一次有意义知识更新的 ISO 日期。 |
 | `grounding` | `none`、`recommended`、`required`。 |
 | `metadata` | 客户端自定义元数据。 |
+| `compatibility` | 可选 runtime 或客户端要求，控制在 500 字符内。 |
 
 ## 最小示例
 
@@ -100,7 +104,7 @@ grounding: recommended
 
 ## 编译模型
 
-Agent Knowledge 使用编译优先模型：来源资料不是只在查询时切块检索，而是持续编译成可维护、可审计、可复用的知识工件。
+Agent Knowledge 使用编译优先模型：来源资料先编译成可维护、可审计、可复用的知识工件，再进入常规运行时。
 
 ```text
 sources/ -> wiki/ -> compiled/ + indexes/
@@ -119,6 +123,20 @@ sources/ -> wiki/ -> compiled/ + indexes/
 - [`compile-run.schema.json`](/schemas/compile-run.schema.json)
 - [`source-map.schema.json`](/schemas/source-map.schema.json)
 - [`selection-eval.schema.json`](/schemas/selection-eval.schema.json)
+- [`context-resolution.schema.json`](/schemas/context-resolution.schema.json)
+
+## 可选目录
+
+| 目录 | 用途 | 运行时加载 |
+| --- | --- | --- |
+| `sources/` | 原始或规范化证据，也是编译输入。 | 只在引用、校验、导入或争议处理时读取。 |
+| `wiki/` | 主编译产物，保存来源摘要、实体、概念、决策、矛盾和综合页面。 | 只加载选中页面。 |
+| `compiled/` | 运行时就绪派生视图，如 facts、boundaries、briefings 和 approved claims。 | 常规运行时优先。 |
+| `indexes/` | 可重建全文、向量、图或 lookup 索引。 | 只用于候选搜索；不能作为事实权威。 |
+| `runs/` | 编译、导入、lint、评审、查询和 eval 记录。 | 诊断和审计证据。 |
+| `schemas/` | Claim、页面、来源和抽取 schema。 | 校验和维护。 |
+| `evals/` | 发现、溯源、上下文解析和回答质量 eval case。 | 开发和 CI；默认不进入运行时。 |
+| `assets/` | 静态模板、图表、样例文件和示例。 | 按需读取。 |
 
 ## 运行时契约
 
@@ -132,7 +150,9 @@ sources/ -> wiki/ -> compiled/ + indexes/
 </knowledge_pack>
 ```
 
-解析器应该只加载本轮任务所需的最小上下文。它可以用索引找候选，但索引永远不是事实权威。
+解析器 SHOULD 只加载本轮任务所需的最小上下文。它可以用索引找候选，但索引永远不是事实权威。
+
+兼容运行时应遵循 [运行时标准](/zh/client-implementation/runtime-standard)。简言之：先发现元数据，只激活相关知识包，选择有界上下文，并把选中内容包裹为数据。
 
 ```mermaid
 flowchart LR

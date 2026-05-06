@@ -11,6 +11,8 @@ A compatible client discovers directories containing a file named exactly `KNOWL
 
 Ignore `.git/`, `node_modules/`, build output, hidden caches, and directories beyond a reasonable max depth.
 
+Discovery SHOULD be metadata-first. Load frontmatter into a catalog before reading pack bodies, then activate only packs that are explicit, clearly relevant, or selected by a resolver. See [Runtime standard](/en/client-implementation/runtime-standard).
+
 ## Precedence
 
 Apply deterministic precedence when two packs share a name.
@@ -27,7 +29,7 @@ Log collisions so users can diagnose shadowed packs.
 
 ## Trust gates
 
-Workspace-level packs may come from untrusted repositories. Clients should support trust checks before loading `KNOWLEDGE.md` into model context.
+Workspace-level packs may come from untrusted repositories. Clients SHOULD support trust checks before loading `KNOWLEDGE.md` into model context.
 
 For untrusted packs:
 

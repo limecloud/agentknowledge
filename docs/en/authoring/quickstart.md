@@ -63,7 +63,7 @@ acme-product-brief/
     └── boundaries.md
 ```
 
-Compiled files should be concise, runtime-friendly, and reviewed.
+Compiled files SHOULD be concise, runtime-friendly, and reviewed.
 
 ## 5. Add sources
 

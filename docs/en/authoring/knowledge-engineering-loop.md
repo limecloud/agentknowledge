@@ -5,9 +5,7 @@ description: Maintain knowledge packs like engineered systems instead of relying
 
 # Knowledge engineering loop
 
-Many knowledge bases fail not because they lack content, but because content decays: sources pile up, summaries scatter, concepts get defined twice, answers stay trapped in chat history, and a few months later it is hard to know which claims are still trustworthy.
-
-Agent Knowledge borrows from the LLM Wiki pattern: treat a knowledge base as a continuously compiled engineering system. Humans choose sources and review important results; agents and tools handle repetitive summarization, linking, checking, and filing.
+Treat a knowledge pack as a continuously compiled system. Humans choose sources and review important results. Tools handle summarization, linking, checking, and filing.
 
 ## Engineering analogy
 
@@ -24,7 +22,7 @@ In personal workflows, `raw/` often maps to `sources/`, and `outputs/` can map t
 
 ## Minimal loop
 
-A sustainable knowledge pack should run four steps:
+A maintained knowledge pack SHOULD run four steps:
 
 1. **Ingest sources**: put raw material in `sources/`, preserving source URL, author, publication time, capture time, and license information.
 2. **Compile knowledge**: incrementally compile sources into `wiki/` pages such as source summaries, concepts, entities, open questions, and contradictions.
@@ -44,7 +42,7 @@ flowchart LR
 
 ## Turning answers into inventory
 
-A complex answer that only remains in chat history is usually lost. Agent Knowledge recommends filing reusable answers, but not treating every output as fact.
+Reusable answers MAY be filed back into the pack. They MUST NOT become `ready` facts without source and review status.
 
 Recommended rules:
 
@@ -57,7 +55,7 @@ Example:
 
 ```markdown
 ---
-question: When should we use RAG instead of lightweight indexes?
+question: When do we use RAG instead of lightweight indexes?
 asked_at: 2026-05-01
 status: needs-review
 sources:
@@ -82,7 +80,7 @@ For small and medium packs, prefer `wiki/index.md`, full-text search, and explic
 
 ## Health checks
 
-Health checks are not decorative. They are the cheapest way to keep a knowledge pack trustworthy over time.
+Health checks keep status and source quality explicit.
 
 Check regularly for:
 
@@ -93,11 +91,11 @@ Check regularly for:
 - **traceability**: important claims that cannot trace back to `sources/`
 - **security**: prompt injection, secrets, or sensitive content in sources
 
-Health-check results should be written to `runs/health-<date>.json` or `runs/health-<date>.md`. If a check finds serious issues, the maintenance tool should propose `needs-review`, `stale`, or `disputed`.
+Health-check results SHOULD be written to `runs/health-<date>.json` or `runs/health-<date>.md`. If a check finds serious issues, the maintenance tool SHOULD propose `needs-review`, `stale`, or `disputed`.
 
 ## Do not start with RAG
 
-Agent Knowledge does not reject RAG, but a vector database should not be the first step.
+Agent Knowledge does not reject RAG. A vector database SHOULD NOT be the first step.
 
 For small packs, start with:
 
@@ -125,4 +123,4 @@ Week two: run filing and checks.
 - Fix missing sources, orphan pages, and conflicting claims.
 - Derive short conclusions into `compiled/` only after review.
 
-The goal is not to build a large system immediately. It is to establish a durable loop: ingest, compile, use, file back, and check.
+Goal: establish the loop `ingest -> compile -> use -> file back -> check`.

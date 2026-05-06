@@ -15,4 +15,4 @@ Agent Knowledge 不替代 RAG，而是给 RAG 一个可移植事实源包。
 | Indexes | 可重建工件 | 向量、全文、图搜索 |
 | Resolver | 选择上下文 | retriever / router / reranker |
 
-关键规则：向量库不是知识资产本体，而是由知识资产派生出的加速层。
+关键规则：向量库 MUST NOT 成为知识资产本体。它是由知识资产派生出的加速层。

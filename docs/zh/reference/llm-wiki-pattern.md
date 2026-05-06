@@ -79,7 +79,7 @@ RAG 仍然有价值。LLM Wiki 的主张更窄：对长期知识工作，单靠�
 
 Ingest 是添加一个或多个来源并更新 wiki。
 
-推荐流程：
+流程：
 
 ```mermaid
 sequenceDiagram
@@ -133,20 +133,20 @@ Lint 应检查：
 - 缺少交叉引用。
 - claim 缺少来源锚点。
 - 需要新来源的开放问题。
-- 不应该持久化的噪声页面。
+- SHOULD NOT 持久化的噪声页面。
 
 ### Index 和 log
 
 Karpathy 特别强调两个文件：
 
-| 文件 | LLM Wiki 中的作用 | Agent Knowledge 建议 |
+| 文件 | LLM Wiki 中的作用 | Agent Knowledge 规则 |
 | --- | --- | --- |
 | `index.md` | 面向内容的 wiki 页面目录 | 保留为 `wiki/index.md`；包含页面链接、摘要、分类和新鲜度。 |
 | `log.md` | 追加式时间顺序记录 | 保留为 `wiki/log.md` 或 `runs/`；用可解析 heading 记录 ingest、query、lint、review 事件。 |
 
 中小规模时，维护好的 index 可能足够。更大规模时，用 `indexes/` 保存全文、BM25、向量或图索引。这些索引必须能从 `sources/`、`wiki/` 和 `compiled/` 重建。
 
-## 推荐的 Agent Knowledge 目录
+## Agent Knowledge 目录
 
 ```text
 research-topic/
@@ -193,7 +193,7 @@ research-topic/
 | 概念页 | `wiki/concepts/<concept>.md` | 跟踪定义、论点、机制、术语。 |
 | 决策页 | `wiki/decisions/<decision>.md` | 跟踪决定内容、决策人、时间和来源。 |
 | 矛盾页 | `wiki/contradictions/<topic>.md` | 跟踪冲突 claim 和解决状态。 |
-| 开放问题 | `wiki/open-questions/<question>.md` | 跟踪知识缺口和建议寻找的来源。 |
+| 开放问题 | `wiki/open-questions/<question>.md` | 跟踪知识缺口和待寻找来源。 |
 | 综合页 | `wiki/synthesis/<topic>.md` | 保存多个来源或多次查询形成的持久分析。 |
 | 运行时 briefing | `compiled/briefing.md` | Agent 经常选择的紧凑上下文。 |
 
@@ -220,7 +220,7 @@ research-topic/
 
 ## 人和 LLM 的分工
 
-Karpathy 的模式不是“让模型决定所有知识”，而是协作模型：
+Karpathy 的模式是协作模型：
 
 | 角色 | 职责 |
 | --- | --- |
@@ -229,7 +229,7 @@ Karpathy 的模式不是“让模型决定所有知识”，而是协作模型�
 | 客户端 | 执行信任、文件边界、状态告警、权限和上下文预算。 |
 | 维护 Skill | 提供可重复的 ingest、lint、eval、query 工作流。 |
 
-人不应该承担重复 bookkeeping，但仍然拥有来源选择、重点、评审和决策权。
+人类拥有来源选择、重点、评审和决策权；工具处理重复 bookkeeping。
 
 ## 讨论中体现的实现经验
 
@@ -263,12 +263,12 @@ Karpathy 的 gist 有意保持灵活，更偏个人工具和理念。Agent Knowl
 | --- | --- |
 | 抽象模式 | 带版本的包格式。 |
 | Schema file 可因 Agent 而异 | 必需 `KNOWLEDGE.md` 加可选 `schemas/`。 |
-| Wiki 结构可自由组织 | 推荐目录和状态字段。 |
+| Wiki 结构可自由组织 | 标准目录和状态字段。 |
 | 工具可选 | 明确 `indexes/`、`runs/`、`evals/` 约定。 |
 | 人/LLM workflow 偏本地 | 增加客户端信任、激活和运行时上下文指导。 |
 
 ## 非目标
 
-Agent Knowledge 不要求 Obsidian、MCP、图数据库、向量数据库或特定 LLM。它首先应该作为普通 Git 目录工作。
+Agent Knowledge 不要求 Obsidian、MCP、图数据库、向量数据库或特定 LLM。它 SHOULD 首先作为普通 Git 目录工作。
 
 这些工具可以提升体验，但可移植单元仍然是知识包。

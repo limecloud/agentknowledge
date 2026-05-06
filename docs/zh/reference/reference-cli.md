@@ -1,11 +1,11 @@
 ---
 title: 参考 CLI
-description: Agent Knowledge 参考工具应该提供的最小命令集合。
+description: Agent Knowledge 参考工具的最小命令集合。
 ---
 
 # 参考 CLI
 
-Agent Knowledge 应该有一个参考工具，用来让实现者验证包格式、读取 catalog、测试 resolver 行为和检查运行记录。工具名称可以变化；本文用 `agentknowledge-ref` 表示。
+参考工具用于校验知识包格式、读取 catalog、测试 resolver 行为和检查运行记录。工具名称可以变化；本文用 `agentknowledge-ref` 表示。
 
 参考 CLI 不是协议核心，但它能让客户端和作者对同一套语义形成共识。
 
@@ -62,13 +62,13 @@ agentknowledge-ref eval ./pack --suite evals/discovery.validation.json
 
 运行 discovery、context 或 answer eval，并输出可比较结果。
 
-## 发布建议
+## 发布
 
-参考工具应优先支持版本锁定调用：
+参考工具 SHOULD 支持版本锁定调用：
 
 ```bash
-uvx agentknowledge-ref@0.4.0 validate ./pack
-npx agentknowledge-ref@0.4.0 validate ./pack
+uvx agentknowledge-ref@0.5.0 validate ./pack
+npx agentknowledge-ref@0.5.0 validate ./pack
 ```
 
 工具输出应遵循 [维护脚本契约](/zh/authoring/maintenance-script-contract)。

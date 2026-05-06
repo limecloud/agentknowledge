@@ -9,7 +9,8 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const schemas = {
   'compile-run': JSON.parse(readFileSync(join(root, 'docs/public/schemas/compile-run.schema.json'), 'utf8')),
   'source-map': JSON.parse(readFileSync(join(root, 'docs/public/schemas/source-map.schema.json'), 'utf8')),
-  'selection-eval': JSON.parse(readFileSync(join(root, 'docs/public/schemas/selection-eval.schema.json'), 'utf8'))
+  'selection-eval': JSON.parse(readFileSync(join(root, 'docs/public/schemas/selection-eval.schema.json'), 'utf8')),
+  'context-resolution': JSON.parse(readFileSync(join(root, 'docs/public/schemas/context-resolution.schema.json'), 'utf8'))
 }
 
 function main() {
@@ -298,6 +299,7 @@ function validateValue(value, schema, path) {
 function matchesType(value, type) {
   if (type === 'array') return Array.isArray(value)
   if (type === 'object') return isPlainObject(value)
+  if (type === 'integer') return Number.isInteger(value)
   return typeof value === type
 }
 
@@ -309,6 +311,7 @@ function inferSchemaName(file, data) {
   const name = basename(file)
   if (name.includes('source-map') || data.claims) return 'source-map'
   if (name.includes('discovery') || data.cases) return 'selection-eval'
+  if (name.includes('context') || data.activated_packs) return 'context-resolution'
   return 'compile-run'
 }
 

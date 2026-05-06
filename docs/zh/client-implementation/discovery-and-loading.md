@@ -7,7 +7,9 @@ description: 客户端如何查找、解析、排序和加载知识包。
 
 兼容客户端查找包含 `KNOWLEDGE.md` 的目录。
 
-推荐作用域：
+发现 SHOULD 以元数据优先。客户端先把 frontmatter 读入 catalog，再只激活显式选择、明显相关或由解析器选中的知识包。完整运行时契约见 [运行时标准](/zh/client-implementation/runtime-standard)。
+
+作用域：
 
 | 作用域 | 示例路径 |
 | --- | --- |

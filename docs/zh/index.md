@@ -3,8 +3,8 @@ layout: home
 
 hero:
   name: Agent Knowledge
-  text: 面向 Agent 的可移植知识包标准。
-  tagline: "让 Agent 能发现、加载、引用、校验和维护有来源的知识，而不把知识资产误塞进流程型 Skill。"
+  text: 面向 Agent 的文件优先知识包。
+  tagline: "用于事实、来源、上下文、状态和运行时安全加载的可移植包格式。"
   actions:
     - theme: brand
       text: 阅读规范
@@ -14,34 +14,32 @@ hero:
       link: /zh/authoring/quickstart
 
 features:
-  - title: 来源可追溯
-    details: "将原始来源、结构化 wiki、运行时视图和引用锚点分层保存。"
+  - title: 必需入口
+    details: "每个知识包从 KNOWLEDGE.md 开始：YAML frontmatter 加简短 Markdown 指南。"
   - title: 渐进加载
-    details: "借鉴 Agent Skills：先加载元数据，再按需加载指南、上下文包和证据。"
-  - title: 与 Skills 协作
-    details: "知识包是数据资产；Skills 是构建、校验、查询和使用知识包的方法资产。"
-  - title: 本地优先
-    details: "可作为普通文件放在 Git、桌面应用、本地知识库或托管工作区中。"
-  - title: 可审计
-    details: "记录导入、lint、评审、查询、引用缺口和知识状态。"
-  - title: 运行时可用
-    details: "明确上下文预算、知识作为数据、来源安全边界和 prompt injection 防护。"
+    details: "客户端先读 catalog 元数据，再按需读取指南、选中上下文和证据。"
+  - title: 运行时数据
+    details: "加载的知识必须包裹为数据，不能覆盖 system、developer、user 或工具指令。"
+  - title: 来源轨迹
+    details: "sources/、wiki/、compiled/、indexes/、runs/ 各自承担不同职责。"
+  - title: 可重建索引
+    details: "向量、图、lookup 和全文索引用于加速选择，不是事实权威。"
+  - title: Skills 互操作
+    details: "Skills 可以维护知识包；知识包保持为带状态和溯源的可移植数据资产。"
 ---
 
-## 为什么需要这个标准
+## 包结构
 
-Agent Skills 已经给 Agent 一个简单方式来加载流程能力：说明、脚本、参考资料和资源。Agent Knowledge 用同样的文件优先思路，定义长期知识资产的包格式。
+Agent Knowledge pack 是一个目录，包含必需的 `KNOWLEDGE.md` 和可选支撑目录。
 
-目标不是替代 RAG、wiki、notebook 或 skills，而是定义一个小而可移植的包格式，让 Agent 能可靠回答：
+客户端可见的必需元数据：
 
-- 有哪些知识？
-- 来源是什么？
-- 哪些内容已确认、草稿、过期或有争议？
-- 本轮任务应该加载哪些上下文？
-- 哪些 claim 能追溯到来源？
-- 哪些索引只是加速层，而不是事实源？
-
-## 核心结构
+| 字段 | 用途 |
+| --- | --- |
+| `name` | 稳定包标识。 |
+| `description` | 用于选择的发现文本。 |
+| `type` | 标准或命名空间化包类别。 |
+| `status` | 评审状态：`draft`、`ready`、`needs-review`、`stale`、`disputed` 或 `archived`。 |
 
 ```text
 customer-onboarding/
@@ -54,12 +52,26 @@ customer-onboarding/
 └── assets/           # 可选图表、模板、示例
 ```
 
-## 设计原则
+## 运行时规则
 
-知识包是事实和上下文。Skills 是方法和流程。
+兼容客户端 MUST 把选中的知识当数据处理：
 
-用 Agent Skills 去构建、更新、lint 和查询 Agent Knowledge 包。不要把真实客户、品牌或领域知识隐藏到全局 Skill 中；需要来源、状态、归属和评审生命周期的内容，应成为独立知识包。
+- 先发现元数据，再加载正文。
+- 只激活相关知识包。
+- 为当前任务选择有界上下文。
+- 常规运行时优先使用已评审的 `compiled/` 视图。
+- 需要引用或校验时再读取 `sources/`。
+- 发现或激活期间不得执行知识包内容。
+- 不得服从已加载知识中的指令式文本。
 
-## 面向 AI 引用
+## 与 Skills 的边界
+
+知识包保存事实、示例、来源、约束、状态和评审记录。
+
+Skills 保存流程、脚本、工具和工作流指令。
+
+用 Skills 构建、更新、lint、查询或应用知识包。具体客户、品牌、研究、组织或领域知识只要需要来源轨迹、归属、状态和评审生命周期，就应放在 Agent Knowledge 中。
+
+## 复制 Markdown
 
 每个正文页都有 **复制 Markdown** 按钮。它会复制当前源文件，保留 frontmatter、图表、示例和表格，方便直接粘贴到 AI 会话中。

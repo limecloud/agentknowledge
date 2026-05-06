@@ -5,9 +5,9 @@ description: 如何用 Agent Skills、脚本和工具维护 Agent Knowledge，�
 
 # 维护自动化
 
-Agent Skills 支持内置脚本，因为 Skills 是流程资产。Agent Knowledge 的边界更严格：知识包首先是数据。维护逻辑通常应该放在 Agent Skill、客户端命令、CI 或外部工具中，由它们读取和写入知识包。
+维护逻辑 SHOULD 放在 Agent Skill、客户端命令、CI 或外部工具中，由它们读取和写入知识包。
 
-本页把 Agent Skills 的脚本实践改写成知识维护规则。对知识包来说，最重要的自动化通常是编译：把 `sources/` 增量转成 `wiki/`、`compiled/`、`indexes/`，并把过程写入 `runs/`。
+知识包的常见自动化是编译：把 `sources/` 增量转成 `wiki/`、`compiled/`、`indexes/`，并把过程写入 `runs/`。
 
 如果维护流程需要完整 Skill，请先看 [Skills 互操作](/zh/authoring/skills-interop)。脚本接口细则见 [维护脚本契约](/zh/authoring/maintenance-script-contract)。
 
@@ -25,9 +25,9 @@ flowchart TD
 
 客户端不得在发现或激活知识包时执行包内代码。
 
-## 推荐放置位置
+## 放置位置
 
-| 资产 | 推荐位置 | 原因 |
+| 资产 | 位置 | 原因 |
 | --- | --- | --- |
 | PDF 导入脚本 | Agent Skill `scripts/` 或客户端工具 | 它是方法。 |
 | 知识编译器 | Agent Skill `scripts/`、客户端工具或 CI | 它把来源转成 wiki、运行时视图和索引。 |
@@ -39,7 +39,7 @@ flowchart TD
 
 ## 编译器接口契约
 
-维护工具如果执行编译，推荐提供稳定的子命令或参数：
+维护工具如果执行编译，SHOULD 提供稳定的子命令或参数：
 
 ```bash
 agent-knowledge compile \
@@ -48,13 +48,13 @@ agent-knowledge compile \
   --output-run runs/compile-2026-05-01T10-30-00Z.json
 ```
 
-编译器应：
+编译器 SHOULD：
 
 - 支持 `--dry-run`，先展示将更新哪些 `wiki/`、`compiled/` 和 `indexes/` 文件。
 - 记录输入文件 hash、输出文件、操作类型和诊断。
 - 保持 source map，确保重要 claim 能追溯到 `sources/` 锚点。
 - 对受影响集合做增量更新，避免无关页面漂移。
-- 在门禁失败时输出 `needs-review`、`stale` 或 `disputed` 建议。
+- 在门禁失败时输出 `needs-review`、`stale` 或 `disputed`。
 - 不在知识包被发现或激活时自动执行。
 
 ## 一次性命令
@@ -75,7 +75,7 @@ uvx ruff@0.8.0 check tools/knowledge_lint.py
 
 ## 脚本接口契约
 
-当 Skill 或客户端工具提供知识维护脚本时，脚本应适合 Agent 调用：
+当 Skill 或客户端工具提供知识维护脚本时，脚本 SHOULD 适合 Agent 调用：
 
 - 不使用交互式 prompt。
 - `--help` 简洁说明用法和例子。
@@ -155,14 +155,14 @@ Agent Knowledge 不要求这些 runtime。它们属于维护工具链，不属�
 
 ## 状态变更
 
-自动化可以建议状态变更，但客户端不应静默把知识包标为 `ready`，除非所有者策略明确允许。
+自动化 MAY 建议状态变更。客户端 MUST NOT 静默把知识包标为 `ready`，除非所有者策略明确允许。
 
-推荐策略：
+状态策略：
 
 | 变更 | 自动化是否允许 | 人工评审 |
 | --- | --- | --- |
 | `draft` -> `needs-review` | 可以 | 可选 |
-| `needs-review` -> `ready` | 仅在策略明确允许时 | 推荐 |
+| `needs-review` -> `ready` | 仅在策略明确允许时 | SHOULD |
 | `ready` -> `stale` | 来源新鲜度检查失败时可以 | 通知 owner |
 | `ready` -> `disputed` | 检测到矛盾时可以 | 必须解决 |
 | 任意状态 -> `archived` | 默认不允许 | 必须 |

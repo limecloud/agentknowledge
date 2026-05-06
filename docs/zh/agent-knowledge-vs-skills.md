@@ -5,7 +5,7 @@ description: 明确区分流程能力和有来源的知识资产。
 
 # Agent Knowledge 与 Agent Skills
 
-Agent Knowledge 借鉴 Agent Skills 的打包方式，但运行时契约不同。
+Agent Knowledge 采用类似 Agent Skills 的文件包形态，但运行时契约不同。
 
 - **Agent Skills** 是流程能力，告诉 Agent **如何执行工作**。
 - **Agent Knowledge** 是有来源的知识资产，告诉 Agent **有哪些事实、来源、上下文和边界可用**。
@@ -77,7 +77,7 @@ Agent Knowledge 复用 Agent Skills 中让资产可移植、可发现的部分�
 
 ## 架构边界
 
-兼容客户端应该把流程层和知识层分开，只在 resolver/runtime 边界合并。
+兼容客户端 SHOULD 把流程层和知识层分开，只在 resolver/runtime 边界合并。
 
 ```mermaid
 flowchart LR
@@ -97,12 +97,12 @@ flowchart LR
 直接结论：
 
 - Skill 可以生成、维护、校验、查询或应用 Knowledge。
-- Knowledge pack 不应该承载完整的 Agent 工作流过程。
+- Knowledge pack SHOULD NOT 承载完整的 Agent 工作流过程。
 - 客户端可以为同一个任务同时选择 Skill 和 Knowledge pack，但必须保留二者不同的信任契约。
 
 ## 构建流程图
 
-健康的生态应该用 Skills 维护 Knowledge，而不是把所有具体知识全文藏进 Skills。
+放置规则：用 Skills 维护 Knowledge；具体知识保留在知识包中。
 
 ```mermaid
 flowchart TD
@@ -117,11 +117,11 @@ flowchart TD
   RuntimeResolve --> FencedData["给模型的受保护数据上下文"]
 ```
 
-这就是标准边界：把 **生成、维护、校验知识的方法** 放进 Skills；把 **具体知识资产** 放进 Agent Knowledge pack。
+标准边界：把 **生成、维护、校验知识的方法** 放进 Skills；把 **具体知识资产** 放进 Agent Knowledge pack。
 
 ## 运行时时序图
 
-运行时不应该加载所有文件。Agent 应先选择能力，再选择相关知识，再让解析器按任务和 token 预算取上下文。
+运行时 SHOULD 先选择能力，再选择相关知识，再让解析器按任务和 token 预算取上下文。
 
 ```mermaid
 sequenceDiagram
@@ -149,7 +149,7 @@ sequenceDiagram
 
 ## 容易混淆的情况
 
-| 资产 | 推荐打包 | 原因 |
+| 资产 | 打包位置 | 原因 |
 | --- | --- | --- |
 | 指导 Agent 如何研究市场的步骤 | Skill | 它是工作流。 |
 | 市场事实、引用来源、竞品画像和批准声明 | Knowledge | 它们是事实和上下文。 |

@@ -5,9 +5,7 @@ description: Evaluate discovery, grounding, answer quality, and maintenance beha
 
 # Evaluating knowledge packs
 
-A knowledge pack can look correct in a single manual test and still fail in production. Evaluation gives maintainers a repeatable loop for improving descriptions, grounding, runtime context, and answer quality.
-
-Agent Knowledge adapts the eval-driven iteration model from Agent Skills, but the target is different: evaluate whether the pack is selected, whether the selected context is grounded, and whether answers stay within the pack's claims and boundaries.
+Evaluation checks whether a pack is selected, whether selected context is grounded, and whether answers stay within the pack's claims and boundaries.
 
 For the dedicated selection format, see [Discovery evals](/en/authoring/discovery-evals). For a complete example, see [Complete pack example](/en/examples/complete-pack).
 
@@ -76,11 +74,11 @@ Run each eval against at least two configurations:
 - with the knowledge pack
 - without the knowledge pack, or with the previous pack version
 
-For pack revisions, snapshot the previous version and compare `old_pack` versus `new_pack`. The point is not just to get a high score; it is to show what the pack improves and what it costs in time, tokens, and complexity.
+For pack revisions, snapshot the previous version and compare `old_pack` versus `new_pack`. Record improvements and costs in time, tokens, and complexity.
 
 ## Capturing runs
 
-Each run should record:
+Each run SHOULD record:
 
 ```json
 {
@@ -181,4 +179,4 @@ flowchart TD
   Next --> Grade
 ```
 
-Stop when pass rates, citation coverage, and reviewer feedback are stable enough for the pack's risk level.
+Stop when pass rates, citation coverage, and reviewer feedback meet the pack's risk threshold.

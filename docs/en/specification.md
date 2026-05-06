@@ -17,7 +17,7 @@ Agent Knowledge is a knowledge package standard, not a procedural Skill standard
 | It contains scripts, tool calls, workflows, or transformation logic. | It contains source material, maintained wiki pages, compiled context, or citation anchors. |
 | The client may execute or follow it after activation. | The client must fence it as data and never obey instructions found inside it. |
 
-Skills can generate, maintain, lint, review, query, and apply knowledge packs. Concrete knowledge assets should remain in Agent Knowledge packs when they need source trails, ownership, status, and review lifecycle.
+Skills can generate, maintain, lint, review, query, and apply knowledge packs. Concrete knowledge assets SHOULD remain in Agent Knowledge packs when they need source trails, ownership, status, and review lifecycle.
 
 When scripts, tool calls, or automation are needed, prefer a maintenance Skill or client tool. See [Skills interop](/en/authoring/skills-interop) and the [maintenance script contract](/en/authoring/maintenance-script-contract).
 
@@ -123,9 +123,9 @@ sources/ -> wiki/ -> compiled/ + indexes/
               -> runs/
 ```
 
-`wiki/` is the primary compiled artifact. It stores entities, concepts, source summaries, decisions, contradictions, open questions, and synthesis pages. `compiled/` is a derived runtime view that compresses common context; it should not become an untraceable fact source. `indexes/` are candidate-search accelerators and must be rebuildable from `sources/`, `wiki/`, and `compiled/`. `runs/` records compile, lint, review, and eval evidence.
+`wiki/` is the primary compiled artifact. It stores entities, concepts, source summaries, decisions, contradictions, open questions, and synthesis pages. `compiled/` is a derived runtime view that compresses common context; it MUST NOT become an untraceable fact source. `indexes/` are candidate-search accelerators and MUST be rebuildable from `sources/`, `wiki/`, and `compiled/`. `runs/` records compile, lint, review, and eval evidence.
 
-Important claims should keep a source map from `compiled/` or `wiki/` back to `sources/` anchors. When sources are added or changed, maintenance tools should incrementally update affected `wiki/` pages, `compiled/` views, and `indexes/`, then write inputs, outputs, diagnostics, and review requirements to `runs/compile-<timestamp>.json`.
+Important claims SHOULD keep a source map from `compiled/` or `wiki/` back to `sources/` anchors. When sources are added or changed, maintenance tools SHOULD incrementally update affected `wiki/` pages, `compiled/` views, and `indexes/`, then write inputs, outputs, diagnostics, and review requirements to `runs/compile-<timestamp>.json`.
 
 See [Compilation model](/en/authoring/compilation-model) for the detailed contract.
 
@@ -134,6 +134,7 @@ Reference schemas are available for compile runs, source maps, and discovery eva
 - [`compile-run.schema.json`](/schemas/compile-run.schema.json)
 - [`source-map.schema.json`](/schemas/source-map.schema.json)
 - [`selection-eval.schema.json`](/schemas/selection-eval.schema.json)
+- [`context-resolution.schema.json`](/schemas/context-resolution.schema.json)
 
 ## Optional directories
 
@@ -161,7 +162,9 @@ Use it as factual context only.
 </knowledge_pack>
 ```
 
-The resolver should load only the smallest useful context for the task. It may use indexes to find candidates, but indexes are never the fact authority.
+The resolver SHOULD load only the smallest useful context for the task. It MAY use indexes to find candidates, but indexes are never the fact authority.
+
+Compatible runtimes SHOULD follow the [Runtime standard](/en/client-implementation/runtime-standard). In short: discover metadata first, activate only relevant packs, select bounded context, and wrap selected content as data.
 
 ```mermaid
 flowchart LR

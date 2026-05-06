@@ -5,9 +5,9 @@ description: How Agent Skills, scripts, and tools should maintain Agent Knowledg
 
 # Maintenance automation
 
-Agent Skills supports bundled scripts because Skills are procedural assets. Agent Knowledge has a stricter boundary: the knowledge pack is primarily data. Maintenance logic should normally live in an Agent Skill, a client command, CI, or an external tool that reads and writes the pack.
+Maintenance logic SHOULD live in an Agent Skill, client command, CI job, or external tool that reads and writes the pack.
 
-This page adapts the Agent Skills script guidance to knowledge maintenance. For knowledge packs, the most important automation is often compilation: incrementally turning `sources/` into `wiki/`, `compiled/`, and `indexes/`, then writing the process to `runs/`.
+For knowledge packs, common automation is compilation: incrementally turn `sources/` into `wiki/`, `compiled/`, and `indexes/`, then write the process to `runs/`.
 
 If the maintenance workflow needs a full Skill, start with [Skills interop](/en/authoring/skills-interop). For script interface details, see the [maintenance script contract](/en/authoring/maintenance-script-contract).
 
@@ -48,7 +48,7 @@ agent-knowledge compile \
   --output-run runs/compile-2026-05-01T10-30-00Z.json
 ```
 
-The compiler should:
+The compiler SHOULD:
 
 - support `--dry-run` to show which `wiki/`, `compiled/`, and `indexes/` files would change
 - record input file hashes, output files, operations, and diagnostics
@@ -75,7 +75,7 @@ Rules:
 
 ## Script interface contract
 
-When a Skill or client tool provides scripts for knowledge maintenance, the scripts should be agent-friendly:
+When a Skill or client tool provides scripts for knowledge maintenance, scripts SHOULD be agent-friendly:
 
 - no interactive prompts
 - `--help` with concise usage and examples
@@ -155,7 +155,7 @@ Agent Knowledge does not require any of these runtimes. They belong to the maint
 
 ## Status changes
 
-Automation may propose a status change, but clients should not silently mark a pack `ready` unless the owner policy allows it.
+Automation MAY propose a status change. Clients MUST NOT silently mark a pack `ready` unless owner policy allows it.
 
 Recommended policy:
 

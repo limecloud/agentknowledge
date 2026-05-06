@@ -5,9 +5,9 @@ description: Write and evaluate descriptions so agents discover the right knowle
 
 # Description and discovery
 
-Agent Knowledge uses the same progressive-disclosure idea that makes Agent Skills practical: clients should see compact metadata first, then load the full pack only when the task needs it.
+Clients SHOULD read compact metadata first and load full pack content only when the task needs it.
 
-That makes `description` a high-leverage field. It is not marketing copy. It is the discovery contract that helps the agent decide whether a knowledge pack is relevant.
+`description` is the discovery contract. It is not marketing copy.
 
 ## How discovery works
 
@@ -22,14 +22,14 @@ flowchart TD
   Activate --> Resolve["Resolve runtime context"]
 ```
 
-A weak description causes false negatives: the agent misses a pack it should use. An over-broad description causes false positives: the agent loads irrelevant or risky knowledge.
+A weak description causes false negatives: the agent misses a relevant pack. An over-broad description causes false positives: the agent loads irrelevant or risky knowledge.
 
 ## Description rules
 
-A good knowledge-pack description should state:
+A good knowledge-pack description SHOULD state:
 
 - what knowledge the pack contains
-- when agents should use it
+- when agents SHOULD use it
 - which user intents or domains it covers
 - important boundaries or near-misses
 - whether grounding, citations, or review status matter
@@ -74,11 +74,11 @@ Create an optional `evals/discovery.json` file:
 }
 ```
 
-Use about 20 queries for a serious pack: 8-10 should select the pack, 8-10 should not.
+For a production pack, use about 20 queries: 8-10 expected selections and 8-10 expected rejections.
 
 ## Positive queries
 
-Positive queries should vary:
+Positive queries SHOULD vary:
 
 - explicit mentions: "use the Acme product brief"
 - implicit intent: "write a support answer about Acme warranty"
@@ -88,13 +88,13 @@ Positive queries should vary:
 
 ## Negative queries
 
-The best negative queries are near-misses. They share terms with the pack but should not load it.
+The best negative queries are near-misses. They share terms with the pack but MUST NOT load it.
 
 For a brand/product pack, strong negative cases include:
 
 - internal engineering work that mentions the product name but needs code context
 - generic business writing that does not require approved brand facts
-- competitor research that should not use Acme claims as facts
+- competitor research that MUST NOT use Acme claims as facts
 - legal or compliance advice outside the pack's reviewed scope
 
 ## Train and validation split

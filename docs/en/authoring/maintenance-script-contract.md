@@ -5,7 +5,7 @@ description: Script interface conventions for Agent Knowledge maintenance tools.
 
 # Maintenance script contract
 
-Maintenance scripts are not part of the knowledge pack core protocol, but they are essential for a sustainable ecosystem. Scripts should behave like stable small CLIs: discoverable, auditable, reproducible, and agent-friendly.
+Maintenance scripts are outside the core pack protocol. When provided, they SHOULD behave like stable small CLIs: discoverable, auditable, reproducible, and agent-friendly.
 
 ## Baseline requirements
 
@@ -17,16 +17,16 @@ Maintenance scripts are not part of the knowledge pack core protocol, but they a
 - Exit codes are explicit: `0` success, `1` validation failed or findings need action, `2` argument or environment error.
 - Support `--output` for writing result files.
 - Large outputs support `--limit`, `--offset`, or filters.
-- Default to idempotent behavior: repeated runs should not create unrelated diffs.
+- Default to idempotent behavior: repeated runs SHOULD NOT create unrelated diffs.
 
 ## Dependencies and runners
 
-Scripts should pin dependencies that affect results. Recommended forms:
+Scripts SHOULD pin dependencies that affect results. Recommended forms:
 
 ```bash
-uvx agentknowledge-ref@0.4.0 validate ./pack
-npx agentknowledge-ref@0.4.0 validate ./pack
-go run example.com/agentknowledge-ref@v0.4.0 validate ./pack
+uvx agentknowledge-ref@0.5.0 validate ./pack
+npx agentknowledge-ref@0.5.0 validate ./pack
+go run example.com/agentknowledge-ref@v0.5.0 validate ./pack
 ```
 
 If a script needs network access, credentials, model calls, or paid APIs, it must declare that in `--help` and documentation.
@@ -42,7 +42,7 @@ agentknowledge-ref eval ./pack --suite evals/discovery.validation.json
 
 ## Output format
 
-Maintenance commands should emit a common envelope:
+Maintenance commands SHOULD emit a common envelope:
 
 ```json
 {
@@ -71,7 +71,7 @@ Maintenance commands should emit a common envelope:
 
 ## Write rules
 
-When writing `wiki/`, `compiled/`, `indexes/`, or `runs/`, scripts should:
+When writing `wiki/`, `compiled/`, `indexes/`, or `runs/`, scripts SHOULD:
 
 - list paths to be created, modified, or deleted in `--dry-run`
 - record input hashes and output paths

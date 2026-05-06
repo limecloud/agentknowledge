@@ -5,7 +5,7 @@ description: 一个包含编译、source map、eval 和 run record 的完整 Age
 
 # 完整知识包示例
 
-这个示例展示一个成熟知识包应如何组合 `sources/`、`wiki/`、`compiled/`、`indexes/`、`runs/`、`schemas/` 和 `evals/`。
+这个示例展示一个完整知识包如何组合 `sources/`、`wiki/`、`compiled/`、`indexes/`、`runs/`、`schemas/` 和 `evals/`。
 
 ```text
 acme-product-brief/
@@ -29,6 +29,7 @@ acme-product-brief/
 │   └── discovery.validation.json
 ├── runs/
 │   ├── compile-2026-05-01T10-30-00Z.json
+│   ├── context-2026-05-01T10-45-00Z.json
 │   └── health-2026-05-01.md
 └── schemas/
     └── local-claim.schema.json
@@ -136,6 +137,38 @@ grounding: recommended
     }
   ],
   "diagnostics": []
+}
+```
+
+## `runs/context-...json`
+
+```json
+{
+  "run_id": "context-2026-05-01T10-45-00Z",
+  "query": "Acme Widget 能离线工作吗？",
+  "status": "passed",
+  "resolver": {
+    "tool": "agentknowledge-ref",
+    "version": "0.5.0",
+    "strategy": "compiled-first"
+  },
+  "activated_packs": [
+    {
+      "name": "acme-product-brief",
+      "activation": "implicit",
+      "status": "ready",
+      "trust": "user-confirmed",
+      "grounding": "recommended",
+      "selected_files": [
+        "compiled/facts.md"
+      ],
+      "source_anchors": [
+        "sources/product-one-pager.md#L12"
+      ],
+      "warnings": []
+    }
+  ],
+  "token_estimate": 420
 }
 ```
 

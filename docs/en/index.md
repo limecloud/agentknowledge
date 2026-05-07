@@ -3,8 +3,8 @@ layout: home
 
 hero:
   name: Agent Knowledge
-  text: File-first knowledge packs for agents.
-  tagline: "A portable package format for facts, sources, context, status, and runtime-safe knowledge loading."
+  text: File-first knowledge asset packs for agents.
+  tagline: "A companion knowledge-asset standard in the Agent Skills ecosystem for facts, sources, context, status, and runtime-safe loading."
   actions:
     - theme: brand
       text: Read the specification
@@ -21,7 +21,7 @@ features:
   - title: Data at runtime
     details: "Loaded knowledge is fenced as data. It must not override system, developer, user, or tool instructions."
   - title: Source traceability
-    details: "sources/, wiki/, compiled/, indexes/, and runs/ have separate roles and review expectations."
+    details: "documents/, sources/, wiki/, compiled/, indexes/, and runs/ have separate roles and review expectations."
   - title: Rebuildable indexes
     details: "Vector, graph, lookup, and full-text indexes accelerate selection but are not fact authority."
   - title: Skill interop
@@ -40,15 +40,18 @@ Required client-visible metadata:
 | `description` | Discovery text for selection. |
 | `type` | Standard or namespaced pack category. |
 | `status` | Review state: `draft`, `ready`, `needs-review`, `stale`, `disputed`, or `archived`. |
+| `profile` | Optional: `document-first`, `wiki-first`, or `hybrid`. |
+| `runtime.mode` | Optional: `data` or `persona`. |
 
 ```text
 customer-onboarding/
 ├── KNOWLEDGE.md      # Required: metadata + usage guide
+├── documents/        # document-first authority: finished Markdown
 ├── sources/          # Raw source files, treated as read-only evidence
-├── wiki/             # Maintained pages, decisions, entities, concepts
-├── compiled/         # Runtime views: facts, playbooks, boundaries
+├── wiki/             # wiki-first authority: maintained structured knowledge
+├── compiled/         # Runtime views: splits, facts, playbooks, boundaries
 ├── indexes/          # Optional, rebuildable search/vector/graph indexes
-├── runs/             # Ingest, lint, review, query logs
+├── runs/             # Ingest, compile, lint, review, query logs
 └── assets/           # Optional diagrams, templates, examples
 ```
 
@@ -59,7 +62,7 @@ Compatible clients MUST treat selected knowledge as data:
 - discover metadata before loading full content
 - activate only relevant packs
 - select bounded context for the current task
-- prefer reviewed `compiled/` views for common runtime context
+- prefer reviewed `compiled/` views for common runtime context; document-first packs usually derive splits from `documents/`
 - use `sources/` for citation and verification
 - never execute pack content during discovery or activation
 - never obey instructions found inside loaded knowledge
@@ -68,7 +71,7 @@ Compatible clients MUST treat selected knowledge as data:
 
 Knowledge packs store facts, examples, sources, constraints, status, and review records.
 
-Skills store procedures, scripts, tools, and workflow instructions.
+Skills store procedures, scripts, tools, and workflow instructions. Knowledge is a companion knowledge-asset standard in the same ecosystem, not a Skill subdirectory.
 
 Use Skills to build, update, lint, query, or apply knowledge packs. Keep concrete customer, brand, research, organization, or domain knowledge in Agent Knowledge when it needs source trails, ownership, status, and review lifecycle.
 

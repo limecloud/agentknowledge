@@ -5,7 +5,7 @@ description: 一个包含编译、source map、eval 和 run record 的完整 Age
 
 # 完整知识包示例
 
-这个示例展示一个完整知识包如何组合 `sources/`、`wiki/`、`compiled/`、`indexes/`、`runs/`、`schemas/` 和 `evals/`。
+这个示例展示一个完整 `wiki-first` 知识包如何组合 `sources/`、`wiki/`、`compiled/`、`indexes/`、`runs/`、`schemas/` 和 `evals/`。如果你要看 `document-first` 的产品或运营文档，请参考品牌产品、内容运营和私域运营示例。
 
 ```text
 acme-product-brief/
@@ -42,11 +42,19 @@ acme-product-brief/
 name: acme-product-brief
 description: Acme Widget 的产品事实、批准定位、价格边界、客服语言和有来源声明。用于撰写 Acme 营销文案、销售回复、客服答案、合作伙伴简报，或检查 Acme 相关 claim 是否已批准。
 type: brand-product
+profile: wiki-first
 status: ready
 version: 1.0.0
 language: zh-CN
 trust: user-confirmed
 grounding: recommended
+runtime:
+  mode: data
+metadata:
+  producedBy:
+    kind: agent-skill
+    name: brand-product-knowledge-builder
+    version: 0.6.0
 ---
 
 # Acme Product Brief
@@ -120,6 +128,13 @@ grounding: recommended
   "run_id": "compile-2026-05-01T10-30-00Z",
   "trigger": "ingest",
   "status": "passed",
+  "profile": "wiki-first",
+  "runtime_mode": "data",
+  "builder_skill": {
+    "name": "brand-product-knowledge-builder",
+    "version": "0.6.0",
+    "digest": "sha256:..."
+  },
   "inputs": [
     {
       "path": "sources/product-one-pager.md",
@@ -149,8 +164,8 @@ grounding: recommended
   "status": "passed",
   "resolver": {
     "tool": "agentknowledge-ref",
-    "version": "0.5.0",
-    "strategy": "compiled-first"
+    "version": "0.6.0",
+    "strategy": "profile-aware"
   },
   "activated_packs": [
     {
@@ -158,6 +173,8 @@ grounding: recommended
       "activation": "implicit",
       "status": "ready",
       "trust": "user-confirmed",
+      "profile": "wiki-first",
+      "runtime_mode": "data",
       "grounding": "recommended",
       "selected_files": [
         "compiled/facts.md"

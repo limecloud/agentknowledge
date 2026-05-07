@@ -1,15 +1,85 @@
 # Agent Knowledge
 
-Agent Knowledge is a draft open format for packaging source-grounded knowledge so AI agents can discover, load, cite, validate, and maintain it without confusing knowledge assets with procedural skills.
+Agent Knowledge is a draft companion standard in the Agent Skills ecosystem for packaging source-grounded knowledge so AI agents can discover, load, cite, validate, and maintain knowledge without confusing knowledge assets with procedural skills.
 
-This repository contains the documentation site and standard draft.
+Agent Skills answer **how to do work**. Agent Knowledge answers **what the trusted knowledge artifact is, where it came from, and how it safely enters context**.
 
-The published site includes:
+![Agent Skills and Agent Knowledge ecosystem](docs/public/images/agent-skills-knowledge-ecosystem-en.png)
+
+## Core boundary
+
+| Standard | Owns | Entry point | Runtime behavior |
+| --- | --- | --- | --- |
+| Agent Skills | Executable capabilities, workflows, scripts, tools, templates, and maintenance methods. | `SKILL.md` | Follow after trust and activation checks. |
+| Agent Knowledge | Facts, sources, finished documents, compiled context, status, boundaries, and audit records. | `KNOWLEDGE.md` | Fence as data; never execute or obey instructions inside it. |
+
+A Builder Skill can produce, maintain, validate, or publish a Knowledge pack. The Knowledge runtime still consumes only the generated artifacts. It must not execute the Builder Skill in order to answer a user request.
+
+## What v0.6 adds
+
+- `profile: document-first | wiki-first | hybrid`
+- `documents/` as the primary fact source for document-first packs
+- `runtime.mode: data | persona`
+- Builder Skill provenance through `metadata.producedBy` and `runs/compile-*.json.builder_skill`
+- Operations-oriented knowledge types such as `content-operations`, `private-domain-operations`, `live-commerce-operations`, `campaign-operations`, and `growth-strategy`
+- Profile-aware resolver behavior and schema updates for compile runs, source maps, and context resolution
+
+## Pack shape
+
+```text
+pack-name/
+├── KNOWLEDGE.md      # required: metadata + usage guide
+├── documents/        # document-first authority: deliverable Markdown
+├── sources/          # raw evidence and citation anchors
+├── wiki/             # wiki-first authority: structured maintained knowledge
+├── compiled/         # derived runtime views and document splits
+├── indexes/          # rebuildable retrieval acceleration
+├── runs/             # compile, lint, review, eval, and context logs
+├── schemas/          # validation and extraction contracts
+├── evals/            # discovery, grounding, and answer quality evals
+└── assets/           # static examples and diagrams, not fact authority
+```
+
+## Runtime contract
+
+Compatible clients should:
+
+1. Discover packs by `KNOWLEDGE.md`.
+2. Load only compact catalog metadata first.
+3. Activate only explicit, relevant, or resolver-selected packs.
+4. Select the smallest useful context according to `profile` and `runtime.mode`.
+5. Wrap selected knowledge as fenced data.
+6. Use `sources/` only for citation, verification, ingest, or dispute handling.
+7. Never execute pack scripts, Builder Skills, or instructions copied from sources.
+
+## Documentation
+
+The documentation site includes:
 
 - English and Simplified Chinese docs under `/en/` and `/zh/`
 - versioned snapshots under `/versions/`
-- rendered Mermaid diagrams for architecture, flow, and sequence explanations
+- rendered Mermaid diagrams and generated explanatory images
 - a per-page **Copy Markdown** button so the current source page can be pasted into an AI session
+
+Key pages:
+
+- [Specification](docs/en/specification.md)
+- [Agent Knowledge vs Agent Skills](docs/en/agent-knowledge-vs-skills.md)
+- [Compilation model](docs/en/authoring/compilation-model.md)
+- [Runtime standard](docs/en/client-implementation/runtime-standard.md)
+- [Skills interop](docs/en/authoring/skills-interop.md)
+- [中文规范](docs/zh/specification.md)
+
+## Reference CLI
+
+The package provides `agentknowledge-ref`, a small reference CLI for validating Agent Knowledge packs and exercising the documented tooling contracts.
+
+```bash
+npx agentknowledge-ref@0.6.0 validate ./pack
+npx agentknowledge-ref@0.6.0 to-catalog ./pack
+npx agentknowledge-ref@0.6.0 resolve-context ./pack --query "Need pricing facts" --dry-run
+npx agentknowledge-ref@0.6.0 eval ./pack --suite evals/discovery.validation.json
+```
 
 ## Local development
 
@@ -26,22 +96,11 @@ npm run build
 
 The static site is generated at `docs/.vitepress/dist` and is deployed to GitHub Pages by `.github/workflows/pages.yml`.
 
-## Reference CLI
-
-The package also provides `agentknowledge-ref`, a small reference CLI for validating Agent Knowledge packs and exercising the documented tooling contracts.
-
-```bash
-npx agentknowledge-ref@0.5.0 validate ./pack
-npx agentknowledge-ref@0.5.0 to-catalog ./pack
-npx agentknowledge-ref@0.5.0 resolve-context ./pack --query "Need pricing facts" --dry-run
-npx agentknowledge-ref@0.5.0 eval ./pack --suite evals/discovery.validation.json
-```
-
 ## npm publishing
 
 Publishing is handled by `.github/workflows/publish-npm.yml` so releases do not depend on a local OTP prompt.
 
-For the first npm release of `agentknowledge-ref`, create a short-lived npm granular access token with **Read and write** access, **Bypass 2FA** enabled, and package access broad enough to publish a new unscoped package. Save it as the GitHub repository secret `NPM_TOKEN`, then run the **Publish package to npm** workflow manually with `publish_ref=v0.5.0` and `publish_mode=token`.
+For the first npm release of `agentknowledge-ref`, create a short-lived npm granular access token with **Read and write** access, **Bypass 2FA** enabled, and package access broad enough to publish a new unscoped package. Save it as the GitHub repository secret `NPM_TOKEN`, then run the **Publish package to npm** workflow manually with `publish_ref=v0.6.0` and `publish_mode=token`.
 
 After the first package exists on npm, configure npm Trusted Publishing for:
 

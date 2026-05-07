@@ -4,30 +4,104 @@
   "title": "Agent Knowledge Source Map",
   "type": "object",
   "additionalProperties": false,
-  "required": ["claims"],
+  "required": [
+    "claims"
+  ],
   "properties": {
     "claims": {
       "type": "array",
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["claim_id", "text", "status", "source"],
+        "required": [
+          "claim_id",
+          "text",
+          "status",
+          "source"
+        ],
         "properties": {
-          "claim_id": { "type": "string", "minLength": 1 },
-          "text": { "type": "string", "minLength": 1 },
-          "status": { "type": "string", "enum": ["confirmed", "inferred", "disputed", "stale", "missing", "source-required"] },
+          "claim_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "confirmed",
+              "inferred",
+              "disputed",
+              "stale",
+              "missing",
+              "source-required"
+            ]
+          },
           "source": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["path"],
+            "required": [
+              "path"
+            ],
             "properties": {
-              "path": { "type": "string" },
-              "anchor": { "type": "string" }
+              "path": {
+                "type": "string"
+              },
+              "anchor": {
+                "type": "string"
+              }
             }
           },
           "compiled_into": {
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
+          },
+          "document": {
+            "type": "string"
+          },
+          "section_id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "document_sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "document",
+          "section_id",
+          "title"
+        ],
+        "properties": {
+          "document": {
+            "type": "string"
+          },
+          "section_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_anchors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "compiled_into": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
       }

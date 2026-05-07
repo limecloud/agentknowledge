@@ -24,9 +24,9 @@ description: 面向 Agent Knowledge 维护工具的脚本接口约定。
 脚本 SHOULD 锁定影响结果的依赖版本。形式：
 
 ```bash
-uvx agentknowledge-ref@0.5.0 validate ./pack
-npx agentknowledge-ref@0.5.0 validate ./pack
-go run example.com/agentknowledge-ref@v0.5.0 validate ./pack
+uvx agentknowledge-ref@0.6.0 validate ./pack
+npx agentknowledge-ref@0.6.0 validate ./pack
+go run example.com/agentknowledge-ref@v0.6.0 validate ./pack
 ```
 
 如果脚本需要网络、凭证、模型调用或付费 API，必须在 `--help` 和文档中声明。
@@ -71,7 +71,7 @@ agentknowledge-ref eval ./pack --suite evals/discovery.validation.json
 
 ## 写入规则
 
-写入 `wiki/`、`compiled/`、`indexes/` 或 `runs/` 时，脚本 SHOULD：
+写入 `documents/`、`wiki/`、`compiled/`、`indexes/` 或 `runs/` 时，脚本 SHOULD：
 
 - 在 `--dry-run` 中列出将新增、修改、删除的路径。
 - 记录输入 hash 和输出路径。

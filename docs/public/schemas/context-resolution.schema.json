@@ -4,18 +4,44 @@
   "title": "Agent Knowledge Context Resolution",
   "type": "object",
   "additionalProperties": false,
-  "required": ["run_id", "query", "status", "activated_packs"],
+  "required": [
+    "run_id",
+    "query",
+    "status",
+    "activated_packs"
+  ],
   "properties": {
-    "run_id": { "type": "string", "minLength": 1 },
-    "query": { "type": "string", "minLength": 1 },
-    "status": { "type": "string", "enum": ["passed", "needs-review", "stale", "disputed", "failed"] },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "query": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "passed",
+        "needs-review",
+        "stale",
+        "disputed",
+        "failed"
+      ]
+    },
     "resolver": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "tool": { "type": "string" },
-        "version": { "type": "string" },
-        "strategy": { "type": "string" }
+        "tool": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "strategy": {
+          "type": "string"
+        }
       }
     },
     "activated_packs": {
@@ -24,31 +50,137 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["name", "activation", "selected_files"],
+        "required": [
+          "name",
+          "activation",
+          "selected_files"
+        ],
         "properties": {
-          "name": { "type": "string", "minLength": 1 },
-          "activation": { "type": "string", "enum": ["explicit", "implicit", "resolver-driven"] },
-          "status": { "type": "string", "enum": ["draft", "ready", "needs-review", "stale", "disputed", "archived"] },
-          "trust": { "type": "string", "enum": ["unreviewed", "user-confirmed", "official", "external"] },
-          "grounding": { "type": "string", "enum": ["none", "recommended", "required"] },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "activation": {
+            "type": "string",
+            "enum": [
+              "explicit",
+              "implicit",
+              "resolver-driven"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "ready",
+              "needs-review",
+              "stale",
+              "disputed",
+              "archived"
+            ]
+          },
+          "trust": {
+            "type": "string",
+            "enum": [
+              "unreviewed",
+              "user-confirmed",
+              "official",
+              "external"
+            ]
+          },
+          "grounding": {
+            "type": "string",
+            "enum": [
+              "none",
+              "recommended",
+              "required"
+            ]
+          },
           "selected_files": {
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "source_anchors": {
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "warnings": {
             "type": "array",
             "items": {
               "type": "object",
               "additionalProperties": false,
-              "required": ["severity", "message"],
+              "required": [
+                "severity",
+                "message"
+              ],
               "properties": {
-                "severity": { "type": "string", "enum": ["info", "warning", "error"] },
-                "path": { "type": "string" },
-                "message": { "type": "string" }
+                "severity": {
+                  "type": "string",
+                  "enum": [
+                    "info",
+                    "warning",
+                    "error"
+                  ]
+                },
+                "path": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "profile": {
+            "type": "string",
+            "enum": [
+              "document-first",
+              "wiki-first",
+              "hybrid"
+            ]
+          },
+          "runtime_mode": {
+            "type": "string",
+            "enum": [
+              "data",
+              "persona"
+            ]
+          },
+          "selected_documents": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "selected_splits": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "wrapper_order": {
+            "type": "integer"
+          },
+          "builder_skill": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "version": {
+                "type": "string"
+              },
+              "digest": {
+                "type": "string"
               }
             }
           }
@@ -57,8 +189,18 @@
     },
     "missing": {
       "type": "array",
-      "items": { "type": "string" }
+      "items": {
+        "type": "string"
+      }
     },
-    "token_estimate": { "type": "integer" }
+    "token_estimate": {
+      "type": "integer"
+    },
+    "wrapper_order": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
   }
 }

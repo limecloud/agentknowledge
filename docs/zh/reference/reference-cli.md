@@ -26,6 +26,7 @@ agentknowledge-ref eval ./pack --suite evals/discovery.validation.json
 
 - `KNOWLEDGE.md` 是否存在。
 - 必需 frontmatter 是否有效。
+- `profile`、`runtime.mode` 和 `metadata.primaryDocument` 是否与目录结构兼容。
 - 目录和路径是否符合约定。
 - source map 是否能解析到来源锚点。
 - `compiled/` 是否存在无法追溯的重要 claim。
@@ -41,8 +42,20 @@ agentknowledge-ref eval ./pack --suite evals/discovery.validation.json
   "description": "Product facts and boundaries for Acme Widget.",
   "type": "brand-product",
   "status": "ready",
+  "profile": "document-first",
   "trust": "user-confirmed",
-  "grounding": "recommended"
+  "grounding": "recommended",
+  "runtime": {
+    "mode": "data"
+  },
+  "metadata": {
+    "primaryDocument": "documents/acme-widget-product-brief.md",
+    "producedBy": {
+      "kind": "agent-skill",
+      "name": "brand-product-knowledge-builder",
+      "version": "0.6.0"
+    }
+  }
 }
 ```
 
@@ -53,6 +66,8 @@ agentknowledge-ref eval ./pack --suite evals/discovery.validation.json
 ## `resolve-context`
 
 执行 dry-run resolver，返回将加载哪些文件、source anchors、token 估算和告警。它不调用模型。
+
+resolver SHOULD 按 `profile` 选择候选：`document-first` 优先 `compiled/splits/` 和 `metadata.primaryDocument`；`wiki-first` 优先 `compiled/` 和必要的 `wiki/` 页面。
 
 ## `validate-run`
 
@@ -67,8 +82,8 @@ agentknowledge-ref eval ./pack --suite evals/discovery.validation.json
 参考工具 SHOULD 支持版本锁定调用：
 
 ```bash
-uvx agentknowledge-ref@0.5.0 validate ./pack
-npx agentknowledge-ref@0.5.0 validate ./pack
+uvx agentknowledge-ref@0.6.0 validate ./pack
+npx agentknowledge-ref@0.6.0 validate ./pack
 ```
 
 工具输出应遵循 [维护脚本契约](/zh/authoring/maintenance-script-contract)。

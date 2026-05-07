@@ -10,6 +10,8 @@ const enNav = [
     text: 'Version',
     items: [
       { text: 'latest', link: '/en/specification' },
+      { text: 'v0.6.0 overview', link: '/en/versions/v0.6.0/overview' },
+      { text: 'v0.6.0', link: '/en/versions/v0.6.0/specification' },
       { text: 'v0.5.0 overview', link: '/en/versions/v0.5.0/overview' },
       { text: 'v0.5.0', link: '/en/versions/v0.5.0/specification' },
       { text: 'v0.4.0 overview', link: '/en/versions/v0.4.0/overview' },
@@ -32,6 +34,8 @@ const zhNav = [
     text: '版本',
     items: [
       { text: 'latest', link: '/zh/specification' },
+      { text: 'v0.6.0 概览', link: '/zh/versions/v0.6.0/overview' },
+      { text: 'v0.6.0', link: '/zh/versions/v0.6.0/specification' },
       { text: 'v0.5.0 概览', link: '/zh/versions/v0.5.0/overview' },
       { text: 'v0.5.0', link: '/zh/versions/v0.5.0/specification' },
       { text: 'v0.4.0 概览', link: '/zh/versions/v0.4.0/overview' },
@@ -97,6 +101,8 @@ const enSidebar = [
     items: [
       { text: 'Personal IP pack', link: '/en/examples/personal-ip' },
       { text: 'Brand product pack', link: '/en/examples/brand-product' },
+      { text: 'Content operations pack', link: '/en/examples/content-operations' },
+      { text: 'Private-domain operations pack', link: '/en/examples/private-domain-operations' },
       { text: 'Organization know-how pack', link: '/en/examples/organization-knowhow' },
       { text: 'Complete pack', link: '/en/examples/complete-pack' }
     ]
@@ -104,6 +110,9 @@ const enSidebar = [
   {
     text: 'Versions',
     items: [
+      { text: 'v0.6.0 overview', link: '/en/versions/v0.6.0/overview' },
+      { text: 'v0.6.0 specification', link: '/en/versions/v0.6.0/specification' },
+      { text: 'v0.6.0 changelog', link: '/en/versions/v0.6.0/changelog' },
       { text: 'v0.5.0 overview', link: '/en/versions/v0.5.0/overview' },
       { text: 'v0.5.0 specification', link: '/en/versions/v0.5.0/specification' },
       { text: 'v0.5.0 changelog', link: '/en/versions/v0.5.0/changelog' },
@@ -173,6 +182,8 @@ const zhSidebar = [
     items: [
       { text: '个人 IP 知识包', link: '/zh/examples/personal-ip' },
       { text: '品牌产品知识包', link: '/zh/examples/brand-product' },
+      { text: '内容运营知识包', link: '/zh/examples/content-operations' },
+      { text: '私域 / 社群运营知识包', link: '/zh/examples/private-domain-operations' },
       { text: '组织 Know-how 知识包', link: '/zh/examples/organization-knowhow' },
       { text: '完整知识包', link: '/zh/examples/complete-pack' }
     ]
@@ -180,6 +191,9 @@ const zhSidebar = [
   {
     text: '版本',
     items: [
+      { text: 'v0.6.0 概览', link: '/zh/versions/v0.6.0/overview' },
+      { text: 'v0.6.0 规范', link: '/zh/versions/v0.6.0/specification' },
+      { text: 'v0.6.0 变更记录', link: '/zh/versions/v0.6.0/changelog' },
       { text: 'v0.5.0 概览', link: '/zh/versions/v0.5.0/overview' },
       { text: 'v0.5.0 规范', link: '/zh/versions/v0.5.0/specification' },
       { text: 'v0.5.0 变更记录', link: '/zh/versions/v0.5.0/changelog' },
@@ -261,7 +275,7 @@ export default defineConfig({
     siteTitle: 'Agent Knowledge',
     search: { provider: 'local' },
     footer: {
-      message: 'Draft open standard. Inspired by Agent Skills, LLM Wiki, source-grounded notebooks, and production RAG systems.',
+      message: 'Draft companion standard for source-grounded knowledge assets in the Agent Skills ecosystem.',
       copyright: 'Released for discussion and implementation.'
     },
     socialLinks: [

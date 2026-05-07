@@ -4,18 +4,51 @@
   "title": "Agent Knowledge Compile Run",
   "type": "object",
   "additionalProperties": false,
-  "required": ["run_id", "trigger", "status", "inputs", "outputs"],
+  "required": [
+    "run_id",
+    "trigger",
+    "status",
+    "inputs",
+    "outputs"
+  ],
   "properties": {
-    "run_id": { "type": "string", "minLength": 1 },
-    "trigger": { "type": "string", "enum": ["ingest", "source-change", "manual", "scheduled", "migration"] },
-    "status": { "type": "string", "enum": ["passed", "needs-review", "stale", "disputed", "failed"] },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "trigger": {
+      "type": "string",
+      "enum": [
+        "ingest",
+        "source-change",
+        "manual",
+        "scheduled",
+        "migration"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "passed",
+        "needs-review",
+        "stale",
+        "disputed",
+        "failed"
+      ]
+    },
     "compiler": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "tool": { "type": "string" },
-        "version": { "type": "string" },
-        "model": { "type": "string" }
+        "tool": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        }
       }
     },
     "inputs": {
@@ -23,10 +56,16 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["path"],
+        "required": [
+          "path"
+        ],
         "properties": {
-          "path": { "type": "string" },
-          "sha256": { "type": "string" }
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string"
+          }
         }
       }
     },
@@ -35,10 +74,23 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["path", "operation"],
+        "required": [
+          "path",
+          "operation"
+        ],
         "properties": {
-          "path": { "type": "string" },
-          "operation": { "type": "string", "enum": ["created", "updated", "deleted", "unchanged"] }
+          "path": {
+            "type": "string"
+          },
+          "operation": {
+            "type": "string",
+            "enum": [
+              "created",
+              "updated",
+              "deleted",
+              "unchanged"
+            ]
+          }
         }
       }
     },
@@ -47,11 +99,26 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["severity", "path", "message"],
+        "required": [
+          "severity",
+          "path",
+          "message"
+        ],
         "properties": {
-          "severity": { "type": "string", "enum": ["info", "warning", "error"] },
-          "path": { "type": "string" },
-          "message": { "type": "string" }
+          "severity": {
+            "type": "string",
+            "enum": [
+              "info",
+              "warning",
+              "error"
+            ]
+          },
+          "path": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
         }
       }
     },
@@ -59,8 +126,174 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "required": { "type": "boolean" },
-        "reason": { "type": "string" }
+        "required": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    },
+    "profile": {
+      "type": "string",
+      "enum": [
+        "document-first",
+        "wiki-first",
+        "hybrid"
+      ]
+    },
+    "runtime_mode": {
+      "type": "string",
+      "enum": [
+        "data",
+        "persona"
+      ]
+    },
+    "primary_document": {
+      "type": "string"
+    },
+    "builder_skill": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string"
+        },
+        "digest": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        }
+      }
+    },
+    "documents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "primary",
+              "supporting",
+              "export"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "ready",
+              "needs-review",
+              "stale",
+              "disputed",
+              "archived"
+            ]
+          },
+          "sha256": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "chapters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title",
+          "coverage"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "document": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "coverage": {
+            "type": "string",
+            "enum": [
+              "full",
+              "partial",
+              "missing",
+              "conflict"
+            ]
+          },
+          "tokens": {
+            "type": "integer"
+          },
+          "source_anchors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "severity",
+                "message"
+              ],
+              "properties": {
+                "severity": {
+                  "type": "string",
+                  "enum": [
+                    "info",
+                    "warning",
+                    "error"
+                  ]
+                },
+                "path": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "quality_issues": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "interview_questions": {
+      "type": "array",
+      "items": {
+        "type": "string"
       }
     }
   }

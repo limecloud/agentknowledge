@@ -3,7 +3,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { basename, dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const cliVersion = '0.4.0'
+const cliVersion = '0.6.0'
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 
 const schemas = {
@@ -102,11 +102,37 @@ function validatePack(packPath) {
     findings.push(warningFinding('KNOWLEDGE.md', `name does not match parent directory: ${properties.name} != ${basename(packRoot)}.`))
   }
 
+  validatePackProfile(packRoot, properties, findings)
   validateKnownJson(packRoot, findings)
   validateSourceAnchors(packRoot, findings)
 
   const ok = findings.every((finding) => finding.severity !== 'error')
   return envelope(ok, ok ? 'passed' : 'needs-review', 'validate', properties.name || basename(packRoot), findings)
+}
+
+function validatePackProfile(packRoot, properties, findings) {
+  const profile = properties.profile || 'wiki-first'
+  if (!['document-first', 'wiki-first', 'hybrid'].includes(profile)) {
+    findings.push(warningFinding('KNOWLEDGE.md', `Unknown profile: ${profile}.`))
+  }
+
+  const runtimeMode = properties.runtime?.mode
+  if (runtimeMode && !['data', 'persona'].includes(runtimeMode)) {
+    findings.push(warningFinding('KNOWLEDGE.md', `Unknown runtime.mode: ${runtimeMode}.`))
+  }
+
+  if (profile === 'document-first') {
+    if (!existsSync(join(packRoot, 'documents'))) {
+      findings.push(warningFinding('documents/', 'document-first profile should include a documents/ directory.'))
+    }
+    const primaryDocument = properties.metadata?.primaryDocument
+    if (primaryDocument && !existsSync(join(packRoot, primaryDocument))) {
+      findings.push(warningFinding('KNOWLEDGE.md', `metadata.primaryDocument points to missing file: ${primaryDocument}.`))
+    }
+    if (!primaryDocument) {
+      findings.push(warningFinding('KNOWLEDGE.md', 'document-first profile should declare metadata.primaryDocument.'))
+    }
+  }
 }
 
 function readProperties(packPath) {
@@ -117,7 +143,7 @@ function readProperties(packPath) {
 
 function toCatalog(packPath) {
   const properties = readProperties(packPath)
-  const allowed = ['name', 'description', 'type', 'status', 'version', 'language', 'trust', 'grounding', 'scope']
+  const allowed = ['name', 'description', 'type', 'status', 'profile', 'version', 'language', 'trust', 'grounding', 'scope', 'runtime', 'metadata']
   return Object.fromEntries(allowed.filter((key) => properties[key] !== undefined).map((key) => [key, properties[key]]))
 }
 
@@ -128,8 +154,25 @@ function resolveContext(packPath, args) {
   const selectedFiles = []
   const warnings = []
 
-  for (const file of ['compiled/briefing.md', 'compiled/facts.md', 'compiled/boundaries.md', 'wiki/index.md']) {
-    if (existsSync(join(packRoot, file))) selectedFiles.push(file)
+  const profile = properties.profile || 'wiki-first'
+  const primaryDocument = properties.metadata?.primaryDocument
+  const candidates = profile === 'document-first'
+    ? ['compiled/briefing.md', 'compiled/facts.md', 'compiled/boundaries.md', primaryDocument].filter(Boolean)
+    : ['compiled/briefing.md', 'compiled/facts.md', 'compiled/boundaries.md', 'wiki/index.md']
+
+  for (const file of candidates) {
+    const absolute = join(packRoot, file)
+    if (existsSync(absolute) && statSync(absolute).isFile()) selectedFiles.push(file)
+  }
+
+  if (profile === 'document-first') {
+    const splitsRoot = join(packRoot, 'compiled/splits')
+    if (existsSync(splitsRoot) && statSync(splitsRoot).isDirectory()) {
+      selectedFiles.push(...walkFiles(splitsRoot)
+        .filter((file) => file.endsWith('.md'))
+        .slice(0, 5)
+        .map((file) => relative(packRoot, file)))
+    }
   }
 
   const lowerQuery = query.toLowerCase()
@@ -320,15 +363,24 @@ function readKnowledgeProperties(knowledgePath) {
   const match = content.match(/^---\n([\s\S]*?)\n---/)
   if (!match) return {}
   const properties = {}
+  const stack = [{ indent: -1, value: properties }]
   for (const line of match[1].split('\n')) {
+    if (!line.trim() || line.trim().startsWith('#')) continue
+    const indent = line.match(/^ */)[0].length
     const trimmed = line.trim()
-    if (!trimmed || trimmed.startsWith('#')) continue
     const index = trimmed.indexOf(':')
     if (index === -1) continue
     const key = trimmed.slice(0, index).trim()
     let value = trimmed.slice(index + 1).trim()
     if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) value = value.slice(1, -1)
-    properties[key] = value
+    while (stack.length > 1 && indent <= stack.at(-1).indent) stack.pop()
+    const parent = stack.at(-1).value
+    if (!value) {
+      parent[key] = {}
+      stack.push({ indent, value: parent[key] })
+    } else {
+      parent[key] = value
+    }
   }
   return properties
 }

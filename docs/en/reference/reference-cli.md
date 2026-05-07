@@ -26,6 +26,7 @@ Checks:
 
 - `KNOWLEDGE.md` exists
 - required frontmatter is valid
+- `profile`, `runtime.mode`, and `metadata.primaryDocument` are compatible with the directory shape
 - directories and paths follow conventions
 - source maps resolve to source anchors
 - `compiled/` does not contain important untraceable claims
@@ -41,8 +42,20 @@ Outputs pack metadata:
   "description": "Product facts and boundaries for Acme Widget.",
   "type": "brand-product",
   "status": "ready",
+  "profile": "document-first",
   "trust": "user-confirmed",
-  "grounding": "recommended"
+  "grounding": "recommended",
+  "runtime": {
+    "mode": "data"
+  },
+  "metadata": {
+    "primaryDocument": "documents/acme-widget-product-brief.md",
+    "producedBy": {
+      "kind": "agent-skill",
+      "name": "brand-product-knowledge-builder",
+      "version": "0.6.0"
+    }
+  }
 }
 ```
 
@@ -53,6 +66,8 @@ Outputs a short catalog suitable for client startup. It must not include full kn
 ## `resolve-context`
 
 Runs a dry-run resolver and returns selected files, source anchors, token estimates, and warnings. It does not call a model.
+
+Resolvers SHOULD choose candidates according to `profile`: `document-first` prefers `compiled/splits/` and `metadata.primaryDocument`; `wiki-first` prefers `compiled/` and relevant `wiki/` pages when needed.
 
 ## `validate-run`
 
@@ -67,8 +82,8 @@ Runs discovery, context, or answer evals and outputs comparable results.
 Reference tools SHOULD support pinned invocation:
 
 ```bash
-uvx agentknowledge-ref@0.5.0 validate ./pack
-npx agentknowledge-ref@0.5.0 validate ./pack
+uvx agentknowledge-ref@0.6.0 validate ./pack
+npx agentknowledge-ref@0.6.0 validate ./pack
 ```
 
 Tool output SHOULD follow the [maintenance script contract](/en/authoring/maintenance-script-contract).

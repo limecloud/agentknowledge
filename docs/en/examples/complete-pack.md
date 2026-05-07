@@ -5,7 +5,7 @@ description: A complete Agent Knowledge example with compilation, source maps, e
 
 # Complete pack example
 
-This example shows a complete pack with `sources/`, `wiki/`, `compiled/`, `indexes/`, `runs/`, `schemas/`, and `evals/`.
+This example shows a complete `wiki-first` pack with `sources/`, `wiki/`, `compiled/`, `indexes/`, `runs/`, `schemas/`, and `evals/`. For `document-first` product or operations documents, see the brand product, content operations, and private-domain operations examples.
 
 ```text
 acme-product-brief/
@@ -42,11 +42,19 @@ acme-product-brief/
 name: acme-product-brief
 description: Product facts, approved positioning, pricing boundaries, support language, and source-grounded claims for Acme Widget. Use for Acme marketing copy, sales replies, support answers, partner briefs, or checking whether Acme-related claims are approved.
 type: brand-product
+profile: wiki-first
 status: ready
 version: 1.0.0
 language: en
 trust: user-confirmed
 grounding: recommended
+runtime:
+  mode: data
+metadata:
+  producedBy:
+    kind: agent-skill
+    name: brand-product-knowledge-builder
+    version: 0.6.0
 ---
 
 # Acme Product Brief
@@ -120,6 +128,13 @@ grounding: recommended
   "run_id": "compile-2026-05-01T10-30-00Z",
   "trigger": "ingest",
   "status": "passed",
+  "profile": "wiki-first",
+  "runtime_mode": "data",
+  "builder_skill": {
+    "name": "brand-product-knowledge-builder",
+    "version": "0.6.0",
+    "digest": "sha256:..."
+  },
   "inputs": [
     {
       "path": "sources/product-one-pager.md",
@@ -149,8 +164,8 @@ grounding: recommended
   "status": "passed",
   "resolver": {
     "tool": "agentknowledge-ref",
-    "version": "0.5.0",
-    "strategy": "compiled-first"
+    "version": "0.6.0",
+    "strategy": "profile-aware"
   },
   "activated_packs": [
     {
@@ -158,6 +173,8 @@ grounding: recommended
       "activation": "implicit",
       "status": "ready",
       "trust": "user-confirmed",
+      "profile": "wiki-first",
+      "runtime_mode": "data",
       "grounding": "recommended",
       "selected_files": [
         "compiled/facts.md"

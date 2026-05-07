@@ -1,24 +1,26 @@
 ---
 title: Agent Knowledge vs Agent Skills
-description: The boundary between procedural agent capabilities and source-grounded knowledge assets.
+description: Separate executable capabilities from source-backed knowledge assets.
 ---
 
 # Agent Knowledge vs Agent Skills
 
-Agent Knowledge borrows the packaging ergonomics of Agent Skills, but it has a different runtime contract.
+Agent Knowledge is an interoperable companion standard to Agent Skills. It is not a subset of Agent Skills and not another Skill package format.
 
-- **Agent Skills** are procedural capabilities. They tell an agent **how to do work**.
-- **Agent Knowledge** is a source-grounded knowledge asset. It tells an agent **what facts, sources, context, and boundaries are available**.
+- **Agent Skills** describe executable capabilities and workflows: how an agent should act, which tools to call, which scripts to run, and how to maintain assets.
+- **Agent Knowledge** describes source-backed, auditable knowledge assets that can safely enter context: what is true, where it came from, what state it is in, and what boundaries apply.
 
-The boundary matters because instructions and facts have different risk profiles. A client may execute or follow a Skill. A client must treat Knowledge as data inside a fenced context, never as authority to override system, developer, user, or tool rules.
+![Agent Skills and Agent Knowledge ecosystem boundary](/images/agent-skills-knowledge-ecosystem-en.png)
+
+This boundary matters because instructions and facts have different risks. A client may follow a Skill after trust and activation checks. A client must fence Knowledge as data and must not let a knowledge pack override system, developer, user, or tool rules.
 
 ## Decision rule
 
-Use this rule before packaging an asset:
+Before packaging, use this decision tree:
 
 ```mermaid
 flowchart TD
-  Asset["Candidate asset"] --> ActQ{"Does it tell the agent how to act?"}
+  Asset["Candidate asset"] --> ActQ{"Does it tell an agent how to act?"}
   ActQ -->|Yes| Skill["Package as Agent Skill"]
   ActQ -->|No| FactQ{"Does it state facts, sources, policies, examples, or context?"}
   FactQ -->|Yes| Knowledge["Package as Agent Knowledge"]
@@ -27,57 +29,79 @@ flowchart TD
   CacheQ -->|No| Ordinary["Keep as an ordinary project file"]
 ```
 
-In short:
+Simplified rule:
 
-- If it says **do this sequence, call this tool, run this script, follow this workflow**, it belongs in a Skill.
-- If it says **this is true, this came from here, this is allowed, this is disputed, this is stale**, it belongs in Knowledge.
-- If it is an embedding, graph, or search index, it is only a rebuildable support layer for Knowledge.
+- If the content says **follow these steps, call this tool, run this script, use this workflow**, it belongs in a Skill.
+- If the content says **this is true, this is the source, this is allowed, this is disputed, this is stale**, it belongs in Knowledge.
+- If the content is an embedding, graph, or search index, it is rebuildable acceleration data, not fact authority.
 
 ## Boundary table
 
 | Boundary | Agent Skills | Agent Knowledge |
 | --- | --- | --- |
-| Primary role | Procedural capability | Source-grounded knowledge asset |
-| Required file | `SKILL.md` | `KNOWLEDGE.md` |
-| Main content | Instructions, workflows, scripts, tool usage | Facts, source maps, maintained wiki pages, compiled context |
-| Runtime verb | Do, run, transform, validate, query | Ground, cite, constrain, contextualize, verify |
-| Loaded at discovery | `name`, `description` | `name`, `description`, `type`, `status` |
-| Activation content | Procedure and operating instructions | Usage guide and context map |
-| Supporting files | `scripts/`, `references/`, `assets/` | `sources/`, `wiki/`, `compiled/`, `indexes/`, `runs/`, `schemas/`, `assets/` |
-| Trust model | Can be executable or tool-driving, so activation must be controlled | Must be treated as untrusted data unless reviewed and approved |
-| Failure mode | Wrong action, unsafe tool use, bad workflow | Hallucinated fact, stale claim, missing citation, prompt injection through source text |
-| Correct client behavior | Follow only after trust and activation checks | Fence as data; never execute or obey instructions found inside the pack |
+| Primary role | Executable capability and method | Source-backed knowledge asset |
+| Entry file | `SKILL.md` | `KNOWLEDGE.md` |
+| Core content | Instructions, workflows, scripts, tool use | Facts, sources, finished documents, wiki pages, compiled context |
+| Runtime verbs | execute, run, transform, validate, maintain, apply | ground, cite, constrain, contextualize, verify |
+| Discovery loads | `name`, `description`, and Skill metadata | `name`, `description`, `type`, `status`, `profile`, `runtime.mode` |
+| Activation provides | Procedures and operational guidance | Usage guide and bounded context |
+| Support directories | `scripts/`, `references/`, `assets/` | `documents/`, `sources/`, `wiki/`, `compiled/`, `indexes/`, `runs/`, `schemas/`, `evals/` |
+| Trust model | May execute scripts or drive tools; activation must be controlled | Treat as untrusted data unless reviewed and confirmed |
+| Failure modes | Wrong action, unsafe tool call, bad workflow | Fabricated facts, stale claims, missing citations, prompt injection in source text |
+| Correct client behavior | Follow only after trust and activation checks | Fence as data; never execute or obey instructions inside it |
 
 ## What Agent Knowledge borrows from Agent Skills
 
-Agent Knowledge deliberately reuses the parts of Agent Skills that make agent assets portable and discoverable:
+Agent Knowledge reuses the parts of Agent Skills that make assets portable and discoverable:
 
-- directory as package
-- required top-level Markdown file
+- directory-as-package
+- top-level Markdown entry file
 - YAML frontmatter
-- progressive disclosure
-- optional supporting directories
-- validation tooling
-- portable, version-controlled assets
-- client-side discovery and activation
+- progressive loading
+- optional support directories
+- validation tools
+- versioned and shareable assets
+- client discovery and activation mechanics
 
-The result is familiar to Skill implementors without collapsing knowledge into executable instructions.
+Agent Knowledge does not reuse Skill execution semantics. `KNOWLEDGE.md` is not an alias for `SKILL.md`, and knowledge pack content is not a procedure to follow.
 
 ## What Agent Knowledge adds
 
-Knowledge packs need concepts that Skills do not normally need:
+Knowledge packs need concepts Skills usually do not:
 
 - source provenance and citation anchors
-- claim status: `ready`, `needs-review`, `stale`, `disputed`, `archived`
-- trust level and review ownership
-- compiled runtime views separate from raw sources
-- rebuildable indexes that are never the fact authority
-- ingest, lint, review, and query logs
-- explicit runtime wrappers that say the content is data, not instructions
+- status states: `ready`, `needs-review`, `stale`, `disputed`, `archived`
+- trust levels and review ownership
+- `document-first` / `wiki-first` profiles
+- `runtime.mode: data | persona`
+- finished documents, wiki pages, and compiled runtime views separated from raw sources
+- rebuildable indexes; indexes are never fact authority
+- import, lint, review, compile, and query logs
+- an explicit runtime wrapper that says knowledge is data, not instructions
+
+## Builder Skill and Knowledge Pack
+
+A Skill can generate, maintain, validate, query, or apply Knowledge. The standard recommends recording Builder Skill provenance, but it does not require every Knowledge pack to be Skill-generated.
+
+```mermaid
+flowchart LR
+  Sources["Source material"] --> BuilderSkill["Builder Skill"]
+  BuilderSkill --> Pack["Knowledge Pack"]
+  Pack --> Resolver["Knowledge Resolver"]
+  Resolver --> Fenced["Fenced data context"]
+  Fenced --> AgentRuntime["Agent Runtime"]
+```
+
+Rules:
+
+1. Put production methods in Skills; put concrete knowledge assets in Knowledge packs.
+2. `runs/compile-*.json` SHOULD record the Builder Skill name, version, digest, inputs, outputs, and diagnostics.
+3. A Knowledge runtime MUST NOT execute the Builder Skill when consuming the pack.
+4. Hand-authored, imported, synced, or manually maintained Knowledge packs remain valid; Builder Skill provenance is an enhancement, not a requirement.
 
 ## Architecture boundary
 
-A compatible client SHOULD keep the procedural and knowledge layers separate, then join them only at the resolver/runtime boundary.
+Compatible clients SHOULD separate the capability layer from the knowledge layer and combine them only at resolver/runtime boundaries.
 
 ```mermaid
 flowchart LR
@@ -85,8 +109,8 @@ flowchart LR
   Router --> SkillCatalog["Skill catalog"]
   Router --> KnowledgeCatalog["Knowledge catalog"]
   SkillCatalog --> SelectedSkill["Selected Skill - procedure and tools"]
-  KnowledgeCatalog --> Resolver["Knowledge resolver - status, trust, grounding"]
-  KnowledgePacks["Knowledge packs - sources, wiki, compiled, indexes"] --> Resolver
+  KnowledgeCatalog --> Resolver["Knowledge resolver - status, trust, grounding policy"]
+  KnowledgePacks["Knowledge packs - documents, sources, wiki, compiled, indexes"] --> Resolver
   Resolver --> FencedContext["Fenced knowledge context - data only"]
   SelectedSkill --> RuntimePlan["Runtime plan"]
   FencedContext --> RuntimePlan
@@ -94,34 +118,15 @@ flowchart LR
   ModelCall --> Result["Answer or action"]
 ```
 
-Important consequences:
+Direct conclusions:
 
-- A Skill may generate, maintain, validate, query, or apply Knowledge.
-- A Knowledge pack SHOULD NOT contain the full procedural logic for running an agent workflow.
-- A client MAY select a Skill and a Knowledge pack for the same task, but it SHOULD preserve their different trust contracts.
-
-## Authoring flow
-
-Recommended placement: use Skills to maintain Knowledge; keep concrete knowledge in packs.
-
-```mermaid
-flowchart TD
-  Sources["Collect source material"] --> IngestSkill["Ingest or authoring Skill"]
-  IngestSkill --> DraftPack["Draft KNOWLEDGE.md and wiki pages"]
-  DraftPack --> Review["Human or policy review"]
-  Review -->|Approved| ReadyPack["Ready knowledge pack"]
-  Review -->|Gaps found| Fixes["Update sources or mark stale/disputed"]
-  Fixes --> Review
-  ReadyPack --> ClientScan["Client scans catalog"]
-  ClientScan --> RuntimeResolve["Resolver selects task context"]
-  RuntimeResolve --> FencedData["Fenced data context for model"]
-```
-
-Boundary rule: put **the method for generating, maintaining, and validating knowledge** in Skills; put **the concrete knowledge asset** in Agent Knowledge packs.
+- A Skill can generate, maintain, validate, query, or apply Knowledge.
+- A Knowledge pack SHOULD NOT carry a full agent workflow.
+- A client may select both a Skill and a Knowledge pack for the same task, but it must preserve their different trust contracts.
 
 ## Runtime sequence
 
-At runtime, the agent SHOULD first select capability, then select relevant knowledge, then ask the resolver for bounded context.
+The runtime SHOULD select capabilities first, then related knowledge, then let the resolver pick context under task and token budgets.
 
 ```mermaid
 sequenceDiagram
@@ -133,32 +138,34 @@ sequenceDiagram
   participant Pack as KnowledgePack
   participant Model
 
-  User->>Agent: Request a task
+  User->>Agent: Submit task
   Agent->>SkillCatalog: Find procedural capability
   SkillCatalog-->>Agent: Candidate Skill metadata
-  Agent->>KnowledgeCatalog: Find relevant knowledge packs
+  Agent->>KnowledgeCatalog: Find related knowledge packs
   KnowledgeCatalog-->>Agent: Candidate pack metadata and status
-  Agent->>Resolver: Resolve context for task and token budget
-  Resolver->>Pack: Load KNOWLEDGE.md, compiled views, wiki, or evidence
+  Agent->>Resolver: Resolve context under task and token budget
+  Resolver->>Pack: Read KNOWLEDGE.md, compiled, documents/wiki, or evidence
   Pack-->>Resolver: Selected context and source anchors
-  Resolver-->>Agent: Fenced data context plus warnings
-  Agent->>Model: Call with task, Skill guidance, and Knowledge context
+  Resolver-->>Agent: Fenced data context and warnings
+  Agent->>Model: Call model with task, Skill guidance, and Knowledge context
   Model-->>Agent: Draft result
-  Agent-->>User: Answer with citations or uncertainty markers
+  Agent-->>User: Return result with citations or uncertainty markers
 ```
 
 ## Borderline cases
 
-| Asset | Recommended package | Reason |
+| Asset | Package location | Reason |
 | --- | --- | --- |
-| A procedure that tells the agent how to research a market | Skill | It is a workflow. |
-| The market facts, cited sources, competitor profiles, and approved claims | Knowledge | They are facts and context. |
-| A script that converts PDFs into `wiki/` pages | Skill support file | It executes a maintenance method. |
-| The resulting `wiki/` pages | Knowledge | They are maintained knowledge. |
-| A vector index over `wiki/` pages | Knowledge support file | It accelerates retrieval but is not the source of truth. |
-| A brand tone guide with examples and prohibited claims | Knowledge | It constrains facts and allowed language. |
-| A prompt that says how to write in the brand voice | Skill | It is procedural writing guidance. |
+| Steps for how to research a market | Skill | It is a workflow. |
+| Market facts, cited sources, competitor profiles, and approved claims | Knowledge | They are facts and context. |
+| A script that converts DOCX to Markdown | Skill support file | It executes a maintenance method. |
+| The generated product fact document | Knowledge | It is a readable, auditable knowledge product. |
+| A split index for `documents/` | Knowledge support file | It accelerates retrieval but is not fact authority. |
+| A brand tone guide with examples and prohibited claims | Knowledge | It constrains facts and allowed expression. |
+| A prompt that teaches how to write in the brand tone | Skill | It is procedural writing guidance. |
+| Content operations calendar and review metrics | Knowledge | They are operations playbook data. |
+| The method for generating a content calendar | Skill | It is the method for producing and maintaining the playbook. |
 
 ## Non-goal
 
-Agent Knowledge does not standardize a full agent runtime, memory system, or vector database. It standardizes a file-first knowledge package that clients can discover, inspect, validate, and load safely.
+Agent Knowledge does not standardize a full agent runtime, memory system, vector database, or the Agent Skills package format. It standardizes a file-first knowledge pack so clients can discover, inspect, validate, and safely load source-backed knowledge.

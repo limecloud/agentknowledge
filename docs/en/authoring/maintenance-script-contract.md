@@ -24,9 +24,9 @@ Maintenance scripts are outside the core pack protocol. When provided, they SHOU
 Scripts SHOULD pin dependencies that affect results. Recommended forms:
 
 ```bash
-uvx agentknowledge-ref@0.5.0 validate ./pack
-npx agentknowledge-ref@0.5.0 validate ./pack
-go run example.com/agentknowledge-ref@v0.5.0 validate ./pack
+uvx agentknowledge-ref@0.6.0 validate ./pack
+npx agentknowledge-ref@0.6.0 validate ./pack
+go run example.com/agentknowledge-ref@v0.6.0 validate ./pack
 ```
 
 If a script needs network access, credentials, model calls, or paid APIs, it must declare that in `--help` and documentation.
@@ -71,7 +71,7 @@ Maintenance commands SHOULD emit a common envelope:
 
 ## Write rules
 
-When writing `wiki/`, `compiled/`, `indexes/`, or `runs/`, scripts SHOULD:
+When writing `documents/`, `wiki/`, `compiled/`, `indexes/`, or `runs/`, scripts SHOULD:
 
 - list paths to be created, modified, or deleted in `--dry-run`
 - record input hashes and output paths

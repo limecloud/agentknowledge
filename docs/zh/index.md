@@ -78,3 +78,13 @@ Skills 保存流程、脚本、工具和工作流指令；Knowledge 是同一生
 ## 复制 Markdown
 
 每个正文页都有 **复制 Markdown** 按钮。它会复制当前源文件，保留 frontmatter、图表、示例和表格，方便直接粘贴到 AI 会话中。
+
+## Agent 标准生态
+
+Agent 产品需要多个标准协同：Knowledge 负责 source-grounded context，Runtime 负责 execution facts，UI 负责 interaction surfaces，Evidence 负责 trust、review、replay 与 export。
+
+- [Agent 标准生态](./reference/agent-ecosystem.md)
+- [Agent Knowledge](https://limecloud.github.io/agentknowledge/)
+- [Agent UI](https://limecloud.github.io/agentui/)
+- [Agent Runtime](https://limecloud.github.io/agentruntime/)
+- [Agent Evidence](https://limecloud.github.io/agentevidence/)

@@ -52,8 +52,14 @@ Use this file as the concise navigation index for LLMs. Use `llms-full.txt` when
 - [Reference CLI](https://limecloud.github.io/agentknowledge/en/reference/reference-cli): Reference CLI documentation.
 - [Glossary](https://limecloud.github.io/agentknowledge/en/reference/glossary): Terms used by the standard.
 
+## Ecosystem
+
+- [Agent standards ecosystem](https://limecloud.github.io/agentknowledge/en/reference/agent-ecosystem): Mutual links across Agent Knowledge, Agent UI, Agent Runtime, and Agent Evidence.
+
 ## Versions
 
+- [v0.6.2 overview](https://limecloud.github.io/agentknowledge/en/versions/v0.6.2/overview): Latest released version overview.
+- [v0.6.2 specification snapshot](https://limecloud.github.io/agentknowledge/en/versions/v0.6.2/specification): Latest released specification snapshot.
 - [v0.6.1 overview](https://limecloud.github.io/agentknowledge/en/versions/v0.6.1/overview): Latest released version overview.
 - [v0.6.1 specification snapshot](https://limecloud.github.io/agentknowledge/en/versions/v0.6.1/specification): Latest released specification snapshot.
 

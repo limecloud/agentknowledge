@@ -81,6 +81,16 @@ npx agentknowledge-ref@0.6.0 resolve-context ./pack --query "Need pricing facts"
 npx agentknowledge-ref@0.6.0 eval ./pack --suite evals/discovery.validation.json
 ```
 
+
+## Related Agent standards
+
+- [Agent Knowledge](https://limecloud.github.io/agentknowledge/) - source-grounded knowledge packs.
+- [Agent UI](https://limecloud.github.io/agentui/) - interaction surfaces for agent products.
+- [Agent Runtime](https://limecloud.github.io/agentruntime/) - execution facts, controls, tasks, tools, and recovery.
+- [Agent Evidence](https://limecloud.github.io/agentevidence/) - evidence, provenance, verification, review, replay, and export.
+
+See the [Agent standards ecosystem](docs/en/reference/agent-ecosystem.md) page for the mutual-link map and future standard candidates.
+
 ## Local development
 
 ```bash

@@ -6,10 +6,13 @@ const enNav = [
   { text: 'Guide', link: '/en/what-is-agent-knowledge' },
   { text: 'Specification', link: '/en/specification' },
   { text: 'Examples', link: '/en/examples/personal-ip' },
+  { text: 'Ecosystem', link: '/en/reference/agent-ecosystem' },
   {
     text: 'Version',
     items: [
       { text: 'latest', link: '/en/specification' },
+      { text: 'v0.6.2 overview', link: '/en/versions/v0.6.2/overview' },
+      { text: 'v0.6.2', link: '/en/versions/v0.6.2/specification' },
       { text: 'v0.6.1 overview', link: '/en/versions/v0.6.1/overview' },
       { text: 'v0.6.1', link: '/en/versions/v0.6.1/specification' },
       { text: 'v0.6.0 overview', link: '/en/versions/v0.6.0/overview' },
@@ -32,10 +35,13 @@ const zhNav = [
   { text: '指南', link: '/zh/what-is-agent-knowledge' },
   { text: '规范', link: '/zh/specification' },
   { text: '示例', link: '/zh/examples/personal-ip' },
+  { text: '生态', link: '/zh/reference/agent-ecosystem' },
   {
     text: '版本',
     items: [
       { text: 'latest', link: '/zh/specification' },
+      { text: 'v0.6.2 概览', link: '/zh/versions/v0.6.2/overview' },
+      { text: 'v0.6.2', link: '/zh/versions/v0.6.2/specification' },
       { text: 'v0.6.1 概览', link: '/zh/versions/v0.6.1/overview' },
       { text: 'v0.6.1', link: '/zh/versions/v0.6.1/specification' },
       { text: 'v0.6.0 概览', link: '/zh/versions/v0.6.0/overview' },
@@ -97,7 +103,8 @@ const enSidebar = [
       { text: 'LLM Wiki pattern', link: '/en/reference/llm-wiki-pattern' },
       { text: 'RAG comparison', link: '/en/reference/rag-comparison' },
       { text: 'Reference CLI', link: '/en/reference/reference-cli' },
-      { text: 'Glossary', link: '/en/reference/glossary' }
+      { text: 'Glossary', link: '/en/reference/glossary' },
+    { text: 'Agent standards ecosystem', link: '/en/reference/agent-ecosystem' },
     ]
   },
   {
@@ -181,7 +188,8 @@ const zhSidebar = [
       { text: 'LLM Wiki 模式', link: '/zh/reference/llm-wiki-pattern' },
       { text: 'RAG 对比', link: '/zh/reference/rag-comparison' },
       { text: '参考 CLI', link: '/zh/reference/reference-cli' },
-      { text: '术语表', link: '/zh/reference/glossary' }
+      { text: '术语表', link: '/zh/reference/glossary' },
+    { text: 'Agent 标准生态', link: '/zh/reference/agent-ecosystem' },
     ]
   },
   {

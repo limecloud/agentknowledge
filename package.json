@@ -1,6 +1,6 @@
 {
   "name": "agentknowledge-ref",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "type": "module",
   "description": "Reference CLI and documentation for Agent Knowledge packs.",
   "homepage": "https://limecloud.github.io/agentknowledge/",
@@ -27,6 +27,14 @@
   },
   "files": [
     "bin/",
+    "llm.txt",
+    "llm-full.txt",
+    "llms.txt",
+    "llms-full.txt",
+    "docs/public/llm.txt",
+    "docs/public/llm-full.txt",
+    "docs/public/llms.txt",
+    "docs/public/llms-full.txt",
     "docs/public/schemas/",
     "docs/public/images/",
     "docs/en/",

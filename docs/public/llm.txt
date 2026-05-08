@@ -1,0 +1,69 @@
+# Agent Knowledge
+
+> Agent Knowledge is a portable standard for agent-readable knowledge packs. It defines how curated source-grounded knowledge is described, discovered, compiled, selected, cited, evaluated, maintained, and loaded by AI clients without turning the knowledge pack into a tool or a skill.
+
+Use this file as the concise navigation index for LLMs. Use `llms-full.txt` when a single prompt needs the current core documentation in one markdown file.
+
+## Full context
+
+- [llms-full.txt](https://limecloud.github.io/agentknowledge/llms-full.txt): Concatenated current English documentation with source URLs.
+
+## Primary docs
+
+- [What is Agent Knowledge?](https://limecloud.github.io/agentknowledge/en/what-is-agent-knowledge): Conceptual entry point and scope.
+- [Specification](https://limecloud.github.io/agentknowledge/en/specification): Latest portable Agent Knowledge specification.
+- [Knowledge vs Skills](https://limecloud.github.io/agentknowledge/en/agent-knowledge-vs-skills): Boundary between knowledge packs and skills.
+- [Quickstart](https://limecloud.github.io/agentknowledge/en/authoring/quickstart): Authoring quickstart.
+
+## Pack authoring
+
+- [Description and discovery](https://limecloud.github.io/agentknowledge/en/authoring/description-and-discovery): Pack metadata and discoverability.
+- [Best practices](https://limecloud.github.io/agentknowledge/en/authoring/best-practices): Authoring rules for high-quality knowledge.
+- [Knowledge engineering loop](https://limecloud.github.io/agentknowledge/en/authoring/knowledge-engineering-loop): Author, evaluate, maintain, and improve loop.
+- [Compilation model](https://limecloud.github.io/agentknowledge/en/authoring/compilation-model): Compile pipeline and outputs.
+- [Grounding and citations](https://limecloud.github.io/agentknowledge/en/authoring/grounding-and-citations): Source grounding and citation requirements.
+- [Linting and review](https://limecloud.github.io/agentknowledge/en/authoring/linting-and-review): Review and linting expectations.
+- [Maintenance automation](https://limecloud.github.io/agentknowledge/en/authoring/maintenance-automation): Automated refresh and maintenance.
+- [Skills interop](https://limecloud.github.io/agentknowledge/en/authoring/skills-interop): Interoperability with skills.
+- [Discovery evals](https://limecloud.github.io/agentknowledge/en/authoring/discovery-evals): Discovery evaluation design.
+- [Evaluating knowledge](https://limecloud.github.io/agentknowledge/en/authoring/evaluating-knowledge): Knowledge quality evaluation.
+
+## Client implementation
+
+- [Adding support](https://limecloud.github.io/agentknowledge/en/client-implementation/adding-support): Client support checklist.
+- [Discovery and loading](https://limecloud.github.io/agentknowledge/en/client-implementation/discovery-and-loading): Discovery, loading, and selection.
+- [Runtime standard](https://limecloud.github.io/agentknowledge/en/client-implementation/runtime-standard): Runtime integration.
+- [Runtime context resolver](https://limecloud.github.io/agentknowledge/en/client-implementation/runtime-context-resolver): Context resolver contract.
+- [Security model](https://limecloud.github.io/agentknowledge/en/client-implementation/security-model): Trust, permissions, and security.
+
+## Examples
+
+- [Personal IP pack](https://limecloud.github.io/agentknowledge/en/examples/personal-ip): Personal intellectual property example.
+- [Brand product pack](https://limecloud.github.io/agentknowledge/en/examples/brand-product): Brand and product example.
+- [Content operations pack](https://limecloud.github.io/agentknowledge/en/examples/content-operations): Content operations example.
+- [Private-domain operations pack](https://limecloud.github.io/agentknowledge/en/examples/private-domain-operations): Private-domain operations example.
+- [Organization know-how pack](https://limecloud.github.io/agentknowledge/en/examples/organization-knowhow): Organization know-how example.
+- [Complete pack](https://limecloud.github.io/agentknowledge/en/examples/complete-pack): Complete reference pack.
+
+## Reference
+
+- [LLM Wiki pattern](https://limecloud.github.io/agentknowledge/en/reference/llm-wiki-pattern): Pattern for LLM-friendly wiki-like knowledge.
+- [RAG comparison](https://limecloud.github.io/agentknowledge/en/reference/rag-comparison): Comparison with RAG approaches.
+- [Reference CLI](https://limecloud.github.io/agentknowledge/en/reference/reference-cli): Reference CLI documentation.
+- [Glossary](https://limecloud.github.io/agentknowledge/en/reference/glossary): Terms used by the standard.
+
+## Versions
+
+- [v0.6.1 overview](https://limecloud.github.io/agentknowledge/en/versions/v0.6.1/overview): Latest released version overview.
+- [v0.6.1 specification snapshot](https://limecloud.github.io/agentknowledge/en/versions/v0.6.1/specification): Latest released specification snapshot.
+
+## Schemas
+
+- [Compile run schema](https://limecloud.github.io/agentknowledge/schemas/compile-run.schema.json): Compile run schema.
+- [Context resolution schema](https://limecloud.github.io/agentknowledge/schemas/context-resolution.schema.json): Context resolution schema.
+- [Selection eval schema](https://limecloud.github.io/agentknowledge/schemas/selection-eval.schema.json): Selection evaluation schema.
+- [Source map schema](https://limecloud.github.io/agentknowledge/schemas/source-map.schema.json): Source map schema.
+
+## Language mirrors
+
+- Chinese documentation is available under `/zh/` with matching page structure where translated pages exist.

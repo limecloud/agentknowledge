@@ -1,6 +1,6 @@
 ---
 title: Agent 标准生态
-description: Agent Knowledge、Agent UI、Agent Runtime 与 Agent Evidence 的互链地图。
+description: Agent Knowledge、Agent UI、Agent Runtime、Agent Evidence 与 Agent Policy 的互链地图。
 ---
 
 # Agent 标准生态
@@ -23,6 +23,7 @@ Knowledge 说明 Agent 可以使用哪些长期事实与 source-grounded context
 | Agent UI | 面向 Agent 产品的 interaction surfaces。 | [site](https://limecloud.github.io/agentui/) | [llms-full](https://limecloud.github.io/agentui/llms-full.txt) | [repo](https://github.com/limecloud/agentui) |
 | Agent Runtime | Execution facts、controls、tasks、tools 与 recovery。 | [site](https://limecloud.github.io/agentruntime/) | [llms-full](https://limecloud.github.io/agentruntime/llms-full.txt) | [repo](https://github.com/limecloud/agentruntime) |
 | Agent Evidence | Evidence、provenance、verification、review、replay 与 export。 | [site](https://limecloud.github.io/agentevidence/) | [llms-full](https://limecloud.github.io/agentevidence/llms-full.txt) | [repo](https://github.com/limecloud/agentevidence) |
+| Agent Policy | risk、permission、approval、retention、waiver、access 与 policy decision facts。 | [site](https://limecloud.github.io/agentpolicy/) | [llms-full](https://limecloud.github.io/agentpolicy/llms-full.txt) | [repo](https://github.com/limecloud/agentpolicy) |
 
 ## 边界规则
 
@@ -31,6 +32,7 @@ Agent Knowledge -> Agent 可以使用什么长期、可溯源上下文
 Agent Runtime   -> Agent 工作如何被接受、执行、控制和恢复
 Agent UI        -> Agent 工作如何投影到用户可见表面
 Agent Evidence  -> Agent 结果为什么可信、如何评审、回放和导出
+Agent Policy    -> Agent 动作是否可以继续以及需要哪些约束
 ```
 
 没有任何一个标准应该变成整个 stack。兼容实现应保留 native ids，并通过 refs 连接不同标准。
@@ -41,7 +43,6 @@ Agent Evidence  -> Agent 结果为什么可信、如何评审、回放和导出
 | --- | --- |
 | Agent Artifact | Generated deliverables、versions、diffs、previews、exports 与 handoff refs。 |
 | Agent Tool | Capability declarations、permissions、progress、results、large outputs 与 audit refs。 |
-| Agent Policy | Risk、permission、approval、retention、waiver 与 access decisions。 |
 | Agent Context | Working context、memory、compaction、missing context 与 source selection boundaries。 |
 | Agent Evaluation | Acceptance scenarios、rubrics、eval runs、quality gates 与 evidence-backed benchmark records。 |
 | Agent Workflow | Portable multi-step work plans、scene launches、background jobs 与 handoff states。 |

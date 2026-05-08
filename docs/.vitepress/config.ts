@@ -11,6 +11,9 @@ const enNav = [
     text: 'Version',
     items: [
       { text: 'latest', link: '/en/specification' },
+      { text: 'v0.6.5 overview', link: '/en/versions/v0.6.5/overview' },
+      { text: 'v0.6.5 specification', link: '/en/versions/v0.6.5/specification' },
+      { text: 'v0.6.5 changelog', link: '/en/versions/v0.6.5/changelog' },
       { text: 'v0.6.4 overview', link: '/en/versions/v0.6.4/overview' },
       { text: 'v0.6.4', link: '/en/versions/v0.6.4/specification' },
       { text: 'v0.6.3 overview', link: '/en/versions/v0.6.3/overview' },
@@ -44,6 +47,9 @@ const zhNav = [
     text: '版本',
     items: [
       { text: 'latest', link: '/zh/specification' },
+      { text: 'v0.6.5 概览', link: '/zh/versions/v0.6.5/overview' },
+      { text: 'v0.6.5 规范', link: '/zh/versions/v0.6.5/specification' },
+      { text: 'v0.6.5 变更记录', link: '/zh/versions/v0.6.5/changelog' },
       { text: 'v0.6.4 概览', link: '/zh/versions/v0.6.4/overview' },
       { text: 'v0.6.4', link: '/zh/versions/v0.6.4/specification' },
       { text: 'v0.6.3 概览', link: '/zh/versions/v0.6.3/overview' },
@@ -129,6 +135,9 @@ const enSidebar = [
   {
     text: 'Versions',
     items: [
+      { text: 'v0.6.5 overview', link: '/en/versions/v0.6.5/overview' },
+      { text: 'v0.6.5 specification', link: '/en/versions/v0.6.5/specification' },
+      { text: 'v0.6.5 changelog', link: '/en/versions/v0.6.5/changelog' },
       { text: 'v0.6.4 overview', link: '/en/versions/v0.6.4/overview' },
       { text: 'v0.6.4 specification', link: '/en/versions/v0.6.4/specification' },
       { text: 'v0.6.4 changelog', link: '/en/versions/v0.6.4/changelog' },
@@ -223,6 +232,9 @@ const zhSidebar = [
   {
     text: '版本',
     items: [
+      { text: 'v0.6.5 概览', link: '/zh/versions/v0.6.5/overview' },
+      { text: 'v0.6.5 规范', link: '/zh/versions/v0.6.5/specification' },
+      { text: 'v0.6.5 变更记录', link: '/zh/versions/v0.6.5/changelog' },
       { text: 'v0.6.4 概览', link: '/zh/versions/v0.6.4/overview' },
       { text: 'v0.6.4 规范', link: '/zh/versions/v0.6.4/specification' },
       { text: 'v0.6.4 变更记录', link: '/zh/versions/v0.6.4/changelog' },

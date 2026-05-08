@@ -3577,6 +3577,7 @@ Knowledge tells agents what durable facts and source-grounded context they may u
 | Agent UI | Interaction surfaces for agent products. | [site](https://limecloud.github.io/agentui/) | [llms-full](https://limecloud.github.io/agentui/llms-full.txt) | [repo](https://github.com/limecloud/agentui) |
 | Agent Runtime | Execution facts, controls, tasks, tools, and recovery. | [site](https://limecloud.github.io/agentruntime/) | [llms-full](https://limecloud.github.io/agentruntime/llms-full.txt) | [repo](https://github.com/limecloud/agentruntime) |
 | Agent Evidence | Evidence, provenance, verification, review, replay, and export. | [site](https://limecloud.github.io/agentevidence/) | [llms-full](https://limecloud.github.io/agentevidence/llms-full.txt) | [repo](https://github.com/limecloud/agentevidence) |
+| Agent Policy | Risk, permission, approval, retention, waiver, access, and policy decision facts. | [site](https://limecloud.github.io/agentpolicy/) | [llms-full](https://limecloud.github.io/agentpolicy/llms-full.txt) | [repo](https://github.com/limecloud/agentpolicy) |
 
 ## Boundary rule
 
@@ -3585,6 +3586,7 @@ Agent Knowledge -> what durable source-grounded context an agent can use
 Agent Runtime   -> how agent work is accepted, executed, controlled, and resumed
 Agent UI        -> how agent work is projected into user-visible surfaces
 Agent Evidence  -> why an agent outcome can be trusted, reviewed, replayed, and exported
+Agent Policy    -> whether an agent action may proceed and under which constraints
 ```
 
 No standard should become the whole stack. A compatible implementation should preserve native ids and link across standards with refs.
@@ -3595,7 +3597,6 @@ No standard should become the whole stack. A compatible implementation should pr
 | --- | --- |
 | Agent Artifact | Generated deliverables, versions, diffs, previews, exports, and handoff refs. |
 | Agent Tool | Capability declarations, permissions, progress, results, large outputs, and audit refs. |
-| Agent Policy | Risk, permission, approval, retention, waiver, and access decisions. |
 | Agent Context | Working context, memory, compaction, missing context, and source selection boundaries. |
 | Agent Evaluation | Acceptance scenarios, rubrics, eval runs, quality gates, and evidence-backed benchmark records. |
 | Agent Workflow | Portable multi-step work plans, scene launches, background jobs, and handoff states. |

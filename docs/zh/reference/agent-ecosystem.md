@@ -1,6 +1,6 @@
 ---
 title: Agent 标准生态
-description: Agent Knowledge、Agent UI、Agent Runtime、Agent Evidence 与 Agent Policy 的互链地图。
+description: Agent Knowledge、Agent UI、Agent Runtime、Agent Evidence、Agent Policy 与 Agent Artifact 的互链地图。
 ---
 
 # Agent 标准生态
@@ -24,6 +24,7 @@ Knowledge 说明 Agent 可以使用哪些长期事实与 source-grounded context
 | Agent Runtime | Execution facts、controls、tasks、tools 与 recovery。 | [site](https://limecloud.github.io/agentruntime/) | [llms-full](https://limecloud.github.io/agentruntime/llms-full.txt) | [repo](https://github.com/limecloud/agentruntime) |
 | Agent Evidence | Evidence、provenance、verification、review、replay 与 export。 | [site](https://limecloud.github.io/agentevidence/) | [llms-full](https://limecloud.github.io/agentevidence/llms-full.txt) | [repo](https://github.com/limecloud/agentevidence) |
 | Agent Policy | risk、permission、approval、retention、waiver、access 与 policy decision facts。 | [site](https://limecloud.github.io/agentpolicy/) | [llms-full](https://limecloud.github.io/agentpolicy/llms-full.txt) | [repo](https://github.com/limecloud/agentpolicy) |
+| Agent Artifact | durable deliverables、versions、parts、previews、exports、source links 与 handoff packages。 | [site](https://limecloud.github.io/agentartifact/) | [llms-full](https://limecloud.github.io/agentartifact/llms-full.txt) | [repo](https://github.com/limecloud/agentartifact) |
 
 ## 边界规则
 
@@ -33,6 +34,7 @@ Agent Runtime   -> Agent 工作如何被接受、执行、控制和恢复
 Agent UI        -> Agent 工作如何投影到用户可见表面
 Agent Evidence  -> Agent 结果为什么可信、如何评审、回放和导出
 Agent Policy    -> Agent 动作是否可以继续以及需要哪些约束
+Agent Artifact  -> Agent 产出了什么 durable deliverable 以及它如何变化
 ```
 
 没有任何一个标准应该变成整个 stack。兼容实现应保留 native ids，并通过 refs 连接不同标准。
@@ -41,7 +43,6 @@ Agent Policy    -> Agent 动作是否可以继续以及需要哪些约束
 
 | Candidate | 为什么可能成为标准 |
 | --- | --- |
-| Agent Artifact | Generated deliverables、versions、diffs、previews、exports 与 handoff refs。 |
 | Agent Tool | Capability declarations、permissions、progress、results、large outputs 与 audit refs。 |
 | Agent Context | Working context、memory、compaction、missing context 与 source selection boundaries。 |
 | Agent Evaluation | Acceptance scenarios、rubrics、eval runs、quality gates 与 evidence-backed benchmark records。 |

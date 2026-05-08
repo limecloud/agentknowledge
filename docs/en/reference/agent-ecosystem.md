@@ -1,6 +1,6 @@
 ---
 title: Agent standards ecosystem
-description: Mutual links across Agent Knowledge, Agent UI, Agent Runtime, Agent Evidence, Agent Policy, and Agent Artifact.
+description: Mutual links across Agent Knowledge, Agent UI, Agent Runtime, Agent Evidence, Agent Policy, Agent Artifact, and Agent Tool.
 ---
 
 # Agent Standards Ecosystem
@@ -25,6 +25,7 @@ Knowledge tells agents what durable facts and source-grounded context they may u
 | Agent Evidence | Evidence, provenance, verification, review, replay, and export. | [site](https://limecloud.github.io/agentevidence/) | [llms-full](https://limecloud.github.io/agentevidence/llms-full.txt) | [repo](https://github.com/limecloud/agentevidence) |
 | Agent Policy | Risk, permission, approval, retention, waiver, access, and policy decision facts. | [site](https://limecloud.github.io/agentpolicy/) | [llms-full](https://limecloud.github.io/agentpolicy/llms-full.txt) | [repo](https://github.com/limecloud/agentpolicy) |
 | Agent Artifact | Durable deliverables, versions, parts, previews, exports, source links, and handoff packages. | [site](https://limecloud.github.io/agentartifact/) | [llms-full](https://limecloud.github.io/agentartifact/llms-full.txt) | [repo](https://github.com/limecloud/agentartifact) |
+| Agent Tool | Tool declarations, surfaces, invocations, progress, results, permissions, and audit refs. | [site](https://limecloud.github.io/agenttool/) | [llms-full](https://limecloud.github.io/agenttool/llms-full.txt) | [repo](https://github.com/limecloud/agenttool) |
 
 ## Boundary rule
 
@@ -35,6 +36,7 @@ Agent UI        -> how agent work is projected into user-visible surfaces
 Agent Evidence  -> why an agent outcome can be trusted, reviewed, replayed, and exported
 Agent Policy    -> whether an agent action may proceed and under which constraints
 Agent Artifact  -> what durable deliverable the agent produced and how it changes
+Agent Tool      -> what capability was exposed, invoked, progressed, and returned
 ```
 
 No standard should become the whole stack. A compatible implementation should preserve native ids and link across standards with refs.
@@ -43,7 +45,6 @@ No standard should become the whole stack. A compatible implementation should pr
 
 | Candidate | Why it may become a standard |
 | --- | --- |
-| Agent Tool | Capability declarations, permissions, progress, results, large outputs, and audit refs. |
 | Agent Context | Working context, memory, compaction, missing context, and source selection boundaries. |
 | Agent Evaluation | Acceptance scenarios, rubrics, eval runs, quality gates, and evidence-backed benchmark records. |
 | Agent Workflow | Portable multi-step work plans, scene launches, background jobs, and handoff states. |

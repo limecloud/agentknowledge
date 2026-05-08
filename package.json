@@ -1,6 +1,6 @@
 {
   "name": "agentknowledge-ref",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "type": "module",
   "description": "Reference CLI and documentation for Agent Knowledge packs.",
   "homepage": "https://limecloud.github.io/agentknowledge/",

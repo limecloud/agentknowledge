@@ -11,6 +11,8 @@ const enNav = [
     text: 'Version',
     items: [
       { text: 'latest', link: '/en/specification' },
+      { text: 'v0.6.3 overview', link: '/en/versions/v0.6.3/overview' },
+      { text: 'v0.6.3', link: '/en/versions/v0.6.3/specification' },
       { text: 'v0.6.2 overview', link: '/en/versions/v0.6.2/overview' },
       { text: 'v0.6.2', link: '/en/versions/v0.6.2/specification' },
       { text: 'v0.6.1 overview', link: '/en/versions/v0.6.1/overview' },
@@ -40,6 +42,8 @@ const zhNav = [
     text: '版本',
     items: [
       { text: 'latest', link: '/zh/specification' },
+      { text: 'v0.6.3 概览', link: '/zh/versions/v0.6.3/overview' },
+      { text: 'v0.6.3', link: '/zh/versions/v0.6.3/specification' },
       { text: 'v0.6.2 概览', link: '/zh/versions/v0.6.2/overview' },
       { text: 'v0.6.2', link: '/zh/versions/v0.6.2/specification' },
       { text: 'v0.6.1 概览', link: '/zh/versions/v0.6.1/overview' },
@@ -121,6 +125,12 @@ const enSidebar = [
   {
     text: 'Versions',
     items: [
+      { text: 'v0.6.3 overview', link: '/en/versions/v0.6.3/overview' },
+      { text: 'v0.6.3 specification', link: '/en/versions/v0.6.3/specification' },
+      { text: 'v0.6.3 changelog', link: '/en/versions/v0.6.3/changelog' },
+      { text: 'v0.6.2 overview', link: '/en/versions/v0.6.2/overview' },
+      { text: 'v0.6.2 specification', link: '/en/versions/v0.6.2/specification' },
+      { text: 'v0.6.2 changelog', link: '/en/versions/v0.6.2/changelog' },
       { text: 'v0.6.1 overview', link: '/en/versions/v0.6.1/overview' },
       { text: 'v0.6.1 specification', link: '/en/versions/v0.6.1/specification' },
       { text: 'v0.6.1 changelog', link: '/en/versions/v0.6.1/changelog' },
@@ -137,10 +147,10 @@ const enSidebar = [
       { text: 'v0.3.0 specification', link: '/en/versions/v0.3.0/specification' },
       { text: 'v0.3.0 changelog', link: '/en/versions/v0.3.0/changelog' },
       { text: 'v0.2.0 overview', link: '/en/versions/v0.2.0/overview' },
-      { text: 'v0.1 specification', link: '/en/versions/v0.1/specification' },
-      { text: 'v0.1 changelog', link: '/en/versions/v0.1/changelog' },
       { text: 'v0.2.0 specification', link: '/en/versions/v0.2.0/specification' },
-      { text: 'v0.2.0 changelog', link: '/en/versions/v0.2.0/changelog' }
+      { text: 'v0.2.0 changelog', link: '/en/versions/v0.2.0/changelog' },
+      { text: 'v0.1 specification', link: '/en/versions/v0.1/specification' },
+      { text: 'v0.1 changelog', link: '/en/versions/v0.1/changelog' }
     ]
   }
 ]
@@ -206,6 +216,12 @@ const zhSidebar = [
   {
     text: '版本',
     items: [
+      { text: 'v0.6.3 概览', link: '/zh/versions/v0.6.3/overview' },
+      { text: 'v0.6.3 规范', link: '/zh/versions/v0.6.3/specification' },
+      { text: 'v0.6.3 变更记录', link: '/zh/versions/v0.6.3/changelog' },
+      { text: 'v0.6.2 概览', link: '/zh/versions/v0.6.2/overview' },
+      { text: 'v0.6.2 规范', link: '/zh/versions/v0.6.2/specification' },
+      { text: 'v0.6.2 变更记录', link: '/zh/versions/v0.6.2/changelog' },
       { text: 'v0.6.1 概览', link: '/zh/versions/v0.6.1/overview' },
       { text: 'v0.6.1 规范', link: '/zh/versions/v0.6.1/specification' },
       { text: 'v0.6.1 变更记录', link: '/zh/versions/v0.6.1/changelog' },
@@ -222,10 +238,10 @@ const zhSidebar = [
       { text: 'v0.3.0 规范', link: '/zh/versions/v0.3.0/specification' },
       { text: 'v0.3.0 变更记录', link: '/zh/versions/v0.3.0/changelog' },
       { text: 'v0.2.0 概览', link: '/zh/versions/v0.2.0/overview' },
-      { text: 'v0.1 规范', link: '/zh/versions/v0.1/specification' },
-      { text: 'v0.1 变更记录', link: '/zh/versions/v0.1/changelog' },
       { text: 'v0.2.0 规范', link: '/zh/versions/v0.2.0/specification' },
-      { text: 'v0.2.0 变更记录', link: '/zh/versions/v0.2.0/changelog' }
+      { text: 'v0.2.0 变更记录', link: '/zh/versions/v0.2.0/changelog' },
+      { text: 'v0.1 规范', link: '/zh/versions/v0.1/specification' },
+      { text: 'v0.1 变更记录', link: '/zh/versions/v0.1/changelog' }
     ]
   }
 ]

@@ -3616,17 +3616,16 @@ These candidates should remain design notes until they can be specified without 
 
 External protocols are references, not ownership transfers. The Agent standards should preserve their native ids and semantics while defining agent-specific relationships.
 
-# Agent Knowledge v0.6.2
-Source: https://limecloud.github.io/agentknowledge/en/versions/v0.6.2/overview
+# Agent Knowledge v0.6.3
+Source: https://limecloud.github.io/agentknowledge/en/versions/v0.6.3/overview
 
-# Agent Knowledge v0.6.2
+# Agent Knowledge v0.6.3
 
-Agent Knowledge v0.6.2 adds public ecosystem exposure for the Agent standards family. The release connects Agent Knowledge, Agent UI, Agent Runtime, and Agent Evidence from the documentation site, LLM entrypoints, and version navigation.
+Agent Knowledge v0.6.3 fixes and polishes the localized documentation home pages so `/en/` and `/zh/` are proper landing pages for readers and AI clients instead of long overview pages.
 
 ## Highlights
 
-- Adds the [Agent standards ecosystem](../../reference/agent-ecosystem.md) reference page.
-- Adds mutual links to Agent Knowledge, Agent UI, Agent Runtime, and Agent Evidence.
-- Adds future standard candidates such as Agent Artifact, Agent Tool, Agent Policy, Agent Context, Agent Evaluation, Agent Workflow, and Agent Model Routing.
-- Updates `llms.txt` / `llms-full.txt` so AI clients can discover the standards family.
-- Keeps the Agent Knowledge core specification compatible with v0.6.1.
+- Converts localized index pages into proper `layout: home` landing pages.
+- Adds clearer hero actions for the specification, quickstart, standards ecosystem, and LLM context.
+- Keeps the homepage concise while routing detailed concepts to dedicated documentation pages.
+- Keeps the core Agent Knowledge specification compatible with v0.6.2.

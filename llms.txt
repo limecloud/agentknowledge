@@ -58,8 +58,10 @@ Use this file as the concise navigation index for LLMs. Use `llms-full.txt` when
 
 ## Versions
 
-- [v0.6.2 overview](https://limecloud.github.io/agentknowledge/en/versions/v0.6.2/overview): Latest released version overview.
-- [v0.6.2 specification snapshot](https://limecloud.github.io/agentknowledge/en/versions/v0.6.2/specification): Latest released specification snapshot.
+- [v0.6.3 overview](https://limecloud.github.io/agentknowledge/en/versions/v0.6.3/overview): Latest released version overview.
+- [v0.6.3 specification snapshot](https://limecloud.github.io/agentknowledge/en/versions/v0.6.3/specification): Latest released specification snapshot.
+- [v0.6.2 overview](https://limecloud.github.io/agentknowledge/en/versions/v0.6.2/overview): Previous released version overview.
+- [v0.6.2 specification snapshot](https://limecloud.github.io/agentknowledge/en/versions/v0.6.2/specification): Previous released specification snapshot.
 - [v0.6.1 overview](https://limecloud.github.io/agentknowledge/en/versions/v0.6.1/overview): Latest released version overview.
 - [v0.6.1 specification snapshot](https://limecloud.github.io/agentknowledge/en/versions/v0.6.1/specification): Latest released specification snapshot.
 

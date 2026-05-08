@@ -1,13 +1,12 @@
-# Agent Knowledge v0.6.2
+# Agent Knowledge v0.6.3
 
-Agent Knowledge v0.6.2 adds public ecosystem exposure across the Agent standards family. Each standard now links to the other published standards and documents future standard candidates.
+Agent Knowledge v0.6.3 fixes and polishes the localized documentation home pages so `/en/` and `/zh/` are proper landing pages for readers and AI clients instead of long overview pages.
 
 ## Highlights
 
-- Adds an Agent standards ecosystem page under `reference/agent-ecosystem`.
-- Links Agent Knowledge, Agent UI, Agent Runtime, and Agent Evidence from the public docs.
-- Adds English and Simplified Chinese ecosystem pages.
-- Adds ecosystem links to `llms.txt` and `llms-full.txt`.
+- Fixes Simplified Chinese homepage rendering by using proper VitePress home layout for localized index pages.
+- Refines English and Simplified Chinese home pages with concise hero actions, quick links, ecosystem links, and LLM entrypoints.
+- Keeps the core Agent Knowledge specification compatible with v0.6.2.
 - Updates version snapshots and package metadata.
 
 ## Validation
@@ -17,4 +16,4 @@ Agent Knowledge v0.6.2 adds public ecosystem exposure across the Agent standards
 - `npm audit --omit=dev`
 - `npm pack --dry-run`
 - LLM file consistency checks
-- Forbidden local-coupling scan
+- Localized homepage layout checks

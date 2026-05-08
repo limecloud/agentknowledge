@@ -1,19 +1,20 @@
-# Agent Knowledge v0.6.3
+# Agent Knowledge v0.6.4
 
-Agent Knowledge v0.6.3 fixes and polishes the localized documentation home pages so `/en/` and `/zh/` are proper landing pages for readers and AI clients instead of long overview pages.
+Agent Knowledge v0.6.4 fixes repository-base homepage asset links. The localized home pages now keep their home layout while LLM entrypoint links resolve under the project site path and the navigation logo loads from the correct public asset path.
 
 ## Highlights
 
-- Fixes Simplified Chinese homepage rendering by using proper VitePress home layout for localized index pages.
-- Refines English and Simplified Chinese home pages with concise hero actions, quick links, ecosystem links, and LLM entrypoints.
-- Keeps the core Agent Knowledge specification compatible with v0.6.2.
+- Fixes localized homepage LLM entrypoint links for GitHub Pages repository-base deployments.
+- Fixes the documentation logo asset path under repository-base deployments.
+- Keeps the localized home page layout correction from v0.6.3.
+- Keeps the core Agent Knowledge specification compatible with v0.6.3.
 - Updates version snapshots and package metadata.
 
 ## Validation
 
-- `npm run build`
-- Repository-base `VITEPRESS_BASE` build
+- `VITEPRESS_BASE` repository-base build
+- Localized homepage layout checks
+- LLM file consistency checks
+- `git diff --check`
 - `npm audit --omit=dev`
 - `npm pack --dry-run`
-- LLM file consistency checks
-- Localized homepage layout checks

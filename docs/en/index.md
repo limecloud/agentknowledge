@@ -19,7 +19,7 @@ hero:
       link: /en/reference/agent-ecosystem
     - theme: alt
       text: LLM full context
-      link: /llms-full.txt
+      link: ../llms-full.txt
 
 features:
   - title: File-first packs
@@ -58,9 +58,9 @@ features:
 
 ## For AI Clients
 
-- [llms.txt](/llms.txt): concise navigation index.
-- [llms-full.txt](/llms-full.txt): current English core documentation in one file.
-- [llm.txt](/llm.txt) and [llm-full.txt](/llm-full.txt): compatibility aliases.
+- [llms.txt](../llms.txt): concise navigation index.
+- [llms-full.txt](../llms-full.txt): current English core documentation in one file.
+- [llm.txt](../llm.txt) and [llm-full.txt](../llm-full.txt): compatibility aliases.
 
 ## Agent Standards Ecosystem
 

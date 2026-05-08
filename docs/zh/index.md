@@ -19,7 +19,7 @@ hero:
       link: /zh/reference/agent-ecosystem
     - theme: alt
       text: LLM 完整上下文
-      link: /llms-full.txt
+      link: ../llms-full.txt
 
 features:
   - title: 文件优先知识包
@@ -58,9 +58,9 @@ features:
 
 ## 面向 AI 客户端
 
-- [llms.txt](/llms.txt)：简洁导航索引。
-- [llms-full.txt](/llms-full.txt)：当前英文核心文档合集。
-- [llm.txt](/llm.txt) 与 [llm-full.txt](/llm-full.txt)：兼容别名。
+- [llms.txt](../llms.txt)：简洁导航索引。
+- [llms-full.txt](../llms-full.txt)：当前英文核心文档合集。
+- [llm.txt](../llm.txt) 与 [llm-full.txt](../llm-full.txt)：兼容别名。
 
 ## Agent 标准生态
 

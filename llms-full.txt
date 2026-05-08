@@ -3616,16 +3616,16 @@ These candidates should remain design notes until they can be specified without 
 
 External protocols are references, not ownership transfers. The Agent standards should preserve their native ids and semantics while defining agent-specific relationships.
 
-# Agent Knowledge v0.6.3
-Source: https://limecloud.github.io/agentknowledge/en/versions/v0.6.3/overview
+# Agent Knowledge v0.6.4
+Source: https://limecloud.github.io/agentknowledge/en/versions/v0.6.4/overview
 
-# Agent Knowledge v0.6.3
+# Agent Knowledge v0.6.4
 
-Agent Knowledge v0.6.3 fixes and polishes the localized documentation home pages so `/en/` and `/zh/` are proper landing pages for readers and AI clients instead of long overview pages.
+Agent Knowledge v0.6.4 fixes repository-base homepage asset links. The localized home pages now keep their home layout while LLM entrypoint links resolve under the project site path and the navigation logo loads from the correct public asset path.
 
 ## Highlights
 
-- Converts localized index pages into proper `layout: home` landing pages.
-- Adds clearer hero actions for the specification, quickstart, standards ecosystem, and LLM context.
-- Keeps the homepage concise while routing detailed concepts to dedicated documentation pages.
-- Keeps the core Agent Knowledge specification compatible with v0.6.2.
+- Fixes LLM entrypoint links on localized home pages for repository-base deployments.
+- Fixes documentation logo asset paths for repository-base deployments.
+- Keeps the localized home page structure introduced in v0.6.3.
+- Keeps the core Agent Knowledge specification compatible with v0.6.3.

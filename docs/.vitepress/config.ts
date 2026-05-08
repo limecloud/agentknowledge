@@ -11,6 +11,9 @@ const enNav = [
     text: 'Version',
     items: [
       { text: 'latest', link: '/en/specification' },
+      { text: 'v0.6.8 overview', link: '/en/versions/v0.6.8/overview' },
+      { text: 'v0.6.8 specification', link: '/en/versions/v0.6.8/specification' },
+      { text: 'v0.6.8 changelog', link: '/en/versions/v0.6.8/changelog' },
       { text: 'v0.6.7 overview', link: '/en/versions/v0.6.7/overview' },
       { text: 'v0.6.7', link: '/en/versions/v0.6.7/specification' },
       { text: 'v0.6.7 overview', link: '/en/versions/v0.6.7/overview' },
@@ -55,6 +58,9 @@ const zhNav = [
     text: '版本',
     items: [
       { text: 'latest', link: '/zh/specification' },
+      { text: 'v0.6.8 概览', link: '/zh/versions/v0.6.8/overview' },
+      { text: 'v0.6.8 规范', link: '/zh/versions/v0.6.8/specification' },
+      { text: 'v0.6.8 变更记录', link: '/zh/versions/v0.6.8/changelog' },
       { text: 'v0.6.7 概览', link: '/zh/versions/v0.6.7/overview' },
       { text: 'v0.6.7', link: '/zh/versions/v0.6.7/specification' },
       { text: 'v0.6.7 概览', link: '/zh/versions/v0.6.7/overview' },

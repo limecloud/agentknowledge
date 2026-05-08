@@ -54,13 +54,16 @@ Use this file as the concise navigation index for LLMs. Use `llms-full.txt` when
 
 ## Ecosystem
 
-- [Agent standards ecosystem](https://limecloud.github.io/agentknowledge/en/reference/agent-ecosystem): Mutual links across Agent Knowledge, Agent UI, Agent Runtime, Agent Evidence, Agent Policy, Agent Artifact, and Agent Tool.
+- [Agent standards ecosystem](https://limecloud.github.io/agentknowledge/en/reference/agent-ecosystem): Mutual links across Agent Knowledge, Agent UI, Agent Runtime, Agent Evidence, Agent Policy, Agent Artifact, Agent Tool, and Agent Context.
 - [Agent Policy](https://limecloud.github.io/agentpolicy/): Policy decisions, approvals, permissions, risk, retention, waivers, and traces.
 - [Agent Artifact](https://limecloud.github.io/agentartifact/): Durable deliverables, versions, parts, previews, exports, and handoff packages.
 - [Agent Tool](https://limecloud.github.io/agenttool/): Tool declarations, surfaces, invocations, progress, results, permissions, and audit refs.
+- [Agent Context](https://limecloud.github.io/agentcontext/): Context surfaces, items, source refs, selection, budgets, assembly, injection, compaction, and missing-context facts.
 
 ## Versions
 
+- [v0.6.8 overview](https://limecloud.github.io/agentknowledge/en/versions/v0.6.8/overview): Latest released version overview.
+- [v0.6.8 specification snapshot](https://limecloud.github.io/agentknowledge/en/versions/v0.6.8/specification): Latest released specification snapshot.
 - [v0.6.7 overview](https://limecloud.github.io/agentknowledge/en/versions/v0.6.7/overview): Latest released version overview.
 - [v0.6.7 specification snapshot](https://limecloud.github.io/agentknowledge/en/versions/v0.6.7/specification): Latest released specification snapshot.
 - [v0.6.6 overview](https://limecloud.github.io/agentknowledge/en/versions/v0.6.6/overview): Previous released version overview.

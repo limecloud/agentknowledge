@@ -26,6 +26,7 @@ Knowledge 说明 Agent 可以使用哪些长期事实与 source-grounded context
 | Agent Policy | risk、permission、approval、retention、waiver、access 与 policy decision facts。 | [site](https://limecloud.github.io/agentpolicy/) | [llms-full](https://limecloud.github.io/agentpolicy/llms-full.txt) | [repo](https://github.com/limecloud/agentpolicy) |
 | Agent Artifact | durable deliverables、versions、parts、previews、exports、source links 与 handoff packages。 | [site](https://limecloud.github.io/agentartifact/) | [llms-full](https://limecloud.github.io/agentartifact/llms-full.txt) | [repo](https://github.com/limecloud/agentartifact) |
 | Agent Tool | tool declarations、surfaces、invocations、progress、results、permissions 与 audit refs。 | [site](https://limecloud.github.io/agenttool/) | [llms-full](https://limecloud.github.io/agenttool/llms-full.txt) | [repo](https://github.com/limecloud/agenttool) |
+| Agent Context | Agent 当前可用、选择、预算、组装、注入、压缩、缺失与脱敏的上下文事实。 | [site](https://limecloud.github.io/agentcontext/) | [llms-full](https://limecloud.github.io/agentcontext/llms-full.txt) | [repo](https://github.com/limecloud/agentcontext) |
 
 ## 边界规则
 
@@ -37,6 +38,7 @@ Agent Evidence  -> Agent 结果为什么可信、如何评审、回放和导出
 Agent Policy    -> Agent 动作是否可以继续以及需要哪些约束
 Agent Artifact  -> Agent 产出了什么 durable deliverable 以及它如何变化
 Agent Tool      -> Agent 暴露、调用、推进并返回了什么能力
+Agent Context   -> Agent 当前可用、选择、组装、压缩、缺失并注入了什么上下文
 ```
 
 没有任何一个标准应该变成整个 stack。兼容实现应保留 native ids，并通过 refs 连接不同标准。
@@ -45,7 +47,6 @@ Agent Tool      -> Agent 暴露、调用、推进并返回了什么能力
 
 | Candidate | 为什么可能成为标准 |
 | --- | --- |
-| Agent Context | Working context、memory、compaction、missing context 与 source selection boundaries。 |
 | Agent Evaluation | Acceptance scenarios、rubrics、eval runs、quality gates 与 evidence-backed benchmark records。 |
 | Agent Workflow | Portable multi-step work plans、scene launches、background jobs 与 handoff states。 |
 | Agent Model Routing | Task profiles、model candidates、routing decisions、fallback、quota 与 cost records。 |

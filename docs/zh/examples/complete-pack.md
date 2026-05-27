@@ -54,7 +54,7 @@ metadata:
   producedBy:
     kind: agent-skill
     name: brand-product-knowledge-builder
-    version: 0.6.0
+    version: 1.0.0
 ---
 
 # Acme Product Brief
@@ -132,7 +132,7 @@ metadata:
   "runtime_mode": "data",
   "builder_skill": {
     "name": "brand-product-knowledge-builder",
-    "version": "0.6.0",
+    "version": "0.7.0",
     "digest": "sha256:..."
   },
   "inputs": [
@@ -164,7 +164,7 @@ metadata:
   "status": "passed",
   "resolver": {
     "tool": "agentknowledge-ref",
-    "version": "0.6.0",
+    "version": "0.7.0",
     "strategy": "profile-aware"
   },
   "activated_packs": [

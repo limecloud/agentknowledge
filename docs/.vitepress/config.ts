@@ -11,6 +11,9 @@ const enNav = [
     text: 'Version',
     items: [
       { text: 'latest', link: '/en/specification' },
+      { text: 'v0.7.0 overview', link: '/en/versions/v0.7.0/overview' },
+      { text: 'v0.7.0 specification', link: '/en/versions/v0.7.0/specification' },
+      { text: 'v0.7.0 changelog', link: '/en/versions/v0.7.0/changelog' },
       { text: 'v0.6.8 overview', link: '/en/versions/v0.6.8/overview' },
       { text: 'v0.6.8 specification', link: '/en/versions/v0.6.8/specification' },
       { text: 'v0.6.8 changelog', link: '/en/versions/v0.6.8/changelog' },
@@ -58,6 +61,9 @@ const zhNav = [
     text: '版本',
     items: [
       { text: 'latest', link: '/zh/specification' },
+      { text: 'v0.7.0 概览', link: '/zh/versions/v0.7.0/overview' },
+      { text: 'v0.7.0 规范', link: '/zh/versions/v0.7.0/specification' },
+      { text: 'v0.7.0 变更记录', link: '/zh/versions/v0.7.0/changelog' },
       { text: 'v0.6.8 概览', link: '/zh/versions/v0.6.8/overview' },
       { text: 'v0.6.8 规范', link: '/zh/versions/v0.6.8/specification' },
       { text: 'v0.6.8 变更记录', link: '/zh/versions/v0.6.8/changelog' },
@@ -114,6 +120,7 @@ const enSidebar = [
       { text: 'Best practices', link: '/en/authoring/best-practices' },
       { text: 'Knowledge engineering loop', link: '/en/authoring/knowledge-engineering-loop' },
       { text: 'Compilation model', link: '/en/authoring/compilation-model' },
+      { text: 'Ontology-aware packs', link: '/en/authoring/ontology-packs' },
       { text: 'Grounding and citations', link: '/en/authoring/grounding-and-citations' },
       { text: 'Linting and review', link: '/en/authoring/linting-and-review' },
       { text: 'Maintenance automation', link: '/en/authoring/maintenance-automation' },
@@ -157,6 +164,12 @@ const enSidebar = [
   {
     text: 'Versions',
     items: [
+      { text: 'v0.7.0 overview', link: '/en/versions/v0.7.0/overview' },
+      { text: 'v0.7.0 specification', link: '/en/versions/v0.7.0/specification' },
+      { text: 'v0.7.0 changelog', link: '/en/versions/v0.7.0/changelog' },
+      { text: 'v0.6.8 overview', link: '/en/versions/v0.6.8/overview' },
+      { text: 'v0.6.8 specification', link: '/en/versions/v0.6.8/specification' },
+      { text: 'v0.6.8 changelog', link: '/en/versions/v0.6.8/changelog' },
       { text: 'v0.6.7 overview', link: '/en/versions/v0.6.7/overview' },
     { text: 'v0.6.7 specification', link: '/en/versions/v0.6.7/specification' },
     { text: 'v0.6.7 changelog', link: '/en/versions/v0.6.7/changelog' },
@@ -217,6 +230,7 @@ const zhSidebar = [
       { text: '最佳实践', link: '/zh/authoring/best-practices' },
       { text: '知识库工程闭环', link: '/zh/authoring/knowledge-engineering-loop' },
       { text: '编译模型', link: '/zh/authoring/compilation-model' },
+      { text: 'Ontology-aware 知识包', link: '/zh/authoring/ontology-packs' },
       { text: '溯源与引用', link: '/zh/authoring/grounding-and-citations' },
       { text: 'Lint 与评审', link: '/zh/authoring/linting-and-review' },
       { text: '维护自动化', link: '/zh/authoring/maintenance-automation' },
@@ -260,6 +274,12 @@ const zhSidebar = [
   {
     text: '版本',
     items: [
+      { text: 'v0.7.0 概览', link: '/zh/versions/v0.7.0/overview' },
+      { text: 'v0.7.0 规范', link: '/zh/versions/v0.7.0/specification' },
+      { text: 'v0.7.0 变更记录', link: '/zh/versions/v0.7.0/changelog' },
+      { text: 'v0.6.8 概览', link: '/zh/versions/v0.6.8/overview' },
+      { text: 'v0.6.8 规范', link: '/zh/versions/v0.6.8/specification' },
+      { text: 'v0.6.8 变更记录', link: '/zh/versions/v0.6.8/changelog' },
       { text: 'v0.6.7 概览', link: '/zh/versions/v0.6.7/overview' },
     { text: 'v0.6.7 规范', link: '/zh/versions/v0.6.7/specification' },
     { text: 'v0.6.7 变更记录', link: '/zh/versions/v0.6.7/changelog' },

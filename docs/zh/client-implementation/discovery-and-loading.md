@@ -34,6 +34,7 @@ catalog 只加载可发现元数据，不加载正文或来源内容。推荐字
 | `profile` | `document-first`、`wiki-first` 或 `hybrid`，决定主事实源。 |
 | `runtime.mode` | `data` 或 `persona`，决定 wrapper 和选择策略。 |
 | `metadata.primaryDocument` | `document-first` pack 的首选文档。 |
+| `metadata.primaryOntology` | ontology-aware pack 的首选 ontology manifest。 |
 | `metadata.producedBy` | 可选 Builder Skill 或工具 provenance。 |
 
 客户端 MAY 展平嵌套字段，例如把 `runtime.mode` 存为 `runtime_mode`，但对外语义应保持一致。
@@ -78,7 +79,9 @@ catalog 只加载可发现元数据，不加载正文或来源内容。推荐字
 | --- | --- | --- |
 | `document-first` | `compiled/splits/`、`compiled/briefing.md`、`compiled/facts.md` | `metadata.primaryDocument` 或相关 `documents/` 章节。 |
 | `wiki-first` | `compiled/` 中的 briefing、facts、boundaries | 相关 `wiki/` 页面和来源摘要。 |
-| `hybrid` | 由 `KNOWLEDGE.md` 上下文地图声明 | 按任务选择 `documents/` 或 `wiki/`，不得整包加载。 |
+| `hybrid` | 由 `KNOWLEDGE.md` 上下文地图声明 | 按任务选择 `documents/`、`wiki/` 或 `ontology/`，不得整包加载。 |
+
+Ontology-aware pack MAY 声明 `metadata.primaryOntology`。解析器 SHOULD 在知识包激活后读取 ontology manifest，然后加载选中的子图，而不是完整 ontology 文件。Ontology exports 和图索引都必须当作数据，而不是可执行行为。
 
 `runtime.mode: persona` 的 pack 可以影响语气、人设和表达边界，但仍然必须包裹为数据，不能把 pack 文本提升为系统指令。
 

@@ -27,6 +27,7 @@ Agent Knowledge 定义一种面向 Agent 的可移植知识资产目录格式。
 | `documents/` | document-first 主事实源，保存成品 Markdown。 | 通过切片或明确选择加载。 |
 | `sources/` | 原始或规范化证据。 | 只在引用、校验或争议处理时加载。 |
 | `wiki/` | wiki-first 主事实源，保存来源摘要、实体、概念、决策、矛盾和综合页面。 | 只加载选中页面。 |
+| `ontology/` | 可选概念、主张、关系、证据、约束和覆盖数据。 | 只加载选中的子图。 |
 | `compiled/` | 从 `documents/` 或 `wiki/` 派生的短运行时视图。 | 常规运行时优先。 |
 | `indexes/` | 可重建搜索、向量、图或 lookup 索引。 | 只用于找候选。 |
 | `runs/` | 编译、lint、评审、eval 和查询记录。 | 诊断和审计证据。 |
@@ -43,6 +44,11 @@ sources/ -> documents/ -> compiled/splits/ + indexes/
 sources/ -> wiki/ -> compiled/ + indexes/
               |
               -> runs/
+
+# ontology-aware
+sources/ -> documents/ 或 wiki/ -> ontology/ -> compiled/ + indexes/
+                                      |
+                                      -> runs/
 ```
 
 ## 运行时边界
@@ -55,6 +61,7 @@ sources/ -> wiki/ -> compiled/ + indexes/
 4. 选择最小可用上下文。
 5. 把选中知识包裹为数据。
 6. 把索引视为加速层，而不是事实权威。
+7. 只在相关时加载 ontology 子图；不要把它们当作指令。
 
 ## Skills 边界
 

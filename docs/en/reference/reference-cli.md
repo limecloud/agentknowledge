@@ -53,7 +53,7 @@ Outputs pack metadata:
     "producedBy": {
       "kind": "agent-skill",
       "name": "brand-product-knowledge-builder",
-      "version": "0.6.0"
+      "version": "1.0.0"
     }
   }
 }
@@ -82,8 +82,8 @@ Runs discovery, context, or answer evals and outputs comparable results.
 Reference tools SHOULD support pinned invocation:
 
 ```bash
-uvx agentknowledge-ref@0.6.0 validate ./pack
-npx agentknowledge-ref@0.6.0 validate ./pack
+uvx agentknowledge-ref@0.7.0 validate ./pack
+npx agentknowledge-ref@0.7.0 validate ./pack
 ```
 
 Tool output SHOULD follow the [maintenance script contract](/en/authoring/maintenance-script-contract).

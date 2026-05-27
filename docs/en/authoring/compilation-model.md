@@ -158,12 +158,12 @@ Recommended compile runs live at `runs/compile-<timestamp>.json`:
   "runtime_mode": "data",
   "builder_skill": {
     "name": "brand-product-knowledge-builder",
-    "version": "0.6.0",
+    "version": "0.7.0",
     "digest": "sha256:..."
   },
   "compiler": {
     "tool": "agent-knowledge-compiler",
-    "version": "0.6.0",
+    "version": "0.7.0",
     "model": "gpt-5.4"
   },
   "inputs": [

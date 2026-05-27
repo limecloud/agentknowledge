@@ -1,17 +1,19 @@
-# Agent Knowledge v0.6.8
+# Agent Knowledge v0.7.0
 
-Agent Knowledge v0.6.8 is a patch release that refreshes the Agent standards ecosystem after Agent Context became a current published standard.
+Agent Knowledge v0.7.0 adds ontology-aware knowledge packs while keeping the Agent Skills-style package model.
 
 ## Highlights
 
-- Adds Agent Context to the current standards table and boundary map.
-- Removes Agent Context from the future-candidate list.
-- Adds Agent Context to README related-standard links.
-- Updates `llms.txt`, `llms-full.txt`, and public LLM copies so AI clients can discover Agent Context.
-- Adds version snapshot pages for v0.6.8.
+- Adds optional `ontology/` directory semantics.
+- Adds `metadata.primaryOntology`.
+- Adds `content-ontology` as a standard `type`.
+- Adds runtime guidance for selecting ontology subgraphs instead of injecting whole graphs.
+- Adds ontology-aware authoring documentation.
+- Updates quickstart, discovery, specification, version snapshots, README, and LLM entrypoints.
 
 ## Links
 
 - Documentation: https://limecloud.github.io/agentknowledge/
-- Agent Context: https://limecloud.github.io/agentcontext/
+- Specification: https://limecloud.github.io/agentknowledge/en/specification
+- Ontology-aware packs: https://limecloud.github.io/agentknowledge/en/authoring/ontology-packs
 - LLM context: https://limecloud.github.io/agentknowledge/llms-full.txt

@@ -53,7 +53,7 @@ agentknowledge-ref eval ./pack --suite evals/discovery.validation.json
     "producedBy": {
       "kind": "agent-skill",
       "name": "brand-product-knowledge-builder",
-      "version": "0.6.0"
+      "version": "1.0.0"
     }
   }
 }
@@ -82,8 +82,8 @@ resolver SHOULD 按 `profile` 选择候选：`document-first` 优先 `compiled/s
 参考工具 SHOULD 支持版本锁定调用：
 
 ```bash
-uvx agentknowledge-ref@0.6.0 validate ./pack
-npx agentknowledge-ref@0.6.0 validate ./pack
+uvx agentknowledge-ref@0.7.0 validate ./pack
+npx agentknowledge-ref@0.7.0 validate ./pack
 ```
 
 工具输出应遵循 [维护脚本契约](/zh/authoring/maintenance-script-contract)。

@@ -34,6 +34,7 @@ Catalog loading reads discoverable metadata only. It does not load body text or 
 | `profile` | `document-first`, `wiki-first`, or `hybrid`; determines the primary fact source. |
 | `runtime.mode` | `data` or `persona`; affects wrapping and selection policy. |
 | `metadata.primaryDocument` | Preferred document for document-first packs. |
+| `metadata.primaryOntology` | Preferred ontology manifest for ontology-aware packs. |
 | `metadata.producedBy` | Optional Builder Skill or tool provenance. |
 
 Clients MAY flatten nested fields, such as storing `runtime.mode` as `runtime_mode`, but the external semantics should remain the same.
@@ -80,7 +81,9 @@ For untrusted packs:
 | --- | --- | --- |
 | `document-first` | `compiled/splits/`, `compiled/briefing.md`, `compiled/facts.md` | `metadata.primaryDocument` or relevant `documents/` sections. |
 | `wiki-first` | briefing, facts, and boundaries under `compiled/` | Related `wiki/` pages and source summaries. |
-| `hybrid` | Declared by the context map in `KNOWLEDGE.md` | Choose `documents/` or `wiki/` by task; never load the whole pack eagerly. |
+| `hybrid` | Declared by the context map in `KNOWLEDGE.md` | Choose `documents/`, `wiki/`, or `ontology/` by task; never load the whole pack eagerly. |
+
+Ontology-aware packs MAY declare `metadata.primaryOntology`. The resolver SHOULD read the ontology manifest only after pack activation, then load selected subgraphs rather than full ontology files. Treat ontology exports and graph indexes as data, not executable behavior.
 
 A `runtime.mode: persona` pack may influence voice, persona, and expression boundaries, but it must still be fenced as data. Pack text must not be promoted to system instructions.
 

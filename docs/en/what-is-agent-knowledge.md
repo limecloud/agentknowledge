@@ -28,6 +28,7 @@ Do not use it for procedure, tool orchestration, or runtime instructions. Those 
 | `documents/` | document-first authority with finished Markdown documents. | Loaded through splits or explicit selection. |
 | `sources/` | Raw or normalized evidence. | Only for citation, verification, or dispute handling. |
 | `wiki/` | wiki-first authority with source summaries, entities, concepts, decisions, contradictions, and synthesis. | Selected pages only. |
+| `ontology/` | Optional concept, claim, relation, evidence, constraint, and coverage data. | Selected subgraphs only. |
 | `compiled/` | Short runtime views derived from `documents/` or `wiki/`. | Preferred for normal runtime. |
 | `indexes/` | Rebuildable search, vector, graph, or lookup indexes. | Candidate search only. |
 | `runs/` | Compile, lint, review, eval, and query records. | Diagnostics and audit evidence. |
@@ -44,6 +45,11 @@ sources/ -> documents/ -> compiled/splits/ + indexes/
 sources/ -> wiki/ -> compiled/ + indexes/
               |
               -> runs/
+
+# ontology-aware
+sources/ -> documents/ or wiki/ -> ontology/ -> compiled/ + indexes/
+                                  |
+                                  -> runs/
 ```
 
 ## Runtime Boundary
@@ -56,6 +62,7 @@ Compatible runtimes MUST:
 4. Select the smallest useful context.
 5. Fence selected knowledge as data.
 6. Treat indexes as acceleration, not fact authority.
+7. Load ontology subgraphs only when relevant; do not treat them as instructions.
 
 ## Skills Boundary
 

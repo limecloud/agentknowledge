@@ -25,6 +25,8 @@ Skills 可以生产、维护、校验和应用 Knowledge；Knowledge 可以为 S
 
 Knowledge pack MAY 记录产生它的 Builder Skill provenance，但运行时 MUST NOT 为了消费知识而执行该 Skill。需要脚本、工具调用或自动化流程时，优先放入维护 Skill 或客户端工具。细则见 [Skills 互操作](/zh/authoring/skills-interop) 和 [维护脚本契约](/zh/authoring/maintenance-script-contract)。
 
+v0.7 增加可选的 ontology-aware 层。它仍保持 Agent Skills 风格的包结构：目录就是包，`KNOWLEDGE.md` 是顶层 Markdown 入口，metadata 放在 YAML frontmatter 中，客户端渐进加载。Ontology 文件是数据资产，用来描述概念、主张、关系、证据、约束和覆盖矩阵；它们不是可执行 workflow、Agent 指令，也不要求运行时必须使用图数据库。
+
 ## 目录结构
 
 一个知识包至少包含 `KNOWLEDGE.md`。v0.6 引入 profile：
@@ -41,6 +43,7 @@ pack-name/
 ├── documents/        # document-first 主事实源：可读、可编辑、可交付的 Markdown
 ├── sources/          # 可选：原始来源，作为编译输入和证据
 ├── wiki/             # wiki-first 主事实源：维护后的结构化知识
+├── ontology/         # 可选：概念、关系、证据、约束和覆盖矩阵
 ├── compiled/         # 可选：从 documents/ 或 wiki/ 派生的运行时上下文视图
 ├── indexes/          # 可选：可重建索引，检索加速层
 ├── runs/             # 可选：编译、导入、lint、评审、查询记录
@@ -53,8 +56,9 @@ pack-name/
 固定规则：
 
 1. `documents/` 和 `wiki/` 都可以成为主事实源，但同一个 pack MUST 通过 `profile` 和 metadata 说明哪一个是主路径。
-2. `compiled/`、`indexes/` 和 `runs/` 是派生、加速或审计层，不应成为不可追溯的独立事实源。
-3. Knowledge runtime MUST NOT 执行包内脚本。维护脚本应属于 Agent Skill、客户端工具或外部 CI。
+2. `ontology/` 是从 `documents/`、`wiki/` 和 `sources/` 派生的结构化知识层，除非知识包明确声明某个 ontology artifact 是已评审主事实表面。
+3. `compiled/`、`indexes/` 和 `runs/` 是派生、加速或审计层，不应成为不可追溯的独立事实源。
+4. Knowledge runtime MUST NOT 执行包内脚本。维护脚本应属于 Agent Skill、客户端工具或外部 CI。
 
 ## `KNOWLEDGE.md`
 
@@ -84,6 +88,7 @@ pack-name/
 | `grounding` | `none`、`recommended`、`required`。 |
 | `runtime.mode` | `data` 或 `persona`。缺省为 `data`。 |
 | `metadata.primaryDocument` | document-first pack 的主文档路径，例如 `documents/main.md`。 |
+| `metadata.primaryOntology` | ontology-aware pack 的主 ontology manifest 路径，例如 `ontology/ontology.json`。 |
 | `metadata.producedBy` | 可选 provenance，记录产生或维护本 pack 的 Skill / 工具。 |
 | `metadata` | 客户端自定义元数据；私有字段应使用命名空间。 |
 | `compatibility` | 可选 runtime 或客户端要求，控制在 500 字符内。 |
@@ -101,6 +106,7 @@ pack-name/
 | `live-commerce-operations` | 直播货盘、脚本、场控节奏、主播话术和复盘指标。 |
 | `campaign-operations` | 活动目标、节奏、素材、渠道、预算、风险和复盘。 |
 | `growth-strategy` | 增长假设、指标体系、渠道矩阵、实验和执行计划。 |
+| `content-ontology` | 内容生产概念图、主张图、证据约束和覆盖矩阵。 |
 | `domain-reference` | 稳定的领域知识、术语或政策。 |
 | `research-wiki` | 跨来源演进的研究笔记和综合。 |
 | `custom:<namespace>` | 实现方或组织拥有的扩展类型。 |
@@ -164,9 +170,14 @@ sources/ -> documents/ -> compiled/splits/ + indexes/
 sources/ -> wiki/ -> compiled/ + indexes/
               |
               -> runs/
+
+# ontology-aware
+sources/ -> documents/ 或 wiki/ -> ontology/ -> compiled/briefings + indexes/
+                                      |
+                                      -> runs/
 ```
 
-`document-first` 中，`documents/` 是主事实源，保存用户可读、可编辑、可交付的成品文档。`wiki-first` 中，`wiki/` 是主事实源，保存实体、概念、来源摘要、决策、矛盾、开放问题和综合页面。`compiled/` 是运行时派生视图；`indexes/` 只用于找候选；`runs/` 记录编译、lint、review 和 eval 的过程证据。
+`document-first` 中，`documents/` 是主事实源，保存用户可读、可编辑、可交付的成品文档。`wiki-first` 中，`wiki/` 是主事实源，保存实体、概念、来源摘要、决策、矛盾、开放问题和综合页面。ontology-aware pack 中，`ontology/` 在这些事实之上增加结构化地图：概念、关系、主张、证据引用、约束和覆盖矩阵。`compiled/` 是运行时派生视图；`indexes/` 只用于找候选；`runs/` 记录编译、lint、review 和 eval 的过程证据。
 
 重要 claim 应保留 source map，能从 `compiled/`、`documents/` 或 `wiki/` 追溯到 `sources/` 锚点。新增或变更来源时，维护工具应增量更新受影响的主事实源、派生视图和索引，并把输入、输出、Builder Skill provenance、诊断和评审要求写入 `runs/compile-<timestamp>.json`。
 
@@ -186,6 +197,7 @@ sources/ -> wiki/ -> compiled/ + indexes/
 | `documents/` | document-first 主事实源，保存成品文档和可交付 Markdown。 | 通过切片或明确选择加载。 |
 | `sources/` | 原始或规范化证据，也是编译输入。 | 只在引用、校验、导入或争议处理时读取。 |
 | `wiki/` | wiki-first 主事实源，保存来源摘要、实体、概念、决策、矛盾和综合页面。 | 只加载选中页面。 |
+| `ontology/` | 可选结构化概念、关系、主张、证据、约束和覆盖工件。 | 只加载选中的子图，默认不整包加载。 |
 | `compiled/` | 运行时就绪派生视图，如 splits、facts、boundaries、briefings 和 approved claims。 | 常规运行时优先。 |
 | `indexes/` | 可重建全文、向量、图或 lookup 索引。 | 只用于候选搜索；不能作为事实权威。 |
 | `runs/` | 编译、导入、lint、评审、查询和 eval 记录。 | 诊断和审计证据。 |
@@ -217,6 +229,34 @@ persona 型知识包使用 `mode="persona"`，但仍然是数据，不得覆盖 
 ```
 
 解析器 SHOULD 只加载本轮任务所需的最小上下文。它可以用索引找候选，但索引永远不是事实权威。多个知识包同时激活时，每个 pack 使用独立 wrapper；如果同时存在 persona 和 data，persona wrapper SHOULD 排在相关 data wrapper 之前。
+
+对于 ontology-aware pack，解析器 SHOULD 选择与任务相关的子图，而不是注入完整 ontology。子图可以包含概念标签、已批准主张、关系路径、证据摘录、约束和覆盖矩阵行。标记为 unreviewed、disputed、forbidden 或 missing evidence 的主张，MUST NOT 在没有明确警告的情况下提升为事实答案或生成 prompt。
+
+## Ontology-aware 知识包
+
+ontology-aware pack MAY 包含：
+
+```text
+ontology/
+├── ontology.json       # manifest 和图摘要
+├── concepts.json       # 概念记录和别名
+├── relations.json      # 概念之间的类型化关系
+├── claims.json         # 主张和证据状态
+├── evidence.json       # 来源引用、摘录和验证状态
+├── constraints.json    # 禁用主张、语气规则和合规规则
+├── coverage.json       # 面向场景、人群、渠道或任务的覆盖矩阵
+└── exports/            # 可选 JSON-LD、RDF、Turtle 或其他互操作导出
+```
+
+标准不要求特定图数据库、RDF runtime、向量索引或 ontology 编辑器。JSON 文件可以作为可移植知识包的主互操作格式。`exports/` 可以包含 JSON-LD、RDF、Turtle、SKOS、OWL 或其他派生格式，但这些文件必须能追溯到 pack 的 `sources/`、`documents/` 或 `wiki/` 条目。
+
+ontology-aware pack 遵守以下规则：
+
+1. 重要主张 SHOULD 有来源引用和证据状态。
+2. 生成的关系 SHOULD 在评审前保持 `candidate` 或 `needs-review`。
+3. 覆盖矩阵 SHOULD 区分 ready、missing-evidence、missing-material、needs-review、blocked 和 covered 行。
+4. 运行时上下文 SHOULD 在选中概念旁同时带上约束和禁用主张。
+5. Ontology 层 SHOULD 改善选择、溯源、校验和覆盖；它 MUST NOT 成为指令通道。
 
 ## 一键复制 Markdown
 

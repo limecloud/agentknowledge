@@ -57,6 +57,8 @@ Use this pack when writing product copy, sales emails, support responses, or par
 ```text
 acme-product-brief/
 ├── KNOWLEDGE.md
+├── documents/
+│   └── product-brief.md
 └── compiled/
     ├── facts.md
     ├── voice.md
@@ -76,7 +78,24 @@ sources/
 
 Sources are evidence. Keep them separate from compiled runtime views.
 
-## 6. Mark ready
+## 6. Optionally add ontology files
+
+Use `ontology/` only when the pack needs structured concept, claim, evidence, constraint, or coverage data.
+
+```text
+ontology/
+├── ontology.json
+├── concepts.json
+├── relations.json
+├── claims.json
+├── evidence.json
+├── constraints.json
+└── coverage.json
+```
+
+Ontology files are data. They are not scripts, workflows, or instructions. If the pack is ontology-aware, add `metadata.primaryOntology`, for example `ontology/ontology.json`.
+
+## 7. Mark ready
 
 Change status only when the pack is reviewed enough for normal use:
 
@@ -91,4 +110,5 @@ trust: user-confirmed
 - For long-term maintenance, read the [compilation model](/en/authoring/compilation-model) and incrementally compile `sources/` into `wiki/`, `compiled/`, and `indexes/`.
 - Add citations if the knowledge will be used in high-stakes output.
 - Add `wiki/` pages when the pack grows beyond a single compiled file.
+- Add `ontology/` when documents or wiki pages need a reviewed concept and evidence map.
 - Add lint reports in `runs/` to make review state auditable.

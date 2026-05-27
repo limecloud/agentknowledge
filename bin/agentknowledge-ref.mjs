@@ -3,7 +3,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { basename, dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const cliVersion = '0.6.0'
+const cliVersion = '0.7.0'
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 
 const schemas = {

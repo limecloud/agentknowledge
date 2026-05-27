@@ -21,6 +21,7 @@ Use this file as the concise navigation index for LLMs. Use `llms-full.txt` when
 - [Best practices](https://limecloud.github.io/agentknowledge/en/authoring/best-practices): Authoring rules for high-quality knowledge.
 - [Knowledge engineering loop](https://limecloud.github.io/agentknowledge/en/authoring/knowledge-engineering-loop): Author, evaluate, maintain, and improve loop.
 - [Compilation model](https://limecloud.github.io/agentknowledge/en/authoring/compilation-model): Compile pipeline and outputs.
+- [Ontology-aware packs](https://limecloud.github.io/agentknowledge/en/authoring/ontology-packs): Concept maps, claim graphs, evidence constraints, and coverage matrices.
 - [Grounding and citations](https://limecloud.github.io/agentknowledge/en/authoring/grounding-and-citations): Source grounding and citation requirements.
 - [Linting and review](https://limecloud.github.io/agentknowledge/en/authoring/linting-and-review): Review and linting expectations.
 - [Maintenance automation](https://limecloud.github.io/agentknowledge/en/authoring/maintenance-automation): Automated refresh and maintenance.
@@ -62,10 +63,12 @@ Use this file as the concise navigation index for LLMs. Use `llms-full.txt` when
 
 ## Versions
 
-- [v0.6.8 overview](https://limecloud.github.io/agentknowledge/en/versions/v0.6.8/overview): Latest released version overview.
-- [v0.6.8 specification snapshot](https://limecloud.github.io/agentknowledge/en/versions/v0.6.8/specification): Latest released specification snapshot.
-- [v0.6.7 overview](https://limecloud.github.io/agentknowledge/en/versions/v0.6.7/overview): Latest released version overview.
-- [v0.6.7 specification snapshot](https://limecloud.github.io/agentknowledge/en/versions/v0.6.7/specification): Latest released specification snapshot.
+- [v0.7.0 overview](https://limecloud.github.io/agentknowledge/en/versions/v0.7.0/overview): Latest released version overview.
+- [v0.7.0 specification snapshot](https://limecloud.github.io/agentknowledge/en/versions/v0.7.0/specification): Latest released specification snapshot.
+- [v0.6.8 overview](https://limecloud.github.io/agentknowledge/en/versions/v0.6.8/overview): Previous released version overview.
+- [v0.6.8 specification snapshot](https://limecloud.github.io/agentknowledge/en/versions/v0.6.8/specification): Previous released specification snapshot.
+- [v0.6.7 overview](https://limecloud.github.io/agentknowledge/en/versions/v0.6.7/overview): Previous released version overview.
+- [v0.6.7 specification snapshot](https://limecloud.github.io/agentknowledge/en/versions/v0.6.7/specification): Previous released specification snapshot.
 - [v0.6.6 overview](https://limecloud.github.io/agentknowledge/en/versions/v0.6.6/overview): Previous released version overview.
 - [v0.6.6 specification snapshot](https://limecloud.github.io/agentknowledge/en/versions/v0.6.6/specification): Previous released specification snapshot.
 - [v0.6.5 overview](https://limecloud.github.io/agentknowledge/en/versions/v0.6.5/overview): Previous released version overview.

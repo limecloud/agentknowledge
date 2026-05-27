@@ -25,7 +25,7 @@ Skills can produce, maintain, verify, and apply Knowledge. Knowledge can provide
 
 A Knowledge pack MAY record the Builder Skill provenance that produced it, but the runtime MUST NOT execute that Skill in order to consume the knowledge. When scripts, tool calls, or automation are needed, prefer a maintenance Skill or client tool. See [Skills interop](/en/authoring/skills-interop) and the [maintenance script contract](/en/authoring/maintenance-script-contract).
 
-v0.7 adds an optional ontology-aware layer. It keeps the Agent Skills-style package shape: a directory is the package, `KNOWLEDGE.md` is the top-level Markdown entrypoint, metadata lives in YAML frontmatter, and clients load progressively. Ontology files are data assets that describe concepts, claims, relations, evidence, constraints, coverage matrices, and optional operational records such as signals, objectives, action types, decision gates, action logs, and feedback loops. They are not executable workflows, agent instructions, or a required graph database runtime.
+v0.7 adds optional ontology-aware and answer-ready layers. They keep the Agent Skills-style package shape: a directory is the package, `KNOWLEDGE.md` is the top-level Markdown entrypoint, metadata lives in YAML frontmatter, and clients load progressively. Ontology files are data assets that describe concepts, claims, relations, evidence, constraints, coverage matrices, and optional operational records such as signals, objectives, action types, decision gates, action logs, and feedback loops. Answer-ready files are data assets that describe questions, answer blocks, citation targets, source surfaces, structured data records, and answer monitoring observations. They are not executable workflows, agent instructions, ranking manipulation instructions, or a required graph database runtime.
 
 ## Directory structure
 
@@ -44,6 +44,7 @@ pack-name/
 ├── sources/          # Optional: raw evidence, compile input, and citation source
 ├── wiki/             # wiki-first authority: maintained structured knowledge
 ├── ontology/         # Optional: concepts, relations, evidence, constraints, coverage, operational records
+├── answers/          # Optional: questions, answer blocks, citation targets, source surfaces, and monitoring
 ├── compiled/         # Optional: runtime views derived from documents/ or wiki/
 ├── indexes/          # Optional: rebuildable search/vector/graph indexes
 ├── runs/             # Optional: compile, ingest, lint, review, query logs
@@ -57,8 +58,9 @@ Fixed rules:
 
 1. `documents/` and `wiki/` can both be primary fact sources, but a pack MUST declare which path is primary through `profile` and metadata.
 2. `ontology/` is a structured knowledge layer derived from `documents/`, `wiki/`, and `sources/`, unless the pack explicitly declares an ontology artifact as a reviewed primary fact surface.
-3. `compiled/`, `indexes/`, and `runs/` are derived, acceleration, or audit layers; they should not become untraceable fact sources.
-4. A Knowledge runtime MUST NOT execute scripts inside a pack. Maintenance scripts belong in Agent Skills, client tools, or external CI.
+3. `answers/` is a structured answer-readiness layer derived from reviewed facts, source refs, and public or internal source surfaces. It is not a ranking instruction layer.
+4. `compiled/`, `indexes/`, and `runs/` are derived, acceleration, or audit layers; they should not become untraceable fact sources.
+5. A Knowledge runtime MUST NOT execute scripts inside a pack. Maintenance scripts belong in Agent Skills, client tools, or external CI.
 
 ## `KNOWLEDGE.md` format
 
@@ -89,6 +91,7 @@ Fixed rules:
 | `runtime.mode` | `data` or `persona`. Defaults to `data`. |
 | `metadata.primaryDocument` | Primary document path for document-first packs, such as `documents/main.md`. |
 | `metadata.primaryOntology` | Primary ontology manifest path for ontology-aware packs, such as `ontology/ontology.json`. |
+| `metadata.primaryAnswers` | Primary answer map or manifest path for answer-ready packs, such as `answers/questions.json`. |
 | `metadata.producedBy` | Optional provenance for the Skill or tool that produced or maintained this pack. |
 | `metadata` | Namespaced client-specific metadata. |
 | `compatibility` | Optional runtime or client requirements. Keep under 500 characters. |
@@ -198,6 +201,7 @@ Reference schemas are available for compile runs, source maps, and discovery eva
 | `sources/` | Raw or normalized evidence and compile input. | Only for citation, verification, ingest, or dispute handling. |
 | `wiki/` | wiki-first primary fact source with source summaries, entities, concepts, decisions, contradictions, and synthesis. | Selected pages only. |
 | `ontology/` | Optional structured concept, relation, claim, evidence, constraint, and coverage artifacts. | Selected subgraphs only; never loaded wholesale by default. |
+| `answers/` | Optional structured questions, answer blocks, citation targets, source surfaces, structured data records, and monitoring observations. | Selected answer subgraphs only; never treated as ranking instructions. |
 | `compiled/` | Derived runtime-ready views such as splits, facts, boundaries, briefings, and approved claims. | Preferred for normal runtime. |
 | `indexes/` | Rebuildable full-text, vector, graph, or lookup indexes. | Candidate search only; never fact authority. |
 | `runs/` | Generated compile, ingest, lint, review, query, and eval logs. | Diagnostics and audit evidence. |
@@ -234,6 +238,8 @@ The resolver SHOULD load only the smallest useful context for the task. It MAY u
 For ontology-aware packs, the resolver SHOULD select a task-relevant subgraph rather than injecting the full ontology. A subgraph can include concept labels, approved claims, relation paths, evidence snippets, constraints, coverage rows, and operational records such as selected signals, objectives, decision gates, action types, action logs, and feedback summaries. Claims marked as unreviewed, disputed, forbidden, or missing evidence MUST NOT be promoted into factual answers or generation prompts without an explicit warning.
 
 Operational records are also data. A resolver MAY use them to explain history, choose context, or surface a decision gate, but it MUST NOT execute an action type, follow a workflow, or treat an action log as proof of a factual claim unless the claim has independent evidence.
+
+For answer-ready packs, the resolver SHOULD select a task-relevant answer subgraph rather than injecting every question, citation target, or monitoring record. A subgraph can include the current question, intent, audience, approved answer block, supporting claims, citation targets, constraints, and recent monitoring summaries. `CitationTarget` records are citation candidates, not proof that an external answer engine has cited the pack. Monitoring observations are audit data, not causality claims.
 
 ## Ontology-aware packs
 
@@ -272,6 +278,32 @@ Ontology-aware packs follow these rules:
 8. `Signal` and `ActionLog` records MUST NOT be treated as evidence for product, policy, or market claims unless separately grounded by `evidence.json` or source references.
 
 Detailed authoring guidance: [Ontology-aware packs](/en/authoring/ontology-packs) and [Operational ontology packs](/en/authoring/operational-ontology).
+
+## Answer-ready packs
+
+An answer-ready pack MAY include:
+
+```text
+answers/
+├── questions.json        # user, search, support, buying, comparison, or agent questions
+├── answer-blocks.json    # reviewed direct answers, summaries, steps, tables, comparisons, FAQs, and boundaries
+├── citation-targets.json # citation-ready pages, sections, paragraphs, tables, figures, media, or data points
+├── source-surfaces.json  # pages, Markdown mirrors, sitemap entries, llms.txt entries, API docs, and public surfaces
+├── structured-data.json  # schema or metadata records and visible-content consistency status
+└── monitoring-runs.json  # observed mentions, citations, competitors, accuracy, drift, and source health
+```
+
+Answer-ready packs follow these rules:
+
+1. Every `AnswerBlock` SHOULD have claim ids, citation target ids, evidence state, review status, and last review date.
+2. Every `CitationTarget` SHOULD point to visible, accessible, and stable content. Hidden text, fake sources, and unsupported claims MUST NOT be recorded as citation targets.
+3. `SourceSurface` records MAY describe sitemaps, `robots.txt`, Markdown mirrors, `llms.txt`, structured data, public pages, or API docs as data.
+4. Structured data records MUST match visible content.
+5. Monitoring records SHOULD distinguish mention, citation, primary recommendation, competitor occupancy, inaccuracy, and answer drift.
+6. `answers/` MUST NOT contain prompt injection, crawler deception, fake authority, fabricated citations, hidden claims, black-hat GEO instructions, or ranking manipulation instructions.
+7. `metadata.primaryAnswers` MAY point to the main answer map or manifest.
+
+Detailed authoring guidance: [Answer-ready knowledge packs](/en/authoring/answer-engine-knowledge).
 
 ## Copyable Markdown
 

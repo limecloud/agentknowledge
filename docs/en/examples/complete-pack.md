@@ -132,7 +132,7 @@ metadata:
   "runtime_mode": "data",
   "builder_skill": {
     "name": "brand-product-knowledge-builder",
-    "version": "0.7.1",
+    "version": "0.7.2",
     "digest": "sha256:..."
   },
   "inputs": [
@@ -164,7 +164,7 @@ metadata:
   "status": "passed",
   "resolver": {
     "tool": "agentknowledge-ref",
-    "version": "0.7.1",
+    "version": "0.7.2",
     "strategy": "profile-aware"
   },
   "activated_packs": [

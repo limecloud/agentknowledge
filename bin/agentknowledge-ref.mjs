@@ -3,7 +3,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { basename, dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const cliVersion = '0.7.1'
+const cliVersion = '0.7.2'
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 
 const schemas = {
@@ -104,6 +104,7 @@ function validatePack(packPath) {
 
   validatePackProfile(packRoot, properties, findings)
   validateOntologyPack(packRoot, properties, findings)
+  validateAnswerReadyPack(packRoot, properties, findings)
   validateKnownJson(packRoot, findings)
   validateSourceAnchors(packRoot, findings)
 
@@ -182,6 +183,43 @@ function validateOntologyPack(packRoot, properties, findings) {
       JSON.parse(readFileSync(absolute, 'utf8'))
     } catch (error) {
       findings.push(errorFinding(`ontology/${file}`, `Invalid JSON: ${error.message}`))
+    }
+  }
+}
+
+function validateAnswerReadyPack(packRoot, properties, findings) {
+  const answersRoot = join(packRoot, 'answers')
+  const primaryAnswers = properties.metadata?.primaryAnswers
+  const hasAnswers = existsSync(answersRoot) && statSync(answersRoot).isDirectory()
+
+  if (!hasAnswers && primaryAnswers) {
+    findings.push(warningFinding('KNOWLEDGE.md', `metadata.primaryAnswers is declared but answers/ is missing: ${primaryAnswers}.`))
+  }
+
+  if (hasAnswers && !primaryAnswers) {
+    findings.push(warningFinding('KNOWLEDGE.md', 'answer-ready packs should declare metadata.primaryAnswers.'))
+  }
+
+  if (primaryAnswers && !existsSync(join(packRoot, primaryAnswers))) {
+    findings.push(errorFinding('KNOWLEDGE.md', `metadata.primaryAnswers points to missing file: ${primaryAnswers}.`))
+  }
+
+  if (!hasAnswers) return
+
+  for (const file of [
+    'questions.json',
+    'answer-blocks.json',
+    'citation-targets.json',
+    'source-surfaces.json',
+    'structured-data.json',
+    'monitoring-runs.json'
+  ]) {
+    const absolute = join(answersRoot, file)
+    if (!existsSync(absolute)) continue
+    try {
+      JSON.parse(readFileSync(absolute, 'utf8'))
+    } catch (error) {
+      findings.push(errorFinding(`answers/${file}`, `Invalid JSON: ${error.message}`))
     }
   }
 }

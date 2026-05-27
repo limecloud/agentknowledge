@@ -16,6 +16,7 @@ Use `ontology/` when a pack needs more than documents or wiki pages:
 - concept aliases and normalization
 - reusable subgraphs for prompt grounding or content QA
 - operational signals, resource bundles, decision gates, action logs, and feedback loops
+- answer-ready question maps, citation targets, source surfaces, structured data records, and answer monitoring summaries
 
 Do not use `ontology/` for procedures, tools, scripts, or workflow instructions. Those belong in Agent Skills or client tools.
 
@@ -163,3 +164,5 @@ Generated concepts and relations should remain `candidate` or `needs-review` unt
 - A `Signal` or `ActionLog` can trigger review or explain history, but it must not be treated as evidence for product, policy, or market claims unless separately grounded.
 
 See [Operational ontology packs](/en/authoring/operational-ontology) for the detailed authoring guide.
+
+See [Answer-ready knowledge packs](/en/authoring/answer-engine-knowledge) when the pack needs question maps, answer blocks, citation targets, machine-readable surfaces, or answer monitoring records.

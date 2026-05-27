@@ -24,9 +24,9 @@ description: 面向 Agent Knowledge 维护工具的脚本接口约定。
 脚本 SHOULD 锁定影响结果的依赖版本。形式：
 
 ```bash
-uvx agentknowledge-ref@0.7.1 validate ./pack
-npx agentknowledge-ref@0.7.1 validate ./pack
-go run example.com/agentknowledge-ref@v0.7.1 validate ./pack
+uvx agentknowledge-ref@0.7.2 validate ./pack
+npx agentknowledge-ref@0.7.2 validate ./pack
+go run example.com/agentknowledge-ref@v0.7.2 validate ./pack
 ```
 
 如果脚本需要网络、凭证、模型调用或付费 API，必须在 `--help` 和文档中声明。

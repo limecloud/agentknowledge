@@ -16,6 +16,7 @@ Ontology-aware 知识包增加一层结构化知识，但不改变 Agent Skills 
 - 概念别名和归一
 - 用于 prompt grounding 或内容质检的可复用子图
 - operational 信号、资源包、决策闸口、行动日志和反馈闭环
+- answer-ready 问题图谱、引用目标、信源表面、结构化数据记录和答案监测摘要
 
 不要把 `ontology/` 用于流程、工具、脚本或 workflow 指令。这些内容属于 Agent Skills 或客户端工具。
 
@@ -163,3 +164,5 @@ sources/ + documents/
 - `Signal` 或 `ActionLog` 可以触发评审或解释历史，但除非另有证据支撑，否则不能当作产品、政策或市场事实主张的证据。
 
 详见 [Operational Ontology 知识包](/zh/authoring/operational-ontology)。
+
+当知识包需要问题图谱、答案块、引用目标、机器可读表面或答案监测记录时，详见 [Answer-ready 知识包](/zh/authoring/answer-engine-knowledge)。

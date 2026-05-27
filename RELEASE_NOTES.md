@@ -1,13 +1,15 @@
-# Agent Knowledge v0.7.1
+# Agent Knowledge v0.7.2
 
-Agent Knowledge v0.7.1 extends ontology-aware packs with optional operational ontology data while keeping the Agent Skills-style package model.
+Agent Knowledge v0.7.2 adds answer-ready knowledge pack guidance while keeping the Agent Skills-style package model.
 
 ## Highlights
 
-- Adds optional operational ontology files under `ontology/`.
-- Adds authoring guidance for `Signal`, `Objective`, `ResourceBundle`, `ActionType`, `DecisionGate`, `ActionLog`, and `FeedbackLoop`.
-- Clarifies that operational records are data, not executable Skills, workflow instructions, automation commands, or standalone factual evidence.
-- Updates specification, ontology-aware authoring docs, version snapshots, README, and LLM entrypoints.
+- Adds optional answer-ready files under `answers/`.
+- Adds authoring guidance for `Question`, `AnswerBlock`, `CitationTarget`, `SourceSurface`, `StructuredDataRecord`, and `AnswerMonitoringRun`.
+- Adds optional `metadata.primaryAnswers`.
+- Clarifies that answer-ready records are data, not ranking instructions, black-hat GEO instructions, crawler manipulation, or external visibility guarantees.
+- Clarifies that citation targets are candidates and monitoring observations are audit data.
+- Updates specification, ontology-aware authoring docs, glossary, version snapshots, README, and LLM entrypoints.
 
 ## Links
 
@@ -15,4 +17,5 @@ Agent Knowledge v0.7.1 extends ontology-aware packs with optional operational on
 - Specification: https://limecloud.github.io/agentknowledge/en/specification
 - Ontology-aware packs: https://limecloud.github.io/agentknowledge/en/authoring/ontology-packs
 - Operational ontology packs: https://limecloud.github.io/agentknowledge/en/authoring/operational-ontology
+- Answer-ready packs: https://limecloud.github.io/agentknowledge/en/authoring/answer-engine-knowledge
 - LLM context: https://limecloud.github.io/agentknowledge/llms-full.txt

@@ -82,8 +82,8 @@ Runs discovery, context, or answer evals and outputs comparable results.
 Reference tools SHOULD support pinned invocation:
 
 ```bash
-uvx agentknowledge-ref@0.7.1 validate ./pack
-npx agentknowledge-ref@0.7.1 validate ./pack
+uvx agentknowledge-ref@0.7.2 validate ./pack
+npx agentknowledge-ref@0.7.2 validate ./pack
 ```
 
 Tool output SHOULD follow the [maintenance script contract](/en/authoring/maintenance-script-contract).

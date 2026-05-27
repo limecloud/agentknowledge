@@ -80,3 +80,27 @@ A client component that selects which pack files or excerpts enter the model con
 ## Grounding
 
 The ability to trace claims back to source material.
+
+## Answer-ready pack
+
+A knowledge pack pattern that records questions, answer blocks, citation targets, source surfaces, structured data records, and answer monitoring observations as data.
+
+## Question
+
+A user, search, support, buying, comparison, or agent question that can be mapped to intent, entities, answer blocks, and citation targets.
+
+## Answer block
+
+A reviewed answer unit such as a direct answer, summary, step list, table, comparison, FAQ answer, or boundary note.
+
+## Citation target
+
+The smallest useful page, section, paragraph, table, figure, transcript, or data point that can support citation.
+
+## Source surface
+
+A public or internal surface where knowledge is exposed, such as a page, Markdown mirror, sitemap entry, `llms.txt`, API documentation, or structured data record.
+
+## Answer monitoring run
+
+A dated observation record for answer presence, mentions, citations, competitors, accuracy, drift, and source health.

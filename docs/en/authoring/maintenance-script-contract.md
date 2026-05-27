@@ -24,9 +24,9 @@ Maintenance scripts are outside the core pack protocol. When provided, they SHOU
 Scripts SHOULD pin dependencies that affect results. Recommended forms:
 
 ```bash
-uvx agentknowledge-ref@0.7.1 validate ./pack
-npx agentknowledge-ref@0.7.1 validate ./pack
-go run example.com/agentknowledge-ref@v0.7.1 validate ./pack
+uvx agentknowledge-ref@0.7.2 validate ./pack
+npx agentknowledge-ref@0.7.2 validate ./pack
+go run example.com/agentknowledge-ref@v0.7.2 validate ./pack
 ```
 
 If a script needs network access, credentials, model calls, or paid APIs, it must declare that in `--help` and documentation.

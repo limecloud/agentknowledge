@@ -4,7 +4,7 @@ Source root: https://limecloud.github.io/agentknowledge
 
 Agent Knowledge is a portable standard for agent-readable knowledge packs. It defines how curated source-grounded knowledge is described, discovered, compiled, selected, cited, evaluated, maintained, and loaded by AI clients without turning the knowledge pack into a tool or a skill.
 
-This file concatenates the current English documentation most useful for model context. Each section includes its source URL. Version snapshots and translated pages are linked from `llms.txt`; v0.7.1 release pages are included because they define the latest operational ontology pack changes.
+This file concatenates the current English documentation most useful for model context. Each section includes its source URL. Version snapshots and translated pages are linked from `llms.txt`; v0.7.2 release pages are included because they define the latest answer-ready knowledge pack changes.
 
 
 # en/what-is-agent-knowledge
@@ -104,7 +104,7 @@ Skills can produce, maintain, verify, and apply Knowledge. Knowledge can provide
 
 A Knowledge pack MAY record the Builder Skill provenance that produced it, but the runtime MUST NOT execute that Skill in order to consume the knowledge. When scripts, tool calls, or automation are needed, prefer a maintenance Skill or client tool. See [Skills interop](/en/authoring/skills-interop) and the [maintenance script contract](/en/authoring/maintenance-script-contract).
 
-v0.7 adds an optional ontology-aware layer. It keeps the Agent Skills-style package shape: a directory is the package, `KNOWLEDGE.md` is the top-level Markdown entrypoint, metadata lives in YAML frontmatter, and clients load progressively. Ontology files are data assets that describe concepts, claims, relations, evidence, constraints, coverage matrices, and optional operational records such as signals, objectives, action types, decision gates, action logs, and feedback loops. They are not executable workflows, agent instructions, or a required graph database runtime.
+v0.7 adds optional ontology-aware and answer-ready layers. They keep the Agent Skills-style package shape: a directory is the package, `KNOWLEDGE.md` is the top-level Markdown entrypoint, metadata lives in YAML frontmatter, and clients load progressively. Ontology files are data assets that describe concepts, claims, relations, evidence, constraints, coverage matrices, and optional operational records such as signals, objectives, action types, decision gates, action logs, and feedback loops. Answer-ready files are data assets that describe questions, answer blocks, citation targets, source surfaces, structured data records, and answer monitoring observations. They are not executable workflows, agent instructions, ranking manipulation instructions, or a required graph database runtime.
 
 ## Directory structure
 
@@ -123,6 +123,7 @@ pack-name/
 ├── sources/          # Optional: raw evidence, compile input, and citation source
 ├── wiki/             # wiki-first authority: maintained structured knowledge
 ├── ontology/         # Optional: concepts, relations, evidence, constraints, coverage, operational records
+├── answers/          # Optional: questions, answer blocks, citation targets, source surfaces, and monitoring
 ├── compiled/         # Optional: runtime views derived from documents/ or wiki/
 ├── indexes/          # Optional: rebuildable search/vector/graph indexes
 ├── runs/             # Optional: compile, ingest, lint, review, query logs
@@ -136,8 +137,9 @@ Fixed rules:
 
 1. `documents/` and `wiki/` can both be primary fact sources, but a pack MUST declare which path is primary through `profile` and metadata.
 2. `ontology/` is a structured knowledge layer derived from `documents/`, `wiki/`, and `sources/`, unless the pack explicitly declares an ontology artifact as a reviewed primary fact surface.
-3. `compiled/`, `indexes/`, and `runs/` are derived, acceleration, or audit layers; they should not become untraceable fact sources.
-4. A Knowledge runtime MUST NOT execute scripts inside a pack. Maintenance scripts belong in Agent Skills, client tools, or external CI.
+3. `answers/` is a structured answer-readiness layer derived from reviewed facts, source refs, and public or internal source surfaces. It is not a ranking instruction layer.
+4. `compiled/`, `indexes/`, and `runs/` are derived, acceleration, or audit layers; they should not become untraceable fact sources.
+5. A Knowledge runtime MUST NOT execute scripts inside a pack. Maintenance scripts belong in Agent Skills, client tools, or external CI.
 
 ## `KNOWLEDGE.md` format
 
@@ -168,6 +170,7 @@ Fixed rules:
 | `runtime.mode` | `data` or `persona`. Defaults to `data`. |
 | `metadata.primaryDocument` | Primary document path for document-first packs, such as `documents/main.md`. |
 | `metadata.primaryOntology` | Primary ontology manifest path for ontology-aware packs, such as `ontology/ontology.json`. |
+| `metadata.primaryAnswers` | Primary answer map or manifest path for answer-ready packs, such as `answers/questions.json`. |
 | `metadata.producedBy` | Optional provenance for the Skill or tool that produced or maintained this pack. |
 | `metadata` | Namespaced client-specific metadata. |
 | `compatibility` | Optional runtime or client requirements. Keep under 500 characters. |
@@ -277,6 +280,7 @@ Reference schemas are available for compile runs, source maps, and discovery eva
 | `sources/` | Raw or normalized evidence and compile input. | Only for citation, verification, ingest, or dispute handling. |
 | `wiki/` | wiki-first primary fact source with source summaries, entities, concepts, decisions, contradictions, and synthesis. | Selected pages only. |
 | `ontology/` | Optional structured concept, relation, claim, evidence, constraint, and coverage artifacts. | Selected subgraphs only; never loaded wholesale by default. |
+| `answers/` | Optional structured questions, answer blocks, citation targets, source surfaces, structured data records, and monitoring observations. | Selected answer subgraphs only; never treated as ranking instructions. |
 | `compiled/` | Derived runtime-ready views such as splits, facts, boundaries, briefings, and approved claims. | Preferred for normal runtime. |
 | `indexes/` | Rebuildable full-text, vector, graph, or lookup indexes. | Candidate search only; never fact authority. |
 | `runs/` | Generated compile, ingest, lint, review, query, and eval logs. | Diagnostics and audit evidence. |
@@ -313,6 +317,8 @@ The resolver SHOULD load only the smallest useful context for the task. It MAY u
 For ontology-aware packs, the resolver SHOULD select a task-relevant subgraph rather than injecting the full ontology. A subgraph can include concept labels, approved claims, relation paths, evidence snippets, constraints, coverage rows, and operational records such as selected signals, objectives, decision gates, action types, action logs, and feedback summaries. Claims marked as unreviewed, disputed, forbidden, or missing evidence MUST NOT be promoted into factual answers or generation prompts without an explicit warning.
 
 Operational records are also data. A resolver MAY use them to explain history, choose context, or surface a decision gate, but it MUST NOT execute an action type, follow a workflow, or treat an action log as proof of a factual claim unless the claim has independent evidence.
+
+For answer-ready packs, the resolver SHOULD select a task-relevant answer subgraph rather than injecting every question, citation target, or monitoring record. A subgraph can include the current question, intent, audience, approved answer block, supporting claims, citation targets, constraints, and recent monitoring summaries. `CitationTarget` records are citation candidates, not proof that an external answer engine has cited the pack. Monitoring observations are audit data, not causality claims.
 
 ## Ontology-aware packs
 
@@ -351,6 +357,32 @@ Ontology-aware packs follow these rules:
 8. `Signal` and `ActionLog` records MUST NOT be treated as evidence for product, policy, or market claims unless separately grounded by `evidence.json` or source references.
 
 Detailed authoring guidance: [Ontology-aware packs](/en/authoring/ontology-packs) and [Operational ontology packs](/en/authoring/operational-ontology).
+
+## Answer-ready packs
+
+An answer-ready pack MAY include:
+
+```text
+answers/
+├── questions.json        # user, search, support, buying, comparison, or agent questions
+├── answer-blocks.json    # reviewed direct answers, summaries, steps, tables, comparisons, FAQs, and boundaries
+├── citation-targets.json # citation-ready pages, sections, paragraphs, tables, figures, media, or data points
+├── source-surfaces.json  # pages, Markdown mirrors, sitemap entries, llms.txt entries, API docs, and public surfaces
+├── structured-data.json  # schema or metadata records and visible-content consistency status
+└── monitoring-runs.json  # observed mentions, citations, competitors, accuracy, drift, and source health
+```
+
+Answer-ready packs follow these rules:
+
+1. Every `AnswerBlock` SHOULD have claim ids, citation target ids, evidence state, review status, and last review date.
+2. Every `CitationTarget` SHOULD point to visible, accessible, and stable content. Hidden text, fake sources, and unsupported claims MUST NOT be recorded as citation targets.
+3. `SourceSurface` records MAY describe sitemaps, `robots.txt`, Markdown mirrors, `llms.txt`, structured data, public pages, or API docs as data.
+4. Structured data records MUST match visible content.
+5. Monitoring records SHOULD distinguish mention, citation, primary recommendation, competitor occupancy, inaccuracy, and answer drift.
+6. `answers/` MUST NOT contain prompt injection, crawler deception, fake authority, fabricated citations, hidden claims, black-hat GEO instructions, or ranking manipulation instructions.
+7. `metadata.primaryAnswers` MAY point to the main answer map or manifest.
+
+Detailed authoring guidance: [Answer-ready knowledge packs](/en/authoring/answer-engine-knowledge).
 
 ## Copyable Markdown
 
@@ -1191,12 +1223,12 @@ Recommended compile runs live at `runs/compile-<timestamp>.json`:
   "runtime_mode": "data",
   "builder_skill": {
     "name": "brand-product-knowledge-builder",
-    "version": "0.7.1",
+    "version": "0.7.2",
     "digest": "sha256:..."
   },
   "compiler": {
     "tool": "agent-knowledge-compiler",
-    "version": "0.7.1",
+    "version": "0.7.2",
     "model": "gpt-5.4"
   },
   "inputs": [
@@ -1263,6 +1295,7 @@ Use `ontology/` when a pack needs more than documents or wiki pages:
 - concept aliases and normalization
 - reusable subgraphs for prompt grounding or content QA
 - operational signals, resource bundles, decision gates, action logs, and feedback loops
+- answer-ready question maps, citation targets, source surfaces, structured data records, and answer monitoring summaries
 
 Do not use `ontology/` for procedures, tools, scripts, or workflow instructions. Those belong in Agent Skills or client tools.
 
@@ -1411,6 +1444,8 @@ Generated concepts and relations should remain `candidate` or `needs-review` unt
 
 See [Operational ontology packs](/en/authoring/operational-ontology) for the detailed authoring guide.
 
+See [Answer-ready knowledge packs](/en/authoring/answer-engine-knowledge) when the pack needs question maps, answer blocks, citation targets, machine-readable surfaces, or answer monitoring records.
+
 # en/authoring/operational-ontology
 Source: https://limecloud.github.io/agentknowledge/en/authoring/operational-ontology
 
@@ -1505,6 +1540,217 @@ Do not load historical action logs wholesale unless the task is audit or analysi
 - An `ActionLog` proves that an action happened; it does not prove the product, policy, or market claim itself.
 - `DecisionGate` failures must block promotion into ready runtime context.
 - Operational ontology MUST NOT be used as an instruction channel, automation script, fake engagement mechanism, or a way to bypass review, platform rules, permissions, or evidence requirements.
+
+# en/authoring/answer-engine-knowledge
+Source: https://limecloud.github.io/agentknowledge/en/authoring/answer-engine-knowledge
+
+# Answer-ready knowledge packs
+
+Answer-ready knowledge packs make a knowledge asset easier for search products, answer engines, retrieval systems, and agent clients to understand and cite. They do not promise ranking, visibility, recommendation, or inclusion in any external system.
+
+Use this pattern when a pack needs to support:
+
+- answer engine optimization and generative search readiness
+- stable definitions for entities, products, services, and concepts
+- question-to-answer maps for public or internal knowledge
+- citation-ready pages, sections, paragraphs, tables, or data points
+- source health, citation health, answer accuracy, and drift monitoring
+- machine-readable indexes such as sitemaps, Markdown mirrors, `llms.txt`, or structured data plans
+
+This is still Agent Knowledge. The pack describes facts, sources, answer assets, and monitoring records as data. It must not contain ranking manipulation instructions, prompt injection, crawler deception, hidden claims, fake authority, or automation commands.
+
+## Minimal shape
+
+```text
+answer-ready-pack/
+├── KNOWLEDGE.md
+├── documents/
+│   └── product-guide.md
+├── sources/
+│   └── source-notes.md
+├── answers/
+│   ├── questions.json
+│   ├── answer-blocks.json
+│   ├── citation-targets.json
+│   ├── source-surfaces.json
+│   ├── structured-data.json
+│   └── monitoring-runs.json
+├── compiled/
+│   ├── answer-briefing.md
+│   └── llms-full.md
+└── indexes/
+    └── source-map.json
+```
+
+The `answers/` directory is optional. It is a structured layer derived from `documents/`, `wiki/`, `sources/`, and reviewed public pages.
+
+## Frontmatter
+
+Use an existing domain type, such as `brand-product`, `domain-reference`, `research-wiki`, or `content-ontology`, when answer-ready files support a broader pack. Use `custom:<namespace>` if the implementation needs a specialized type.
+
+```yaml
+name: acme-answer-knowledge
+description: Question maps, answer blocks, citation targets, and source surfaces for Acme Widget.
+type: brand-product
+profile: hybrid
+status: ready
+version: 1.0.0
+language: en
+grounding: required
+runtime:
+  mode: data
+metadata:
+  primaryDocument: documents/product-guide.md
+  primaryAnswers: answers/questions.json
+```
+
+`metadata.primaryAnswers` is optional. If present, it points to the main answer map or manifest.
+
+## Core objects
+
+| Object | Meaning |
+| --- | --- |
+| `Question` | A user, search, support, buying, comparison, or agent question. |
+| `Intent` | The reason behind the question, such as definition, comparison, purchase, troubleshooting, policy, or tutorial. |
+| `AnswerBlock` | A reviewed answer unit that can be loaded directly or cited by a client. |
+| `Claim` | A factual assertion used inside an answer block. |
+| `Evidence` | Source-grounded support for a claim. |
+| `CitationTarget` | The smallest useful page, heading, paragraph, table, media asset, or data point that can support citation. |
+| `SourceSurface` | A public page, document, API page, Markdown mirror, sitemap entry, `llms.txt` entry, or structured data surface. |
+| `StructuredDataRecord` | A record of schema, Open Graph, product, organization, article, FAQ, breadcrumb, or local business data. |
+| `AnswerMonitoringRun` | A dated record of tested questions, observed answers, mentions, citations, competitors, inaccuracies, and drift. |
+
+## Recommended files
+
+| File | Purpose |
+| --- | --- |
+| `answers/questions.json` | Question ids, wording variants, intent, audience, stage, target entity, and risk. |
+| `answers/answer-blocks.json` | Reviewed direct answers, summaries, steps, tables, comparisons, FAQs, and boundaries. |
+| `answers/citation-targets.json` | Citation-ready targets with source refs, stable URLs, headings, excerpts, and health. |
+| `answers/source-surfaces.json` | Crawlable or machine-readable surfaces such as pages, Markdown mirrors, sitemaps, and `llms.txt`. |
+| `answers/structured-data.json` | Structured data records and visible-content consistency status. |
+| `answers/monitoring-runs.json` | Observed answer presence, mentions, citations, competitors, accuracy, and drift. |
+
+## Example question record
+
+```json
+{
+  "id": "q-acme-offline-use",
+  "question": "Can Acme Widget work offline?",
+  "variants": [
+    "Does Acme Widget support offline mode?",
+    "Can field teams use Acme Widget without internet?"
+  ],
+  "intent": "product-capability",
+  "audience": ["buyer", "support-agent", "field-operator"],
+  "stage": "evaluation",
+  "targetEntityIds": ["entity-acme-widget"],
+  "answerBlockIds": ["answer-acme-offline-use"],
+  "riskLevel": "low",
+  "status": "ready"
+}
+```
+
+## Example answer block
+
+```json
+{
+  "id": "answer-acme-offline-use",
+  "format": "direct-answer",
+  "answer": "Acme Widget supports offline queueing for field teams. Work is stored locally and synchronized when connectivity returns.",
+  "claimIds": ["claim-offline-queueing"],
+  "citationTargetIds": ["cite-product-guide-offline"],
+  "evidenceStatus": "verified",
+  "reviewStatus": "approved",
+  "lastReviewed": "2026-05-28"
+}
+```
+
+## Citation targets
+
+Citation targets should be small and stable. A good target can support one claim or one answer without forcing the client to read a whole document.
+
+Recommended fields:
+
+- `id`
+- `sourceRef`
+- `url`
+- `heading`
+- `excerpt`
+- `targetKind`: `page`, `section`, `paragraph`, `table`, `figure`, `video-transcript`, `data-point`
+- `authorityLevel`
+- `freshness`
+- `accessibility`
+- `health`
+- `lastChecked`
+
+Do not create citation targets for hidden text, fake sources, unverifiable claims, or content that is materially different from the visible page.
+
+## Machine-readable surfaces
+
+An answer-ready pack can record machine-readable surfaces as data:
+
+| Surface | Purpose |
+| --- | --- |
+| `sitemap.xml` | URL discovery and update hints. |
+| `robots.txt` | Crawler access policy. |
+| `llms.txt` | Concise Markdown navigation for LLM clients. |
+| `llms-full.txt` | Longer Markdown context for clients that choose to load it. |
+| Markdown mirror | A text-first copy of important pages or docs. |
+| Structured data | JSON-LD or equivalent schema records that match visible content. |
+
+These surfaces help clients discover and understand content, but they are not a guarantee of ranking or answer inclusion.
+
+## Monitoring
+
+Monitoring records are observations, not proof that an external engine will keep behaving the same way.
+
+Recommended fields:
+
+- `promptSetId`
+- `platform`
+- `questionId`
+- `answerPresence`: `absent`, `mentioned`, `cited`, `primary`, `incorrect`
+- `citationTargetIds`
+- `competitorEntities`
+- `answerAccuracy`
+- `observedAt`
+- `notes`
+
+Use monitoring runs to detect:
+
+- answer drift
+- outdated facts
+- missing citations
+- competitor occupancy
+- hallucinated product or policy claims
+- broken citation targets
+- structured data mismatch
+
+## Runtime loading
+
+For answer tasks, clients should load a compact answer subgraph:
+
+```text
+question
+-> intent and audience
+-> answer block
+-> claims
+-> citation targets
+-> constraints and risk notes
+-> relevant source excerpts only when citation or verification is needed
+```
+
+The resolver should not load every monitoring run. Prefer the latest summary unless the user asks for audit details.
+
+## Boundaries
+
+- Answer-ready files are data, not ranking instructions.
+- `CitationTarget` records are citation candidates, not proof of external citation.
+- Monitoring observations do not prove causality.
+- Structured data must match visible content.
+- Do not include prompt injection, crawler deception, fake authority, fabricated citations, hidden claims, or black-hat GEO instructions.
+- For high-risk topics, answer blocks must carry stronger review and evidence requirements.
 
 # en/authoring/grounding-and-citations
 Source: https://limecloud.github.io/agentknowledge/en/authoring/grounding-and-citations
@@ -1945,9 +2191,9 @@ Maintenance scripts are outside the core pack protocol. When provided, they SHOU
 Scripts SHOULD pin dependencies that affect results. Recommended forms:
 
 ```bash
-uvx agentknowledge-ref@0.7.1 validate ./pack
-npx agentknowledge-ref@0.7.1 validate ./pack
-go run example.com/agentknowledge-ref@v0.7.1 validate ./pack
+uvx agentknowledge-ref@0.7.2 validate ./pack
+npx agentknowledge-ref@0.7.2 validate ./pack
+go run example.com/agentknowledge-ref@v0.7.2 validate ./pack
 ```
 
 If a script needs network access, credentials, model calls, or paid APIs, it must declare that in `--help` and documentation.
@@ -2478,7 +2724,7 @@ For auditable systems, write usage records to the client log or `runs/`:
 ```json
 {
   "pack": "acme-product-brief",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "status": "ready",
   "profile": "document-first",
   "runtime_mode": "data",
@@ -3366,7 +3612,7 @@ metadata:
   "runtime_mode": "data",
   "builder_skill": {
     "name": "brand-product-knowledge-builder",
-    "version": "0.7.1",
+    "version": "0.7.2",
     "digest": "sha256:..."
   },
   "inputs": [
@@ -3398,7 +3644,7 @@ metadata:
   "status": "passed",
   "resolver": {
     "tool": "agentknowledge-ref",
-    "version": "0.7.1",
+    "version": "0.7.2",
     "strategy": "profile-aware"
   },
   "activated_packs": [
@@ -3811,8 +4057,8 @@ Runs discovery, context, or answer evals and outputs comparable results.
 Reference tools SHOULD support pinned invocation:
 
 ```bash
-uvx agentknowledge-ref@0.7.1 validate ./pack
-npx agentknowledge-ref@0.7.1 validate ./pack
+uvx agentknowledge-ref@0.7.2 validate ./pack
+npx agentknowledge-ref@0.7.2 validate ./pack
 ```
 
 Tool output SHOULD follow the [maintenance script contract](/en/authoring/maintenance-script-contract).
@@ -3898,6 +4144,30 @@ A client component that selects which pack files or excerpts enter the model con
 
 The ability to trace claims back to source material.
 
+## Answer-ready pack
+
+A knowledge pack pattern that records questions, answer blocks, citation targets, source surfaces, structured data records, and answer monitoring observations as data.
+
+## Question
+
+A user, search, support, buying, comparison, or agent question that can be mapped to intent, entities, answer blocks, and citation targets.
+
+## Answer block
+
+A reviewed answer unit such as a direct answer, summary, step list, table, comparison, FAQ answer, or boundary note.
+
+## Citation target
+
+The smallest useful page, section, paragraph, table, figure, transcript, or data point that can support citation.
+
+## Source surface
+
+A public or internal surface where knowledge is exposed, such as a page, Markdown mirror, sitemap entry, `llms.txt`, API documentation, or structured data record.
+
+## Answer monitoring run
+
+A dated observation record for answer presence, mentions, citations, competitors, accuracy, drift, and source health.
+
 # en/reference/agent-ecosystem
 Source: https://limecloud.github.io/agentknowledge/en/reference/agent-ecosystem
 
@@ -3963,6 +4233,66 @@ These candidates should remain design notes until they can be specified without 
 | [W3C PROV](https://www.w3.org/TR/prov-dm/Overview.html) | Entity, activity, agent, derivation, and attribution reference. |
 
 External protocols are references, not ownership transfers. The Agent standards should preserve their native ids and semantics while defining agent-specific relationships.
+
+# en/versions/v0.7.2/overview
+Source: https://limecloud.github.io/agentknowledge/en/versions/v0.7.2/overview
+
+# Agent Knowledge v0.7.2
+
+Agent Knowledge v0.7.2 adds answer-ready knowledge pack guidance for AI search, answer engines, retrieval systems, and agent clients. It keeps the same directory-as-package model and preserves the boundary that knowledge is data, not executable behavior or ranking manipulation instructions.
+
+## Highlights
+
+- Adds [Answer-ready knowledge packs](/en/authoring/answer-engine-knowledge).
+- Adds optional `answers/` files for questions, answer blocks, citation targets, source surfaces, structured data records, and monitoring runs.
+- Adds optional `metadata.primaryAnswers`.
+- Clarifies that citation targets are candidates, not proof that an external answer engine has cited a pack.
+- Clarifies that monitoring observations are audit data, not causality claims.
+- Updates the latest specification, ontology-aware guidance, glossary, README, release notes, and LLM entrypoints.
+
+## Compatibility
+
+v0.7.2 is backward compatible with v0.7.1. Existing knowledge packs do not need an `answers/` directory. Clients that do not support answer-ready loading can ignore optional files under `answers/`.
+
+# en/versions/v0.7.2/specification
+Source: https://limecloud.github.io/agentknowledge/en/versions/v0.7.2/specification
+
+# Agent Knowledge v0.7.2 Specification
+
+The v0.7.2 specification snapshot is aligned with the current [latest specification](/en/specification).
+
+## v0.7.2 changes
+
+- Adds optional answer-ready records for questions, answer blocks, citation targets, source surfaces, structured data records, and monitoring observations.
+- Adds optional `metadata.primaryAnswers` for answer maps or manifests.
+- Extends the directory model with optional `answers/` while preserving the package entrypoint and runtime boundary.
+- Clarifies that answer-ready files are data, not ranking instructions or external visibility guarantees.
+- Clarifies that `CitationTarget` records are citation candidates, and `AnswerMonitoringRun` records are observations.
+
+Authoring guides:
+
+- [Ontology-aware packs](/en/authoring/ontology-packs)
+- [Operational ontology packs](/en/authoring/operational-ontology)
+- [Answer-ready knowledge packs](/en/authoring/answer-engine-knowledge)
+
+# en/versions/v0.7.2/changelog
+Source: https://limecloud.github.io/agentknowledge/en/versions/v0.7.2/changelog
+
+# v0.7.2 Changelog
+
+## Added
+
+- Added [Answer-ready knowledge packs](/en/authoring/answer-engine-knowledge).
+- Added optional answer-ready files under `answers/`: `questions.json`, `answer-blocks.json`, `citation-targets.json`, `source-surfaces.json`, `structured-data.json`, and `monitoring-runs.json`.
+- Added optional `metadata.primaryAnswers`.
+- Added glossary entries for answer-ready packs, questions, answer blocks, citation targets, source surfaces, and answer monitoring runs.
+- Added version snapshots and navigation updates for v0.7.2.
+
+## Changed
+
+- Expanded the latest specification with answer-ready runtime boundaries.
+- Expanded ontology-aware pack guidance with answer-ready data references.
+- Updated README, release notes, and LLM entrypoints.
 
 # en/versions/v0.7.1/overview
 Source: https://limecloud.github.io/agentknowledge/en/versions/v0.7.1/overview

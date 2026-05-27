@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.7.2 - 2026-05-28
+
+- Adds answer-ready knowledge pack guidance for questions, answer blocks, citation targets, source surfaces, structured data records, and monitoring runs.
+- Adds optional `answers/` directory semantics and `metadata.primaryAnswers`.
+- Clarifies that answer-ready files are data, not ranking instructions or external visibility guarantees.
+- Clarifies that `CitationTarget` records are citation candidates and monitoring observations are audit data, not causality claims.
+- Refreshes version snapshots, README, release notes, and LLM entrypoints for v0.7.2.
+
 ## v0.7.1 - 2026-05-28
 
 - Adds operational ontology guidance for signals, objectives, resource bundles, decision gates, action types, action logs, and feedback loops.

@@ -25,7 +25,7 @@ Skills 可以生产、维护、校验和应用 Knowledge；Knowledge 可以为 S
 
 Knowledge pack MAY 记录产生它的 Builder Skill provenance，但运行时 MUST NOT 为了消费知识而执行该 Skill。需要脚本、工具调用或自动化流程时，优先放入维护 Skill 或客户端工具。细则见 [Skills 互操作](/zh/authoring/skills-interop) 和 [维护脚本契约](/zh/authoring/maintenance-script-contract)。
 
-v0.7 增加可选的 ontology-aware 层。它仍保持 Agent Skills 风格的包结构：目录就是包，`KNOWLEDGE.md` 是顶层 Markdown 入口，metadata 放在 YAML frontmatter 中，客户端渐进加载。Ontology 文件是数据资产，用来描述概念、主张、关系、证据、约束、覆盖矩阵，以及可选的 operational 记录，例如信号、目标、动作类型、决策闸口、行动日志和反馈闭环；它们不是可执行 workflow、Agent 指令，也不要求运行时必须使用图数据库。
+v0.7 增加可选的 ontology-aware 和 answer-ready 层。它们仍保持 Agent Skills 风格的包结构：目录就是包，`KNOWLEDGE.md` 是顶层 Markdown 入口，metadata 放在 YAML frontmatter 中，客户端渐进加载。Ontology 文件是数据资产，用来描述概念、主张、关系、证据、约束、覆盖矩阵，以及可选的 operational 记录，例如信号、目标、动作类型、决策闸口、行动日志和反馈闭环。Answer-ready 文件是数据资产，用来描述问题、答案块、引用目标、信源表面、结构化数据记录和答案监测观察。它们不是可执行 workflow、Agent 指令、排名操控指令，也不要求运行时必须使用图数据库。
 
 ## 目录结构
 
@@ -44,6 +44,7 @@ pack-name/
 ├── sources/          # 可选：原始来源，作为编译输入和证据
 ├── wiki/             # wiki-first 主事实源：维护后的结构化知识
 ├── ontology/         # 可选：概念、关系、证据、约束、覆盖和 operational records
+├── answers/          # 可选：问题、答案块、引用目标、信源表面和监测记录
 ├── compiled/         # 可选：从 documents/ 或 wiki/ 派生的运行时上下文视图
 ├── indexes/          # 可选：可重建索引，检索加速层
 ├── runs/             # 可选：编译、导入、lint、评审、查询记录
@@ -57,8 +58,9 @@ pack-name/
 
 1. `documents/` 和 `wiki/` 都可以成为主事实源，但同一个 pack MUST 通过 `profile` 和 metadata 说明哪一个是主路径。
 2. `ontology/` 是从 `documents/`、`wiki/` 和 `sources/` 派生的结构化知识层，除非知识包明确声明某个 ontology artifact 是已评审主事实表面。
-3. `compiled/`、`indexes/` 和 `runs/` 是派生、加速或审计层，不应成为不可追溯的独立事实源。
-4. Knowledge runtime MUST NOT 执行包内脚本。维护脚本应属于 Agent Skill、客户端工具或外部 CI。
+3. `answers/` 是从已评审事实、source refs、公开或内部信源表面派生的结构化 answer-readiness 层，不是排名指令层。
+4. `compiled/`、`indexes/` 和 `runs/` 是派生、加速或审计层，不应成为不可追溯的独立事实源。
+5. Knowledge runtime MUST NOT 执行包内脚本。维护脚本应属于 Agent Skill、客户端工具或外部 CI。
 
 ## `KNOWLEDGE.md`
 
@@ -89,6 +91,7 @@ pack-name/
 | `runtime.mode` | `data` 或 `persona`。缺省为 `data`。 |
 | `metadata.primaryDocument` | document-first pack 的主文档路径，例如 `documents/main.md`。 |
 | `metadata.primaryOntology` | ontology-aware pack 的主 ontology manifest 路径，例如 `ontology/ontology.json`。 |
+| `metadata.primaryAnswers` | answer-ready pack 的主答案图谱或 manifest 路径，例如 `answers/questions.json`。 |
 | `metadata.producedBy` | 可选 provenance，记录产生或维护本 pack 的 Skill / 工具。 |
 | `metadata` | 客户端自定义元数据；私有字段应使用命名空间。 |
 | `compatibility` | 可选 runtime 或客户端要求，控制在 500 字符内。 |
@@ -198,6 +201,7 @@ sources/ -> documents/ 或 wiki/ -> ontology/ -> compiled/briefings + indexes/
 | `sources/` | 原始或规范化证据，也是编译输入。 | 只在引用、校验、导入或争议处理时读取。 |
 | `wiki/` | wiki-first 主事实源，保存来源摘要、实体、概念、决策、矛盾和综合页面。 | 只加载选中页面。 |
 | `ontology/` | 可选结构化概念、关系、主张、证据、约束和覆盖工件。 | 只加载选中的子图，默认不整包加载。 |
+| `answers/` | 可选结构化问题、答案块、引用目标、信源表面、结构化数据记录和监测观察。 | 只加载选中的答案子图；不能当作排名指令。 |
 | `compiled/` | 运行时就绪派生视图，如 splits、facts、boundaries、briefings 和 approved claims。 | 常规运行时优先。 |
 | `indexes/` | 可重建全文、向量、图或 lookup 索引。 | 只用于候选搜索；不能作为事实权威。 |
 | `runs/` | 编译、导入、lint、评审、查询和 eval 记录。 | 诊断和审计证据。 |
@@ -233,6 +237,8 @@ persona 型知识包使用 `mode="persona"`，但仍然是数据，不得覆盖 
 对于 ontology-aware pack，解析器 SHOULD 选择与任务相关的子图，而不是注入完整 ontology。子图可以包含概念标签、已批准主张、关系路径、证据摘录、约束、覆盖矩阵行，以及选中的 signal、objective、decision gate、action type、action log 和 feedback 摘要等 operational records。标记为 unreviewed、disputed、forbidden 或 missing evidence 的主张，MUST NOT 在没有明确警告的情况下提升为事实答案或生成 prompt。
 
 Operational records 同样是数据。解析器 MAY 使用它们解释历史、选择上下文或展示决策闸口，但 MUST NOT 执行 action type、遵循 workflow，也不能把 action log 当作事实主张的证据，除非该主张有独立证据。
+
+对于 answer-ready pack，解析器 SHOULD 选择与任务相关的答案子图，而不是注入全部问题、引用目标或监测记录。子图可以包含当前问题、意图、人群、已批准答案块、支撑主张、引用目标、约束和最近监测摘要。`CitationTarget` 记录是引用候选，不证明外部答案引擎已经引用该 pack。监测观察是审计数据，不是因果证明。
 
 ## Ontology-aware 知识包
 
@@ -271,6 +277,32 @@ ontology-aware pack 遵守以下规则：
 8. `Signal` 和 `ActionLog` 记录 MUST NOT 被当作产品、政策或市场事实主张的证据，除非它们另有 `evidence.json` 或来源引用支撑。
 
 详细作者指南见 [Ontology-aware 知识包](/zh/authoring/ontology-packs) 和 [Operational Ontology 知识包](/zh/authoring/operational-ontology)。
+
+## Answer-ready 知识包
+
+answer-ready pack MAY 包含：
+
+```text
+answers/
+├── questions.json        # 用户、搜索、客服、购买、比较或 Agent 问题
+├── answer-blocks.json    # 已审核直接答案、摘要、步骤、表格、对比、FAQ 和边界
+├── citation-targets.json # 可引用页面、章节、段落、表格、图、媒体或数据点
+├── source-surfaces.json  # 页面、Markdown 镜像、sitemap entry、llms.txt entry、API docs 和公开表面
+├── structured-data.json  # schema 或 metadata 记录，以及和可见内容的一致性状态
+└── monitoring-runs.json  # 观测到的提及、引用、竞品、准确性、漂移和信源健康
+```
+
+answer-ready pack 遵守以下规则：
+
+1. 每个 `AnswerBlock` SHOULD 包含 claim ids、citation target ids、证据状态、评审状态和最近评审日期。
+2. 每个 `CitationTarget` SHOULD 指向可见、可访问、稳定的内容。隐藏文本、虚假来源和无证据主张 MUST NOT 被记录为 citation targets。
+3. `SourceSurface` 记录 MAY 把 sitemap、`robots.txt`、Markdown mirror、`llms.txt`、结构化数据、公开页面或 API docs 描述成数据。
+4. 结构化数据记录 MUST 与可见内容一致。
+5. 监测记录 SHOULD 区分 mention、citation、primary recommendation、competitor occupancy、inaccuracy 和 answer drift。
+6. `answers/` MUST NOT 包含 prompt injection、爬虫欺骗、虚假权威、伪造引用、隐藏主张、黑帽 GEO 指令或排名操控指令。
+7. `metadata.primaryAnswers` MAY 指向主要答案图谱或 manifest。
+
+详细作者指南见 [Answer-ready 知识包](/zh/authoring/answer-engine-knowledge)。
 
 ## 一键复制 Markdown
 

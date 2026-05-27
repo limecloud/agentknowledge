@@ -211,7 +211,7 @@ resolver 规则：
 ```json
 {
   "pack": "acme-product-brief",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "status": "ready",
   "profile": "document-first",
   "runtime_mode": "data",

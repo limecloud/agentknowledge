@@ -3,7 +3,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { basename, dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const cliVersion = '0.7.0'
+const cliVersion = '0.7.1'
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 
 const schemas = {
@@ -103,6 +103,7 @@ function validatePack(packPath) {
   }
 
   validatePackProfile(packRoot, properties, findings)
+  validateOntologyPack(packRoot, properties, findings)
   validateKnownJson(packRoot, findings)
   validateSourceAnchors(packRoot, findings)
 
@@ -131,6 +132,56 @@ function validatePackProfile(packRoot, properties, findings) {
     }
     if (!primaryDocument) {
       findings.push(warningFinding('KNOWLEDGE.md', 'document-first profile should declare metadata.primaryDocument.'))
+    }
+  }
+}
+
+function validateOntologyPack(packRoot, properties, findings) {
+  const ontologyRoot = join(packRoot, 'ontology')
+  const primaryOntology = properties.metadata?.primaryOntology
+  const hasOntology = existsSync(ontologyRoot) && statSync(ontologyRoot).isDirectory()
+  const isOntologyType = properties.type === 'content-ontology'
+
+  if (!hasOntology && primaryOntology) {
+    findings.push(warningFinding('KNOWLEDGE.md', `metadata.primaryOntology is declared but ontology/ is missing: ${primaryOntology}.`))
+  }
+
+  if (hasOntology && !primaryOntology) {
+    findings.push(warningFinding('KNOWLEDGE.md', 'ontology-aware packs should declare metadata.primaryOntology.'))
+  }
+
+  if (isOntologyType && !hasOntology) {
+    findings.push(errorFinding('ontology/', 'type content-ontology requires an ontology/ directory.'))
+  }
+
+  if (primaryOntology && !existsSync(join(packRoot, primaryOntology))) {
+    findings.push(errorFinding('KNOWLEDGE.md', `metadata.primaryOntology points to missing file: ${primaryOntology}.`))
+  }
+
+  if (!hasOntology) return
+
+  for (const file of [
+    'ontology.json',
+    'concepts.json',
+    'relations.json',
+    'claims.json',
+    'evidence.json',
+    'constraints.json',
+    'coverage.json',
+    'signals.json',
+    'objectives.json',
+    'resources.json',
+    'action-types.json',
+    'decision-gates.json',
+    'action-logs.json',
+    'feedback.json'
+  ]) {
+    const absolute = join(ontologyRoot, file)
+    if (!existsSync(absolute)) continue
+    try {
+      JSON.parse(readFileSync(absolute, 'utf8'))
+    } catch (error) {
+      findings.push(errorFinding(`ontology/${file}`, `Invalid JSON: ${error.message}`))
     }
   }
 }

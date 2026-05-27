@@ -15,6 +15,7 @@ Ontology-aware 知识包增加一层结构化知识，但不改变 Agent Skills 
 - 已批准和禁用表达
 - 概念别名和归一
 - 用于 prompt grounding 或内容质检的可复用子图
+- operational 信号、资源包、决策闸口、行动日志和反馈闭环
 
 不要把 `ontology/` 用于流程、工具、脚本或 workflow 指令。这些内容属于 Agent Skills 或客户端工具。
 
@@ -34,7 +35,10 @@ brand-product-ontology/
 │   ├── claims.json
 │   ├── evidence.json
 │   ├── constraints.json
-│   └── coverage.json
+│   ├── coverage.json
+│   ├── action-types.json
+│   ├── action-logs.json
+│   └── decision-gates.json
 └── compiled/
     └── prompt-grounding.md
 ```
@@ -99,6 +103,36 @@ metadata:
 
 用于内容生成时，运行时应该把约束和选中事实一起注入。一个使用产品收益的 prompt，也应该同时拿到该收益对应的禁用主张、证据要求和渠道规则。
 
+## Operational Ontology 数据
+
+Operational ontology 数据是可选层。它把行动和决策描述成可审计数据，而不是可执行指令。
+
+当 ontology 需要连接以下链路时使用：
+
+```text
+signal
+-> objective
+-> resource bundle
+-> decision gates
+-> action type
+-> action log
+-> feedback loop
+```
+
+推荐可选文件：
+
+| 文件 | 用途 |
+| --- | --- |
+| `signals.json` | 市场、用户、竞品、表现、平台或人工观察信号。 |
+| `objectives.json` | 目标、人群、渠道、截止时间和成功指标。 |
+| `resources.json` | 已批准主张、证据、覆盖矩阵行、Prompt、素材、SOP 和约束的资源包。 |
+| `action-types.json` | 对可用动作及其必要闸口的声明式描述。 |
+| `decision-gates.json` | 证据、评审、权限、品牌、安全和渠道规则。 |
+| `action-logs.json` | 记录谁或什么基于哪些资源行动，产物、闸口结果和状态是什么。 |
+| `feedback.json` | 结果摘要和学习记录。 |
+
+Operational 文件必须保持 Agent Knowledge 的边界：它们是数据。客户端可以把 `ActionType` 映射到 UI 按钮、workflow 或 Agent Skill，但知识包不能执行它。
+
 ## Builder Skill provenance
 
 Ontology 文件通常由 Builder Skill 产生，但运行时消费知识时不得执行该 Skill。请在 `metadata.producedBy` 和 `runs/compile-*.json` 中记录 provenance。
@@ -122,7 +156,10 @@ sources/ + documents/
 ## 边界
 
 - `ontology/` 是结构化数据，不是可执行行为。
+- `action-types.json`、`action-logs.json` 等 operational ontology 文件同样是数据，不能当作脚本、workflow 指令或自动化命令。
 - `exports/` 可以包含 JSON-LD、RDF、Turtle、SKOS 或 OWL，但除非知识包另行声明，否则它们只是互操作工件。
 - 索引可以指向 ontology 文件，但索引仍然只是加速层。
 - 缺失或有争议的证据状态应该在常规回答中阻止事实主张。
+- `Signal` 或 `ActionLog` 可以触发评审或解释历史，但除非另有证据支撑，否则不能当作产品、政策或市场事实主张的证据。
 
+详见 [Operational Ontology 知识包](/zh/authoring/operational-ontology)。

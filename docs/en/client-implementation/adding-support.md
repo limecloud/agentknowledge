@@ -211,7 +211,7 @@ For auditable systems, write usage records to the client log or `runs/`:
 ```json
 {
   "pack": "acme-product-brief",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "status": "ready",
   "profile": "document-first",
   "runtime_mode": "data",

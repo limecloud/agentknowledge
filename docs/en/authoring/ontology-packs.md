@@ -15,6 +15,7 @@ Use `ontology/` when a pack needs more than documents or wiki pages:
 - approved and forbidden expressions
 - concept aliases and normalization
 - reusable subgraphs for prompt grounding or content QA
+- operational signals, resource bundles, decision gates, action logs, and feedback loops
 
 Do not use `ontology/` for procedures, tools, scripts, or workflow instructions. Those belong in Agent Skills or client tools.
 
@@ -34,7 +35,10 @@ brand-product-ontology/
 │   ├── claims.json
 │   ├── evidence.json
 │   ├── constraints.json
-│   └── coverage.json
+│   ├── coverage.json
+│   ├── action-types.json
+│   ├── action-logs.json
+│   └── decision-gates.json
 └── compiled/
     └── prompt-grounding.md
 ```
@@ -99,6 +103,36 @@ selected concepts
 
 For content generation, the runtime should include constraints beside the selected facts. A prompt that uses a product benefit should also receive forbidden claims, required evidence, and channel rules for that benefit.
 
+## Operational ontology data
+
+Operational ontology data is optional. It describes actions and decisions as audit-friendly data, not as executable instructions.
+
+Use it when the ontology needs to connect:
+
+```text
+signal
+-> objective
+-> resource bundle
+-> decision gates
+-> action type
+-> action log
+-> feedback loop
+```
+
+Recommended optional files:
+
+| File | Purpose |
+| --- | --- |
+| `signals.json` | Market, customer, competitor, performance, platform, or manual observations. |
+| `objectives.json` | Goals, audiences, channels, deadlines, and success metrics. |
+| `resources.json` | Bundles of approved claims, evidence, coverage rows, prompts, assets, SOPs, and constraints. |
+| `action-types.json` | Declarative descriptions of allowed actions and required gates. |
+| `decision-gates.json` | Evidence, review, permission, brand, safety, and channel rules. |
+| `action-logs.json` | Records of who or what acted, with which resources, outputs, gate result, and status. |
+| `feedback.json` | Outcome summaries and learning records. |
+
+Operational files must preserve the same boundary as the rest of Agent Knowledge: they are data. A client may map an `ActionType` to a UI button, workflow, or Agent Skill, but the knowledge pack must not execute it.
+
 ## Builder Skill provenance
 
 Ontology files are often produced by a Builder Skill, but runtime consumption must not execute that Skill. Record provenance in `metadata.producedBy` and `runs/compile-*.json`.
@@ -122,7 +156,10 @@ Generated concepts and relations should remain `candidate` or `needs-review` unt
 ## Boundaries
 
 - `ontology/` is structured data, not executable behavior.
+- Operational ontology files such as `action-types.json` and `action-logs.json` are also data. They must not be treated as scripts, workflow instructions, or automation commands.
 - `exports/` can contain JSON-LD, RDF, Turtle, SKOS, or OWL, but these are interchange artifacts unless the pack declares otherwise.
 - Indexes can point into ontology files, but indexes are still acceleration layers.
 - A missing or disputed evidence state should block factual claims in normal answers.
+- A `Signal` or `ActionLog` can trigger review or explain history, but it must not be treated as evidence for product, policy, or market claims unless separately grounded.
 
+See [Operational ontology packs](/en/authoring/operational-ontology) for the detailed authoring guide.

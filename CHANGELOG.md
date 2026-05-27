@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.7.1 - 2026-05-28
+
+- Adds operational ontology guidance for signals, objectives, resource bundles, decision gates, action types, action logs, and feedback loops.
+- Expands ontology-aware pack docs and specification with optional operational files under `ontology/`.
+- Clarifies that `ActionType`, `Signal`, and `ActionLog` records are data, not executable instructions or factual evidence by themselves.
+- Refreshes version snapshots, README, release notes, and LLM entrypoints for v0.7.1.
+
 ## v0.7.0 - 2026-05-28
 
 - Adds ontology-aware knowledge packs with optional `ontology/` directory semantics.

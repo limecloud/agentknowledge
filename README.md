@@ -18,6 +18,7 @@ A Builder Skill can produce, maintain, validate, or publish a Knowledge pack. Th
 ## What v0.7 adds
 
 - Optional ontology-aware knowledge packs through `ontology/`
+- Optional operational ontology data for signals, objectives, resource bundles, decision gates, action types, action logs, and feedback loops
 - `metadata.primaryOntology` for ontology manifests
 - `content-ontology` as a standard type for concept maps, claim graphs, evidence constraints, and coverage matrices
 - Runtime guidance for selecting small ontology subgraphs instead of injecting whole graphs
@@ -72,6 +73,7 @@ Key pages:
 - [Agent Knowledge vs Agent Skills](docs/en/agent-knowledge-vs-skills.md)
 - [Compilation model](docs/en/authoring/compilation-model.md)
 - [Ontology-aware packs](docs/en/authoring/ontology-packs.md)
+- [Operational ontology packs](docs/en/authoring/operational-ontology.md)
 - [Runtime standard](docs/en/client-implementation/runtime-standard.md)
 - [Skills interop](docs/en/authoring/skills-interop.md)
 - [中文规范](docs/zh/specification.md)
@@ -81,10 +83,10 @@ Key pages:
 The package provides `agentknowledge-ref`, a small reference CLI for validating Agent Knowledge packs and exercising the documented tooling contracts.
 
 ```bash
-npx agentknowledge-ref@0.7.0 validate ./pack
-npx agentknowledge-ref@0.7.0 to-catalog ./pack
-npx agentknowledge-ref@0.7.0 resolve-context ./pack --query "Need pricing facts" --dry-run
-npx agentknowledge-ref@0.7.0 eval ./pack --suite evals/discovery.validation.json
+npx agentknowledge-ref@0.7.1 validate ./pack
+npx agentknowledge-ref@0.7.1 to-catalog ./pack
+npx agentknowledge-ref@0.7.1 resolve-context ./pack --query "Need pricing facts" --dry-run
+npx agentknowledge-ref@0.7.1 eval ./pack --suite evals/discovery.validation.json
 ```
 
 
@@ -120,7 +122,7 @@ The static site is generated at `docs/.vitepress/dist` and is deployed to GitHub
 
 Publishing is handled by `.github/workflows/publish-npm.yml` so releases do not depend on a local OTP prompt.
 
-For a token-based npm release of `agentknowledge-ref`, create a short-lived npm granular access token with **Read and write** access, **Bypass 2FA** enabled, and package access broad enough to publish the package. Save it as the GitHub repository secret `NPM_TOKEN`, then run the **Publish package to npm** workflow manually with `publish_ref=v0.7.0` and `publish_mode=token`.
+For a token-based npm release of `agentknowledge-ref`, create a short-lived npm granular access token with **Read and write** access, **Bypass 2FA** enabled, and package access broad enough to publish the package. Save it as the GitHub repository secret `NPM_TOKEN`, then run the **Publish package to npm** workflow manually with `publish_ref=v0.7.1` and `publish_mode=token`.
 
 After the first package exists on npm, configure npm Trusted Publishing for:
 

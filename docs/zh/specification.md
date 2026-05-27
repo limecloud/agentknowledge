@@ -25,7 +25,7 @@ Skills 可以生产、维护、校验和应用 Knowledge；Knowledge 可以为 S
 
 Knowledge pack MAY 记录产生它的 Builder Skill provenance，但运行时 MUST NOT 为了消费知识而执行该 Skill。需要脚本、工具调用或自动化流程时，优先放入维护 Skill 或客户端工具。细则见 [Skills 互操作](/zh/authoring/skills-interop) 和 [维护脚本契约](/zh/authoring/maintenance-script-contract)。
 
-v0.7 增加可选的 ontology-aware 层。它仍保持 Agent Skills 风格的包结构：目录就是包，`KNOWLEDGE.md` 是顶层 Markdown 入口，metadata 放在 YAML frontmatter 中，客户端渐进加载。Ontology 文件是数据资产，用来描述概念、主张、关系、证据、约束和覆盖矩阵；它们不是可执行 workflow、Agent 指令，也不要求运行时必须使用图数据库。
+v0.7 增加可选的 ontology-aware 层。它仍保持 Agent Skills 风格的包结构：目录就是包，`KNOWLEDGE.md` 是顶层 Markdown 入口，metadata 放在 YAML frontmatter 中，客户端渐进加载。Ontology 文件是数据资产，用来描述概念、主张、关系、证据、约束、覆盖矩阵，以及可选的 operational 记录，例如信号、目标、动作类型、决策闸口、行动日志和反馈闭环；它们不是可执行 workflow、Agent 指令，也不要求运行时必须使用图数据库。
 
 ## 目录结构
 
@@ -43,7 +43,7 @@ pack-name/
 ├── documents/        # document-first 主事实源：可读、可编辑、可交付的 Markdown
 ├── sources/          # 可选：原始来源，作为编译输入和证据
 ├── wiki/             # wiki-first 主事实源：维护后的结构化知识
-├── ontology/         # 可选：概念、关系、证据、约束和覆盖矩阵
+├── ontology/         # 可选：概念、关系、证据、约束、覆盖和 operational records
 ├── compiled/         # 可选：从 documents/ 或 wiki/ 派生的运行时上下文视图
 ├── indexes/          # 可选：可重建索引，检索加速层
 ├── runs/             # 可选：编译、导入、lint、评审、查询记录
@@ -230,7 +230,9 @@ persona 型知识包使用 `mode="persona"`，但仍然是数据，不得覆盖 
 
 解析器 SHOULD 只加载本轮任务所需的最小上下文。它可以用索引找候选，但索引永远不是事实权威。多个知识包同时激活时，每个 pack 使用独立 wrapper；如果同时存在 persona 和 data，persona wrapper SHOULD 排在相关 data wrapper 之前。
 
-对于 ontology-aware pack，解析器 SHOULD 选择与任务相关的子图，而不是注入完整 ontology。子图可以包含概念标签、已批准主张、关系路径、证据摘录、约束和覆盖矩阵行。标记为 unreviewed、disputed、forbidden 或 missing evidence 的主张，MUST NOT 在没有明确警告的情况下提升为事实答案或生成 prompt。
+对于 ontology-aware pack，解析器 SHOULD 选择与任务相关的子图，而不是注入完整 ontology。子图可以包含概念标签、已批准主张、关系路径、证据摘录、约束、覆盖矩阵行，以及选中的 signal、objective、decision gate、action type、action log 和 feedback 摘要等 operational records。标记为 unreviewed、disputed、forbidden 或 missing evidence 的主张，MUST NOT 在没有明确警告的情况下提升为事实答案或生成 prompt。
+
+Operational records 同样是数据。解析器 MAY 使用它们解释历史、选择上下文或展示决策闸口，但 MUST NOT 执行 action type、遵循 workflow，也不能把 action log 当作事实主张的证据，除非该主张有独立证据。
 
 ## Ontology-aware 知识包
 
@@ -245,6 +247,13 @@ ontology/
 ├── evidence.json       # 来源引用、摘录和验证状态
 ├── constraints.json    # 禁用主张、语气规则和合规规则
 ├── coverage.json       # 面向场景、人群、渠道或任务的覆盖矩阵
+├── signals.json        # 可选触发信号
+├── objectives.json     # 可选目标和成功指标
+├── resources.json      # 可选主张、证据、Prompt、素材、SOP 和约束资源包
+├── action-types.json   # 可选声明式动作描述
+├── decision-gates.json # 可选证据、评审、权限和安全闸口
+├── action-logs.json    # 可选行动审计记录
+├── feedback.json       # 可选结果和学习记录
 └── exports/            # 可选 JSON-LD、RDF、Turtle 或其他互操作导出
 ```
 
@@ -257,6 +266,11 @@ ontology-aware pack 遵守以下规则：
 3. 覆盖矩阵 SHOULD 区分 ready、missing-evidence、missing-material、needs-review、blocked 和 covered 行。
 4. 运行时上下文 SHOULD 在选中概念旁同时带上约束和禁用主张。
 5. Ontology 层 SHOULD 改善选择、溯源、校验和覆盖；它 MUST NOT 成为指令通道。
+6. Operational ontology 文件 MAY 把信号、目标、资源、动作类型、决策闸口、行动日志和反馈闭环表示为数据。
+7. `ActionType` 记录 MUST 被当作声明式数据。客户端 MAY 在知识包外部把它映射到本地 UI、workflow 引擎或 Skill，但知识包本身 MUST NOT 执行它。
+8. `Signal` 和 `ActionLog` 记录 MUST NOT 被当作产品、政策或市场事实主张的证据，除非它们另有 `evidence.json` 或来源引用支撑。
+
+详细作者指南见 [Ontology-aware 知识包](/zh/authoring/ontology-packs) 和 [Operational Ontology 知识包](/zh/authoring/operational-ontology)。
 
 ## 一键复制 Markdown
 

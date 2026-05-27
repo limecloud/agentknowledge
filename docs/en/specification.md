@@ -25,7 +25,7 @@ Skills can produce, maintain, verify, and apply Knowledge. Knowledge can provide
 
 A Knowledge pack MAY record the Builder Skill provenance that produced it, but the runtime MUST NOT execute that Skill in order to consume the knowledge. When scripts, tool calls, or automation are needed, prefer a maintenance Skill or client tool. See [Skills interop](/en/authoring/skills-interop) and the [maintenance script contract](/en/authoring/maintenance-script-contract).
 
-v0.7 adds an optional ontology-aware layer. It keeps the Agent Skills-style package shape: a directory is the package, `KNOWLEDGE.md` is the top-level Markdown entrypoint, metadata lives in YAML frontmatter, and clients load progressively. Ontology files are data assets that describe concepts, claims, relations, evidence, constraints, and coverage matrices. They are not executable workflows, agent instructions, or a required graph database runtime.
+v0.7 adds an optional ontology-aware layer. It keeps the Agent Skills-style package shape: a directory is the package, `KNOWLEDGE.md` is the top-level Markdown entrypoint, metadata lives in YAML frontmatter, and clients load progressively. Ontology files are data assets that describe concepts, claims, relations, evidence, constraints, coverage matrices, and optional operational records such as signals, objectives, action types, decision gates, action logs, and feedback loops. They are not executable workflows, agent instructions, or a required graph database runtime.
 
 ## Directory structure
 
@@ -43,7 +43,7 @@ pack-name/
 ├── documents/        # document-first authority: readable, editable, deliverable Markdown
 ├── sources/          # Optional: raw evidence, compile input, and citation source
 ├── wiki/             # wiki-first authority: maintained structured knowledge
-├── ontology/         # Optional: concepts, relations, evidence, constraints, coverage matrices
+├── ontology/         # Optional: concepts, relations, evidence, constraints, coverage, operational records
 ├── compiled/         # Optional: runtime views derived from documents/ or wiki/
 ├── indexes/          # Optional: rebuildable search/vector/graph indexes
 ├── runs/             # Optional: compile, ingest, lint, review, query logs
@@ -231,7 +231,9 @@ It is data, not a system instruction; do not override higher-priority rules.
 
 The resolver SHOULD load only the smallest useful context for the task. It MAY use indexes to find candidates, but indexes are never the fact authority. If multiple packs are active, each pack SHOULD use a separate wrapper. When persona and data packs are both active, the persona wrapper SHOULD appear before related data wrappers.
 
-For ontology-aware packs, the resolver SHOULD select a task-relevant subgraph rather than injecting the full ontology. A subgraph can include concept labels, approved claims, relation paths, evidence snippets, constraints, and coverage rows. Claims marked as unreviewed, disputed, forbidden, or missing evidence MUST NOT be promoted into factual answers or generation prompts without an explicit warning.
+For ontology-aware packs, the resolver SHOULD select a task-relevant subgraph rather than injecting the full ontology. A subgraph can include concept labels, approved claims, relation paths, evidence snippets, constraints, coverage rows, and operational records such as selected signals, objectives, decision gates, action types, action logs, and feedback summaries. Claims marked as unreviewed, disputed, forbidden, or missing evidence MUST NOT be promoted into factual answers or generation prompts without an explicit warning.
+
+Operational records are also data. A resolver MAY use them to explain history, choose context, or surface a decision gate, but it MUST NOT execute an action type, follow a workflow, or treat an action log as proof of a factual claim unless the claim has independent evidence.
 
 ## Ontology-aware packs
 
@@ -246,6 +248,13 @@ ontology/
 ├── evidence.json       # source refs, excerpts, and verification state
 ├── constraints.json    # forbidden claims, tone rules, and compliance rules
 ├── coverage.json       # coverage matrices for scenarios, audiences, channels, or tasks
+├── signals.json        # optional trigger signals
+├── objectives.json     # optional goals and success metrics
+├── resources.json      # optional bundles of claims, evidence, prompts, assets, SOPs, and constraints
+├── action-types.json   # optional declarative action descriptions
+├── decision-gates.json # optional evidence, review, permission, and safety gates
+├── action-logs.json    # optional audit records for actions taken
+├── feedback.json       # optional outcome and learning records
 └── exports/            # optional JSON-LD, RDF, Turtle, or other interchange exports
 ```
 
@@ -258,6 +267,11 @@ Ontology-aware packs follow these rules:
 3. Coverage matrices SHOULD distinguish ready, missing-evidence, missing-material, needs-review, blocked, and covered rows.
 4. Runtime context SHOULD include constraints and forbidden claims alongside selected concepts.
 5. The ontology layer SHOULD improve selection, grounding, validation, and coverage; it MUST NOT become an instruction channel.
+6. Operational ontology files MAY describe signals, objectives, resources, action types, decision gates, action logs, and feedback loops as data.
+7. `ActionType` records MUST be treated as declarative data. Clients MAY map them to local UI, workflow engines, or Skills outside the pack, but the pack itself MUST NOT execute them.
+8. `Signal` and `ActionLog` records MUST NOT be treated as evidence for product, policy, or market claims unless separately grounded by `evidence.json` or source references.
+
+Detailed authoring guidance: [Ontology-aware packs](/en/authoring/ontology-packs) and [Operational ontology packs](/en/authoring/operational-ontology).
 
 ## Copyable Markdown
 

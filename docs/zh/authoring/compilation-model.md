@@ -158,12 +158,12 @@ flowchart TD
   "runtime_mode": "data",
   "builder_skill": {
     "name": "brand-product-knowledge-builder",
-    "version": "0.7.0",
+    "version": "0.7.1",
     "digest": "sha256:..."
   },
   "compiler": {
     "tool": "agent-knowledge-compiler",
-    "version": "0.7.0",
+    "version": "0.7.1",
     "model": "gpt-5.4"
   },
   "inputs": [

@@ -11,6 +11,9 @@ const enNav = [
     text: 'Version',
     items: [
       { text: 'latest', link: '/en/specification' },
+      { text: 'v0.7.1 overview', link: '/en/versions/v0.7.1/overview' },
+      { text: 'v0.7.1 specification', link: '/en/versions/v0.7.1/specification' },
+      { text: 'v0.7.1 changelog', link: '/en/versions/v0.7.1/changelog' },
       { text: 'v0.7.0 overview', link: '/en/versions/v0.7.0/overview' },
       { text: 'v0.7.0 specification', link: '/en/versions/v0.7.0/specification' },
       { text: 'v0.7.0 changelog', link: '/en/versions/v0.7.0/changelog' },
@@ -61,6 +64,9 @@ const zhNav = [
     text: '版本',
     items: [
       { text: 'latest', link: '/zh/specification' },
+      { text: 'v0.7.1 概览', link: '/zh/versions/v0.7.1/overview' },
+      { text: 'v0.7.1 规范', link: '/zh/versions/v0.7.1/specification' },
+      { text: 'v0.7.1 变更记录', link: '/zh/versions/v0.7.1/changelog' },
       { text: 'v0.7.0 概览', link: '/zh/versions/v0.7.0/overview' },
       { text: 'v0.7.0 规范', link: '/zh/versions/v0.7.0/specification' },
       { text: 'v0.7.0 变更记录', link: '/zh/versions/v0.7.0/changelog' },
@@ -121,6 +127,7 @@ const enSidebar = [
       { text: 'Knowledge engineering loop', link: '/en/authoring/knowledge-engineering-loop' },
       { text: 'Compilation model', link: '/en/authoring/compilation-model' },
       { text: 'Ontology-aware packs', link: '/en/authoring/ontology-packs' },
+      { text: 'Operational ontology packs', link: '/en/authoring/operational-ontology' },
       { text: 'Grounding and citations', link: '/en/authoring/grounding-and-citations' },
       { text: 'Linting and review', link: '/en/authoring/linting-and-review' },
       { text: 'Maintenance automation', link: '/en/authoring/maintenance-automation' },
@@ -164,6 +171,9 @@ const enSidebar = [
   {
     text: 'Versions',
     items: [
+      { text: 'v0.7.1 overview', link: '/en/versions/v0.7.1/overview' },
+      { text: 'v0.7.1 specification', link: '/en/versions/v0.7.1/specification' },
+      { text: 'v0.7.1 changelog', link: '/en/versions/v0.7.1/changelog' },
       { text: 'v0.7.0 overview', link: '/en/versions/v0.7.0/overview' },
       { text: 'v0.7.0 specification', link: '/en/versions/v0.7.0/specification' },
       { text: 'v0.7.0 changelog', link: '/en/versions/v0.7.0/changelog' },
@@ -231,6 +241,7 @@ const zhSidebar = [
       { text: '知识库工程闭环', link: '/zh/authoring/knowledge-engineering-loop' },
       { text: '编译模型', link: '/zh/authoring/compilation-model' },
       { text: 'Ontology-aware 知识包', link: '/zh/authoring/ontology-packs' },
+      { text: 'Operational Ontology 知识包', link: '/zh/authoring/operational-ontology' },
       { text: '溯源与引用', link: '/zh/authoring/grounding-and-citations' },
       { text: 'Lint 与评审', link: '/zh/authoring/linting-and-review' },
       { text: '维护自动化', link: '/zh/authoring/maintenance-automation' },
@@ -274,6 +285,9 @@ const zhSidebar = [
   {
     text: '版本',
     items: [
+      { text: 'v0.7.1 概览', link: '/zh/versions/v0.7.1/overview' },
+      { text: 'v0.7.1 规范', link: '/zh/versions/v0.7.1/specification' },
+      { text: 'v0.7.1 变更记录', link: '/zh/versions/v0.7.1/changelog' },
       { text: 'v0.7.0 概览', link: '/zh/versions/v0.7.0/overview' },
       { text: 'v0.7.0 规范', link: '/zh/versions/v0.7.0/specification' },
       { text: 'v0.7.0 变更记录', link: '/zh/versions/v0.7.0/changelog' },
